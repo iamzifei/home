@@ -1,0 +1,597 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>James Gong — 开源工具与 Claude Code 技能</title>
+<meta name="description" content="James Gong 的开源项目：macOS 菜单栏应用、Claude Code 技能、内容发布与商业自动化工作流。">
+<meta name="theme-color" content="#0b0b0f" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#fbfbfd" media="(prefers-color-scheme: light)">
+<link rel="icon" href="assets/audioswitch-icon.png">
+
+<meta property="og:title" content="James Gong — 开源工具与 Claude Code 技能">
+<meta property="og:description" content="macOS 菜单栏应用、Claude Code 技能、内容发布与商业自动化工作流。">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/audioswitch-icon.png">
+
+<style>
+/* ---------------------------------------------------------------------------
+   Tokens. Every colour is derived from a small set so light and dark stay in
+   step; nothing downstream hard-codes a hex value.
+   --------------------------------------------------------------------------- */
+:root {
+  --bg: #fbfbfd;
+  --bg-elevated: #ffffff;
+  --text: #16161a;
+  --text-muted: #5c5c66;
+  --text-faint: #8a8a94;
+  --line: rgba(22, 22, 26, 0.10);
+  --line-strong: rgba(22, 22, 26, 0.16);
+  --accent: #4f46e5;
+  --accent-soft: rgba(79, 70, 229, 0.10);
+  --shadow: 0 1px 2px rgba(16, 16, 24, 0.04), 0 8px 24px rgba(16, 16, 24, 0.06);
+  --shadow-lift: 0 2px 4px rgba(16, 16, 24, 0.06), 0 18px 44px rgba(16, 16, 24, 0.12);
+  --radius: 18px;
+  --radius-sm: 12px;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --maxw: 1080px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b0b0f;
+    --bg-elevated: #151519;
+    --text: #f2f2f5;
+    --text-muted: #a3a3ad;
+    --text-faint: #71717d;
+    --line: rgba(255, 255, 255, 0.10);
+    --line-strong: rgba(255, 255, 255, 0.16);
+    --accent: #8b85ff;
+    --accent-soft: rgba(139, 133, 255, 0.14);
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.3);
+    --shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.5), 0 18px 44px rgba(0, 0, 0, 0.45);
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI",
+    "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+html, body { overflow-x: clip; }
+
+a { color: inherit; text-decoration: none; }
+
+.wrap { width: min(100% - 2.5rem, var(--maxw)); margin-inline: auto; }
+@media (max-width: 640px) { .wrap { width: min(100% - 2rem, var(--maxw)); } }
+
+/* ---------------------------------------------------------------------------
+   Language toggle — fixed, small, out of the way.
+   --------------------------------------------------------------------------- */
+.lang {
+  position: fixed;
+  top: max(1rem, env(safe-area-inset-top));
+  right: max(1rem, env(safe-area-inset-right));
+  z-index: 50;
+  display: flex;
+  gap: 2px;
+  padding: 3px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--bg-elevated) 82%, transparent);
+  backdrop-filter: saturate(180%) blur(16px);
+  -webkit-backdrop-filter: saturate(180%) blur(16px);
+  box-shadow: var(--shadow);
+}
+.lang button {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--text-muted);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  padding: 5px 11px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color 0.2s var(--ease-out), background-color 0.2s var(--ease-out);
+}
+.lang button[aria-pressed="true"] { background: var(--accent-soft); color: var(--accent); }
+.lang button:hover { color: var(--text); }
+.lang button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ---------------------------------------------------------------------------
+   Hero
+   --------------------------------------------------------------------------- */
+.hero {
+  padding: clamp(5rem, 16vh, 9rem) 0 clamp(3rem, 8vh, 5rem);
+  position: relative;
+  overflow: hidden;
+}
+
+/* A single soft wash behind the hero. Kept very low contrast so it reads as
+   depth rather than decoration. */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: -20% -30% auto -30%;
+  height: 60vh;
+  background: radial-gradient(
+    50% 50% at 50% 40%,
+    var(--accent-soft) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: -1;
+}
+
+.eyebrow {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin: 0 0 1rem;
+}
+
+h1 {
+  margin: 0 0 1.25rem;
+  font-size: clamp(2.5rem, 7vw, 4.25rem);
+  line-height: 1.06;
+  letter-spacing: -0.03em;
+  font-weight: 660;
+}
+
+.lede {
+  margin: 0 0 2rem;
+  max-width: 46ch;
+  font-size: clamp(1.0625rem, 2.4vw, 1.25rem);
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+.lede strong { color: var(--text); font-weight: 600; }
+
+.actions { display: flex; flex-wrap: wrap; gap: 0.625rem; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.125rem;
+  border-radius: 999px;
+  border: 1px solid var(--line-strong);
+  background: var(--bg-elevated);
+  font-size: 14.5px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: transform 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out),
+    border-color 0.2s var(--ease-out);
+}
+.btn:hover { transform: translateY(-1px); box-shadow: var(--shadow); border-color: var(--line-strong); }
+.btn:active { transform: translateY(0); }
+.btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.btn--primary {
+  background: var(--text);
+  color: var(--bg);
+  border-color: transparent;
+}
+.btn--primary:hover { box-shadow: var(--shadow-lift); }
+.btn svg { width: 16px; height: 16px; flex: none; }
+
+/* ---------------------------------------------------------------------------
+   Sections
+   --------------------------------------------------------------------------- */
+section { padding: clamp(2.5rem, 7vh, 4.5rem) 0; }
+
+.sec-head { margin-bottom: 1.75rem; }
+.sec-head h2 {
+  margin: 0 0 0.375rem;
+  font-size: clamp(1.375rem, 3.2vw, 1.75rem);
+  letter-spacing: -0.02em;
+  font-weight: 620;
+}
+.sec-head p { margin: 0; color: var(--text-muted); font-size: 15px; max-width: 54ch; }
+
+/* Featured app cards — screenshot led. */
+.apps { display: grid; gap: 1.25rem; }
+@media (min-width: 860px) { .apps { grid-template-columns: 1fr 1fr; } }
+
+.app {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-elevated);
+  overflow: hidden;
+  transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out),
+    border-color 0.3s var(--ease-out);
+}
+.app:hover { transform: translateY(-3px); box-shadow: var(--shadow-lift); border-color: var(--line-strong); }
+
+.app__shot {
+  margin: 0;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: var(--accent-soft);
+}
+.app__shot img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s var(--ease-out);
+}
+.app:hover .app__shot img { transform: scale(1.03); }
+
+.app__body { padding: 1.25rem 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 0.5rem; flex: 1; }
+.app__title { display: flex; align-items: baseline; gap: 0.625rem; flex-wrap: wrap; }
+.app__title h3 { margin: 0; font-size: 1.125rem; font-weight: 620; letter-spacing: -0.01em; }
+.app__tagline { color: var(--text-faint); font-size: 14px; }
+.app__desc { margin: 0; color: var(--text-muted); font-size: 14.5px; line-height: 1.6; }
+.app__foot { margin-top: auto; padding-top: 0.875rem; display: flex; align-items: center; gap: 0.75rem; }
+
+/* Skill cards — text only, denser grid. */
+.grid { display: grid; gap: 0.875rem; grid-template-columns: 1fr; }
+@media (min-width: 620px) { .grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 960px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1.125rem 1.25rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--bg-elevated);
+  transition: transform 0.25s var(--ease-out), box-shadow 0.25s var(--ease-out),
+    border-color 0.25s var(--ease-out);
+}
+.card:hover { transform: translateY(-2px); box-shadow: var(--shadow); border-color: var(--line-strong); }
+.card__top { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; }
+.card h3 { margin: 0; font-size: 15.5px; font-weight: 600; letter-spacing: -0.005em; }
+.card__tagline { color: var(--text-faint); font-size: 13px; }
+.card p { margin: 0.2rem 0 0; color: var(--text-muted); font-size: 13.5px; line-height: 1.6; }
+
+.stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  flex: none;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-faint);
+}
+.stars svg { width: 12px; height: 12px; }
+.stars[hidden] { display: none; }
+
+.arrow {
+  margin-left: auto;
+  color: var(--text-faint);
+  transition: transform 0.25s var(--ease-out), color 0.25s var(--ease-out);
+}
+.app:hover .arrow, .card:hover .arrow { color: var(--accent); transform: translateX(3px); }
+
+/* ---------------------------------------------------------------------------
+   Book callout
+   --------------------------------------------------------------------------- */
+.book {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.5rem;
+  padding: clamp(1.5rem, 4vw, 2.25rem);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background:
+    linear-gradient(135deg, var(--accent-soft), transparent 60%),
+    var(--bg-elevated);
+}
+.book__text { flex: 1 1 22rem; }
+.book h2 { margin: 0 0 0.5rem; font-size: clamp(1.25rem, 3vw, 1.5rem); letter-spacing: -0.02em; }
+.book p { margin: 0; color: var(--text-muted); font-size: 15px; max-width: 48ch; }
+
+/* ---------------------------------------------------------------------------
+   Footer
+   --------------------------------------------------------------------------- */
+footer {
+  padding: 3rem 0 clamp(3rem, 6vh, 4rem);
+  border-top: 1px solid var(--line);
+  color: var(--text-faint);
+  font-size: 13.5px;
+}
+.footer-row { display: flex; flex-wrap: wrap; gap: 1rem 1.5rem; align-items: center; justify-content: space-between; }
+.footer-links { display: flex; flex-wrap: wrap; gap: 1.25rem; }
+.footer-links a { transition: color 0.2s var(--ease-out); }
+.footer-links a:hover { color: var(--text); }
+
+/* ---------------------------------------------------------------------------
+   Entrance animation. Elements start shifted and fade in as they scroll into
+   view, staggered within a group. Anyone who asked the OS for less motion gets
+   the final state immediately.
+   --------------------------------------------------------------------------- */
+.reveal { opacity: 0; transform: translateY(14px); }
+.reveal--in {
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.6s var(--ease-out), transform 0.6s var(--ease-out);
+  transition-delay: var(--delay, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal, .reveal--in { opacity: 1; transform: none; transition: none; }
+  .app, .card, .btn, .app__shot img, .arrow { transition: none !important; }
+  .app:hover, .card:hover, .btn:hover { transform: none; }
+  .app:hover .app__shot img { transform: none; }
+}
+
+[hidden] { display: none !important; }
+</style>
+</head>
+<body>
+
+<nav class="lang" aria-label="Language">
+  <button type="button" data-lang="zh" aria-pressed="true">中文</button>
+  <button type="button" data-lang="en" aria-pressed="false">EN</button>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow reveal" data-i18n="eyebrow"></p>
+    <h1 class="reveal">James Gong</h1>
+    <p class="lede reveal" data-i18n-html="lede"></p>
+    <div class="actions reveal">
+      <a class="btn btn--primary" href="https://github.com/iamzifei" target="_blank" rel="noopener">
+        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        GitHub
+      </a>
+      <a class="btn" href="https://x.com/JamesAI" target="_blank" rel="noopener">
+        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M9.52 6.78 15.48 0h-1.41L8.89 5.89 4.76 0H0l6.25 8.9L0 16h1.41l5.46-6.22L11.24 16H16L9.52 6.78ZM7.59 8.98l-.63-.89L1.92 1.04h2.17l4.06 5.72.63.89 5.28 7.43h-2.17L7.59 8.98Z"/></svg>
+        X
+      </a>
+      <a class="btn" href="https://linktr.ee/jamesgong" target="_blank" rel="noopener" data-i18n="links_btn"></a>
+    </div>
+  </div>
+</header>
+
+<main id="catalogue"></main>
+
+<section>
+  <div class="wrap">
+    <div class="book reveal">
+      <div class="book__text">
+        <h2 data-i18n="book_title"></h2>
+        <p data-i18n="book_desc"></p>
+      </div>
+      <a class="btn btn--primary" href="https://linktr.ee/jamesgong" target="_blank" rel="noopener" data-i18n="book_cta"></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-row">
+    <span data-i18n="footer_note"></span>
+    <div class="footer-links">
+      <a href="https://github.com/iamzifei" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://x.com/JamesAI" target="_blank" rel="noopener">X</a>
+      <a href="https://linktr.ee/jamesgong" target="_blank" rel="noopener" data-i18n="footer_links"></a>
+      <a href="https://ko-fi.com/H2T024VDBG" target="_blank" rel="noopener">Ko-fi</a>
+    </div>
+  </div>
+</footer>
+
+<script src="data.js"></script>
+<script>
+/* --------------------------------------------------------------------------
+   Copy that lives outside the project catalogue.
+   -------------------------------------------------------------------------- */
+const COPY = {
+  zh: {
+    eyebrow: "独立开发者 · 悉尼",
+    lede: "我做<strong>能自己跑起来的工具</strong>：两个原生 macOS 菜单栏应用，和一批让 Claude Code 真正去做事的技能——发文章、做设计、拆待办、跑一门小生意，而不是停在讨论怎么做。全部开源。",
+    links_btn: "全部链接",
+    book_title: "《搞到钱再说》",
+    book_desc: "两年前写的一本 PDF，讲的是先把钱赚到手再谈别的。购买链接和我的 Telegram 频道都在这里。",
+    book_cta: "去看看",
+    footer_note: "用 Claude Code 构建 · MIT / CC BY-NC",
+    footer_links: "全部链接",
+    stars_label: "star",
+  },
+  en: {
+    eyebrow: "Indie developer · Sydney",
+    lede: "I build <strong>tools that keep running on their own</strong>: two native macOS menu bar apps, and a set of skills that get Claude Code to actually do the work — publish articles, design interfaces, break down todos, run a small business — instead of talking about it. All open source.",
+    links_btn: "All links",
+    book_title: "Money First",
+    book_desc: "A PDF I wrote two years ago, about earning the money before anything else. The purchase link and my Telegram channel are both here.",
+    book_cta: "Take a look",
+    footer_note: "Built with Claude Code · MIT / CC BY-NC",
+    footer_links: "All links",
+    stars_label: "stars",
+  },
+};
+
+const STAR_ICON =
+  '<svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.75.75 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/></svg>';
+const ARROW_ICON =
+  '<svg class="arrow" width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4"/></svg>';
+
+let lang = "zh";
+
+/** Picks the right side of a {zh, en} pair, tolerating plain strings. */
+const t = (value) => (typeof value === "string" ? value : value[lang]);
+
+const escapeHTML = (s) =>
+  String(s).replace(/[&<>"']/g, (c) =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+function starBadge(count) {
+  // Repos nobody has starred yet look better without a zero next to them.
+  if (!count) return '<span class="stars" hidden></span>';
+  return `<span class="stars" title="${count} ${COPY[lang].stars_label}">${STAR_ICON}${count}</span>`;
+}
+
+function renderCatalogue() {
+  const html = CATEGORIES.map((cat) => {
+    const items = cat.featured
+      ? `<div class="apps">${cat.items.map(appCard).join("")}</div>`
+      : `<div class="grid">${cat.items.map(skillCard).join("")}</div>`;
+    return `
+      <section id="${cat.id}">
+        <div class="wrap">
+          <div class="sec-head reveal">
+            <h2>${escapeHTML(t(cat.title))}</h2>
+            <p>${escapeHTML(t(cat.note))}</p>
+          </div>
+          ${items}
+        </div>
+      </section>`;
+  }).join("");
+  document.getElementById("catalogue").innerHTML = html;
+}
+
+function appCard(item) {
+  return `
+    <a class="app reveal" href="https://github.com/iamzifei/${item.repo}" target="_blank" rel="noopener">
+      <figure class="app__shot">
+        <img src="${item.shot}" alt="${escapeHTML(t(item.name))}" width="1600" height="1000" fetchpriority="high" decoding="async">
+      </figure>
+      <div class="app__body">
+        <div class="app__title">
+          <h3>${escapeHTML(t(item.name))}</h3>
+          <span class="app__tagline">${escapeHTML(t(item.tagline))}</span>
+        </div>
+        <p class="app__desc">${escapeHTML(t(item.desc))}</p>
+        <div class="app__foot">
+          ${starBadge(item.stars)}
+          ${ARROW_ICON}
+        </div>
+      </div>
+    </a>`;
+}
+
+function skillCard(item) {
+  return `
+    <a class="card reveal" href="https://github.com/iamzifei/${item.repo}" target="_blank" rel="noopener">
+      <div class="card__top">
+        <h3>${escapeHTML(t(item.name))}</h3>
+        ${starBadge(item.stars)}
+      </div>
+      <span class="card__tagline">${escapeHTML(t(item.tagline))}</span>
+      <p>${escapeHTML(t(item.desc))}</p>
+    </a>`;
+}
+
+function applyCopy() {
+  const dict = COPY[lang];
+  document.querySelectorAll("[data-i18n]").forEach((el) => {
+    const key = el.dataset.i18n;
+    if (dict[key]) el.textContent = dict[key];
+  });
+  document.querySelectorAll("[data-i18n-html]").forEach((el) => {
+    const key = el.dataset.i18nHtml;
+    if (dict[key]) el.innerHTML = dict[key];
+  });
+  document.documentElement.lang = lang === "zh" ? "zh-Hans" : "en";
+}
+
+/* --------------------------------------------------------------------------
+   Reveal on scroll. Elements in the same group get a small stagger so a row
+   arrives as a sequence rather than all at once.
+   -------------------------------------------------------------------------- */
+let observer;
+function armReveals() {
+  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const targets = document.querySelectorAll(".reveal");
+
+  if (prefersReduced || !("IntersectionObserver" in window)) {
+    targets.forEach((el) => el.classList.add("reveal--in"));
+    return;
+  }
+
+  observer?.disconnect();
+  observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        const siblings = [...entry.target.parentElement.children].filter((n) =>
+          n.classList.contains("reveal"));
+        const index = Math.max(0, siblings.indexOf(entry.target));
+        entry.target.style.setProperty("--delay", `${Math.min(index, 6) * 60}ms`);
+        entry.target.classList.add("reveal--in");
+        observer.unobserve(entry.target);
+      });
+    },
+    { rootMargin: "0px 0px -8% 0px", threshold: 0.05 }
+  );
+  targets.forEach((el) => observer.observe(el));
+}
+
+function setLanguage(next, { persist = true } = {}) {
+  lang = next;
+  if (persist) {
+    try { localStorage.setItem("lang", next); } catch (_) { /* private mode */ }
+  }
+  document.querySelectorAll(".lang button").forEach((b) =>
+    b.setAttribute("aria-pressed", String(b.dataset.lang === next)));
+  applyCopy();
+  renderCatalogue();
+  armReveals();
+}
+
+/* Live star counts: one request covers the whole account, so this stays well
+   inside the unauthenticated rate limit. Falls back silently to the numbers
+   baked into data.js. */
+async function refreshStars() {
+  try {
+    const res = await fetch(
+      "https://api.github.com/users/iamzifei/repos?per_page=100&sort=updated",
+      { headers: { Accept: "application/vnd.github+json" } }
+    );
+    if (!res.ok) return;
+    const counts = Object.fromEntries(
+      (await res.json()).map((r) => [r.name, r.stargazers_count])
+    );
+    let changed = false;
+    CATEGORIES.forEach((cat) =>
+      cat.items.forEach((item) => {
+        const live = counts[item.repo];
+        if (typeof live === "number" && live !== item.stars) {
+          item.stars = live;
+          changed = true;
+        }
+      })
+    );
+    if (changed) { renderCatalogue(); armReveals(); }
+  } catch (_) {
+    /* Offline or rate-limited — the baked-in counts are good enough. */
+  }
+}
+
+document.querySelectorAll(".lang button").forEach((button) => {
+  button.addEventListener("click", () => setLanguage(button.dataset.lang));
+});
+
+// Chinese is the default; a remembered choice overrides it.
+let initial = "zh";
+try {
+  const saved = localStorage.getItem("lang");
+  if (saved === "zh" || saved === "en") initial = saved;
+} catch (_) { /* ignore */ }
+
+setLanguage(initial, { persist: false });
+refreshStars();
+</script>
+</body>
+</html>
