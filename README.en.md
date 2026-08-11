@@ -70,6 +70,38 @@ assets/       screenshots and icons
 scripts/      screenshot composition
 ```
 
+## Typography
+
+Setting Chinese and English together is where most of the care went.
+
+**Two stacks, each doing its own job.** Latin faces come first and CJK faces
+follow, so each script is rendered by the font designed for it — the standard
+way to set mixed text. Reversing the order leaves Chinese to the fallback
+glyphs of a Latin face. Headings are serif (New York plus Songti on macOS);
+body copy and UI stay sans.
+
+**Tracking has to differ by script.** Latin display type tightens (-0.022em)
+to look assured; Chinese headings need the opposite (+0.03em), because serif
+Han set tight reads as cramped. One rule for both scripts always shortchanges
+one of them.
+
+**Leading is set for Chinese.** 1.78 rather than the 1.5 English would take:
+Han glyphs fill their em box, so tighter leading turns a paragraph into a
+solid block.
+
+**Measure is set by information, not characters.** Body copy caps at 34em
+rather than the usual 60–75 characters, because a Chinese character carries
+roughly twice what an English word does per unit of width.
+
+**The space between scripts** comes from `text-autospace: normal` (CSS Text 4,
+supported in Chrome) instead of hand-typed spaces; browsers without it fall
+back to the half-width spaces already in the copy.
+
+**Colour is paper and ink.** The background is a warm `#faf8f4` rather than
+white; dark mode is `#12110f` rather than black. The accent is 黛青 `#35566b`
+— the blue-grey of Song celadon rather than a saturated UI blue. Whitespace is
+more generous than a landing page usually allows, so the page can breathe.
+
 ## About the motion
 
 Elements fade up as they scroll into view, staggered 60ms apart within a group,

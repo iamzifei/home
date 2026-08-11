@@ -16,8 +16,8 @@ W, H = 1600, 1000
 
 # (source, output, gradient top, gradient bottom, how much of the canvas to fill)
 CARDS = [
-    ("assets/clipstack.png", "assets/clipstack-card.jpg", (34, 36, 58), (18, 18, 30), 0.86),
-    ("assets/audioswitch.png", "assets/audioswitch-card.jpg", (46, 62, 120), (26, 24, 66), 0.90),
+    ("assets/clipstack.png", "assets/clipstack-card.jpg", (44, 46, 44), (24, 24, 22), 0.86),
+    ("assets/audioswitch.png", "assets/audioswitch-card.jpg", (46, 62, 72), (26, 32, 38), 0.90),
 ]
 
 

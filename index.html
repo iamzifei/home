@@ -20,34 +20,48 @@
    step; nothing downstream hard-codes a hex value.
    --------------------------------------------------------------------------- */
 :root {
-  --bg: #fbfbfd;
-  --bg-elevated: #ffffff;
-  --text: #16161a;
-  --text-muted: #5c5c66;
-  --text-faint: #8a8a94;
-  --line: rgba(22, 22, 26, 0.10);
-  --line-strong: rgba(22, 22, 26, 0.16);
-  --accent: #4f46e5;
-  --accent-soft: rgba(79, 70, 229, 0.10);
-  --shadow: 0 1px 2px rgba(16, 16, 24, 0.04), 0 8px 24px rgba(16, 16, 24, 0.06);
-  --shadow-lift: 0 2px 4px rgba(16, 16, 24, 0.06), 0 18px 44px rgba(16, 16, 24, 0.12);
-  --radius: 18px;
-  --radius-sm: 12px;
+  /* Paper and ink rather than pure white and black — a faint warmth in the
+     background is what stops a page this sparse from feeling clinical. */
+  --bg: #faf8f4;
+  --bg-elevated: #fffefb;
+  --text: #1a1815;
+  --text-muted: #5a554d;
+  --text-faint: #8b857b;
+  --line: rgba(26, 24, 21, 0.10);
+  --line-strong: rgba(26, 24, 21, 0.17);
+  /* 黛青 — a restrained blue-grey, the colour of Song celadon rather than a
+     saturated UI blue. */
+  --accent: #35566b;
+  --accent-soft: rgba(53, 86, 107, 0.09);
+  --shadow: 0 1px 2px rgba(26, 24, 21, 0.04), 0 8px 24px rgba(26, 24, 21, 0.06);
+  --shadow-lift: 0 2px 4px rgba(26, 24, 21, 0.06), 0 18px 44px rgba(26, 24, 21, 0.11);
+  --radius: 16px;
+  --radius-sm: 11px;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --maxw: 1080px;
+
+  /* Two families. The Latin faces lead and the CJK faces follow, so each
+     script is rendered by the font designed for it — the standard way to set
+     mixed Chinese and English text. */
+  --serif: "New York", "Iowan Old Style", Charter, Georgia,
+    "Songti SC", "STSong", "Source Han Serif SC", "Noto Serif CJK SC", serif;
+  --sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI",
+    "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #0b0b0f;
-    --bg-elevated: #151519;
-    --text: #f2f2f5;
-    --text-muted: #a3a3ad;
-    --text-faint: #71717d;
-    --line: rgba(255, 255, 255, 0.10);
-    --line-strong: rgba(255, 255, 255, 0.16);
-    --accent: #8b85ff;
-    --accent-soft: rgba(139, 133, 255, 0.14);
+    /* Ink at night: the background keeps a trace of warmth so it reads as
+       darkened paper rather than a void. */
+    --bg: #12110f;
+    --bg-elevated: #1a1917;
+    --text: #f0ede6;
+    --text-muted: #a8a29a;
+    --text-faint: #79736a;
+    --line: rgba(240, 237, 230, 0.11);
+    --line-strong: rgba(240, 237, 230, 0.18);
+    --accent: #9dbdd0;
+    --accent-soft: rgba(157, 189, 208, 0.12);
     --shadow: 0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.3);
     --shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.5), 0 18px 44px rgba(0, 0, 0, 0.45);
   }
@@ -62,12 +76,18 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI",
-    "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
+  font-family: var(--sans);
   font-size: 16px;
-  line-height: 1.65;
+  /* Chinese needs more leading than English at the same size: the glyphs are
+     denser and fill their em box. */
+  line-height: 1.78;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  /* Progressive enhancement: browsers that implement CSS Text 4 insert the
+     hair space between Han and Latin runs themselves, and trim the excess
+     side bearing on full-width punctuation. */
+  text-autospace: normal;
+  text-spacing-trim: trim-start;
 }
 
 html, body { overflow-x: clip; }
@@ -130,37 +150,47 @@ a { color: inherit; text-decoration: none; }
   inset: -20% -30% auto -30%;
   height: 60vh;
   background: radial-gradient(
-    50% 50% at 50% 40%,
+    46% 46% at 42% 38%,
     var(--accent-soft) 0%,
-    transparent 70%
+    transparent 72%
   );
+  opacity: 0.75;
   pointer-events: none;
   z-index: -1;
 }
 
 .eyebrow {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 500;
-  letter-spacing: 0.08em;
+  /* Wide tracking is what makes a small line read as a printed standfirst.
+     It applies to the Chinese here too, which suits the sparse look. */
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--text-faint);
-  margin: 0 0 1rem;
+  margin: 0 0 1.25rem;
 }
 
 h1 {
-  margin: 0 0 1.25rem;
-  font-size: clamp(2.5rem, 7vw, 4.25rem);
-  line-height: 1.06;
-  letter-spacing: -0.03em;
-  font-weight: 660;
+  margin: 0 0 1.5rem;
+  font-family: var(--serif);
+  font-size: clamp(2.75rem, 7.5vw, 4.5rem);
+  line-height: 1.04;
+  /* Tight tracking suits a Latin display line; Chinese headings get the
+     opposite treatment further down, because Han glyphs need air. */
+  letter-spacing: -0.022em;
+  font-weight: 600;
+  text-wrap: balance;
 }
 
 .lede {
-  margin: 0 0 2rem;
-  max-width: 46ch;
-  font-size: clamp(1.0625rem, 2.4vw, 1.25rem);
-  line-height: 1.6;
+  margin: 0 0 2.25rem;
+  /* Chinese fits roughly twice the information per character, so the measure
+     is set shorter than the 60–75 characters an English-only column wants. */
+  max-width: 34em;
+  font-size: clamp(1.0625rem, 2.2vw, 1.1875rem);
+  line-height: 1.9;
   color: var(--text-muted);
+  text-wrap: pretty;
 }
 .lede strong { color: var(--text); font-weight: 600; }
 
@@ -174,8 +204,10 @@ h1 {
   border-radius: 999px;
   border: 1px solid var(--line-strong);
   background: var(--bg-elevated);
-  font-size: 14.5px;
+  font-family: var(--sans);
+  font-size: 14px;
   font-weight: 500;
+  letter-spacing: 0.01em;
   white-space: nowrap;
   transition: transform 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out),
     border-color 0.2s var(--ease-out);
@@ -194,16 +226,40 @@ h1 {
 /* ---------------------------------------------------------------------------
    Sections
    --------------------------------------------------------------------------- */
-section { padding: clamp(2.5rem, 7vh, 4.5rem) 0; }
+section { padding: clamp(3rem, 9vh, 6rem) 0; }
 
-.sec-head { margin-bottom: 1.75rem; }
+.sec-head { margin-bottom: 2rem; }
 .sec-head h2 {
-  margin: 0 0 0.375rem;
-  font-size: clamp(1.375rem, 3.2vw, 1.75rem);
-  letter-spacing: -0.02em;
-  font-weight: 620;
+  position: relative;
+  margin: 0 0 0.5rem;
+  padding-left: 1.5rem;
+  font-family: var(--serif);
+  font-size: clamp(1.375rem, 3vw, 1.75rem);
+  /* Positive tracking for headings that are mostly Han: serif Chinese set
+     tight looks cramped, the opposite of Latin display type. */
+  letter-spacing: 0.03em;
+  font-weight: 600;
+  text-wrap: balance;
 }
-.sec-head p { margin: 0; color: var(--text-muted); font-size: 15px; max-width: 54ch; }
+/* A hairline rule standing in for a section mark — the 界 of a printed page. */
+.sec-head h2::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.75em;
+  width: 0.875rem;
+  height: 1px;
+  background: var(--accent);
+  opacity: 0.7;
+}
+.sec-head p {
+  margin: 0;
+  padding-left: 1.5rem;
+  color: var(--text-muted);
+  font-size: 14.5px;
+  line-height: 1.85;
+  max-width: 40em;
+}
 
 /* Featured app cards — screenshot led. */
 .apps { display: grid; gap: 1.25rem; }
@@ -238,9 +294,15 @@ section { padding: clamp(2.5rem, 7vh, 4.5rem) 0; }
 
 .app__body { padding: 1.25rem 1.5rem 1.5rem; display: flex; flex-direction: column; gap: 0.5rem; flex: 1; }
 .app__title { display: flex; align-items: baseline; gap: 0.625rem; flex-wrap: wrap; }
-.app__title h3 { margin: 0; font-size: 1.125rem; font-weight: 620; letter-spacing: -0.01em; }
-.app__tagline { color: var(--text-faint); font-size: 14px; }
-.app__desc { margin: 0; color: var(--text-muted); font-size: 14.5px; line-height: 1.6; }
+.app__title h3 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.1875rem;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+}
+.app__tagline { color: var(--text-faint); font-size: 13px; letter-spacing: 0.02em; }
+.app__desc { margin: 0; color: var(--text-muted); font-size: 14px; line-height: 1.85; text-wrap: pretty; }
 .app__foot { margin-top: auto; padding-top: 0.875rem; display: flex; align-items: center; gap: 0.75rem; }
 
 /* Skill cards — text only, denser grid. */
@@ -261,17 +323,24 @@ section { padding: clamp(2.5rem, 7vh, 4.5rem) 0; }
 }
 .card:hover { transform: translateY(-2px); box-shadow: var(--shadow); border-color: var(--line-strong); }
 .card__top { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; }
-.card h3 { margin: 0; font-size: 15.5px; font-weight: 600; letter-spacing: -0.005em; }
-.card__tagline { color: var(--text-faint); font-size: 13px; }
-.card p { margin: 0.2rem 0 0; color: var(--text-muted); font-size: 13.5px; line-height: 1.6; }
+.card h3 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 15.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+.card__tagline { color: var(--text-faint); font-size: 12.5px; letter-spacing: 0.02em; }
+.card p { margin: 0.25rem 0 0; color: var(--text-muted); font-size: 13px; line-height: 1.85; text-wrap: pretty; }
 
 .stars {
   display: inline-flex;
   align-items: center;
   gap: 3px;
   flex: none;
-  font-size: 12px;
-  font-variant-numeric: tabular-nums;
+  font-size: 11.5px;
+  font-variant-numeric: tabular-nums lining-nums;
+  letter-spacing: 0.01em;
   color: var(--text-faint);
 }
 .stars svg { width: 12px; height: 12px; }
@@ -300,17 +369,24 @@ section { padding: clamp(2.5rem, 7vh, 4.5rem) 0; }
     var(--bg-elevated);
 }
 .book__text { flex: 1 1 22rem; }
-.book h2 { margin: 0 0 0.5rem; font-size: clamp(1.25rem, 3vw, 1.5rem); letter-spacing: -0.02em; }
-.book p { margin: 0; color: var(--text-muted); font-size: 15px; max-width: 48ch; }
+.book h2 {
+  margin: 0 0 0.625rem;
+  font-family: var(--serif);
+  font-size: clamp(1.25rem, 3vw, 1.5rem);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+.book p { margin: 0; color: var(--text-muted); font-size: 14.5px; line-height: 1.85; max-width: 36em; }
 
 /* ---------------------------------------------------------------------------
    Footer
    --------------------------------------------------------------------------- */
 footer {
-  padding: 3rem 0 clamp(3rem, 6vh, 4rem);
+  padding: 3.5rem 0 clamp(3rem, 6vh, 4rem);
   border-top: 1px solid var(--line);
   color: var(--text-faint);
-  font-size: 13.5px;
+  font-size: 13px;
+  letter-spacing: 0.02em;
 }
 .footer-row { display: flex; flex-wrap: wrap; gap: 1rem 1.5rem; align-items: center; justify-content: space-between; }
 .footer-links { display: flex; flex-wrap: wrap; gap: 1.25rem; }
