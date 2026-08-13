@@ -149,6 +149,19 @@ const CATEGORIES = [
     },
     items: [
       {
+        repo: "bili-music-skill",
+        name: { zh: "B 站音乐", en: "Bili Music" },
+        stars: 0,
+        tagline: {
+          zh: "B 站收藏夹变成车载歌单",
+          en: "A Bilibili favorites folder, as a car playlist",
+        },
+        desc: {
+          zh: "把收藏夹里的视频批量转成音频，从「【SUNO V5】跳楼机-黑人福音跳楼版」这类宣传语式的标题里解析出歌手和歌名，打好标签配好封面，再送进 Apple Music、网易云或 QQ 音乐。增量同步，重复跑不会重复导入。",
+          en: "Turns the videos in a favorites folder into tagged audio, pulling the artist and track name out of titles that were written as advertising, then hands them to Apple Music, NetEase or QQ Music. Incremental — re-running never imports anything twice.",
+        },
+      },
+      {
         repo: "james-design",
         name: "james-design",
         stars: 36,
