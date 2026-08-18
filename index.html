@@ -98,6 +98,77 @@ img { max-width: 100%; display: block; }
 
 .wrap { width: min(64rem, 100%); margin-inline: auto; padding-inline: var(--gutter); }
 
+
+/* --- Running head ---------------------------------------------------------
+   A magazine puts the title and the section at the top of every spread; this is
+   that, made sticky. Set in the same small caps as the kickers so it belongs to
+   the page rather than sitting on top of it, with a rule that only appears once
+   the reader has moved — an undisturbed first screen is the whole point of the
+   masthead below it.
+
+   On a phone the four department links stay and scroll sideways instead of
+   collapsing into a menu: four short words are quicker to read than a button
+   that hides them. */
+
+.runninghead {
+  position: sticky; top: 0; z-index: 30;
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: saturate(180%) blur(10px);
+  border-bottom: 1px solid transparent;
+  transition: border-color .35s ease;
+}
+
+.runninghead.scrolled { border-bottom-color: var(--rule); }
+
+.rh-inner { display: flex; align-items: center; gap: 1.25rem; min-height: 46px; padding-block: .35rem; }
+
+.rh-name {
+  font-family: var(--serif-latin), var(--serif-cjk);
+  font-size: .9375rem; letter-spacing: .01em; text-decoration: none;
+  flex: 0 0 auto; white-space: nowrap;
+}
+
+.rh-links {
+  display: flex; align-items: center; gap: 1.25rem;
+  margin-left: auto;
+  font-family: var(--sans); font-size: .6875rem; font-weight: 620;
+  letter-spacing: .12em; text-transform: uppercase;
+  overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch;
+}
+
+.rh-links::-webkit-scrollbar { display: none; }
+
+.rh-links a {
+  color: var(--ink-faint); text-decoration: none; white-space: nowrap;
+  padding: .75rem 0; min-height: 44px; display: inline-flex; align-items: center;
+  background-image: linear-gradient(var(--accent), var(--accent));
+  background-size: 0 1px; background-repeat: no-repeat; background-position: 0 calc(100% - .7rem);
+  transition: background-size .45s cubic-bezier(.16,1,.3,1), color .25s ease;
+}
+
+.rh-links a:hover { color: var(--ink); background-size: 100% 1px; }
+
+.runninghead .langpick { flex: 0 0 auto; }
+
+:target { scroll-margin-top: 64px; }
+html { scroll-behavior: smooth; }
+
+@media (max-width: 46rem) {
+  .rh-inner { gap: .75rem; }
+  .rh-links { gap: 1rem; margin-left: 0; }
+  .rh-name { font-size: .875rem; }
+  .runninghead .langpick select { max-width: 4.4rem; font-size: .6875rem; }
+}
+
+@media (max-width: 26rem) {
+  .rh-name { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .runninghead, .rh-links a { transition: none; }
+}
+
 /* --- Kicker: the small caps label above a department ---------------------- */
 
 .kicker {
@@ -318,10 +389,18 @@ footer a:hover { color: var(--ink); }
 }
 </style>
 </head>
-<body>
+<body id="top">
 
-<div class="wrap topbar">
-  <label class="langpick">
+<header class="runninghead">
+  <div class="wrap rh-inner">
+    <a class="rh-name" href="#top">James Gong</a>
+    <nav class="rh-links" aria-label="Contents">
+      <a href="#work" data-i18n="dept.work.kicker">作品</a>
+      <a href="#reading" data-i18n="dept.writing.kicker">写作与产品</a>
+      <a href="#elsewhere" data-i18n="dept.links.kicker">别处</a>
+      <a href="#apps" data-i18n="dept.sites.kicker">应用站点</a>
+    </nav>
+    <label class="langpick">
     <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true">
       <circle cx="8" cy="8" r="6.4"/><path d="M1.6 8h12.8M8 1.6a11 11 0 0 1 0 12.8 11 11 0 0 1 0-12.8"/>
     </svg>
@@ -337,7 +416,8 @@ footer a:hover { color: var(--ink); }
       <option value="es">Español</option>
     </select>
   </label>
-</div>
+  </div>
+</header>
 
 <main class="wrap">
 
@@ -745,6 +825,14 @@ const STRINGS = {
     apply(select.value);
     try { localStorage.setItem('home.lang', select.value); } catch (e) {}
   });
+
+  /* The running head takes its rule once the page has moved. */
+  const rh = document.querySelector('.runninghead');
+  if (rh) {
+    const onScroll = () => rh.classList.toggle('scrolled', scrollY > 8);
+    onScroll();
+    addEventListener('scroll', onScroll, { passive: true });
+  }
 
   /* Sections fade in once. A page that behaves like paper should not fidget. */
   const reveals = document.querySelectorAll('.reveal');
