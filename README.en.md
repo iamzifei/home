@@ -1,10 +1,10 @@
-# iamzifei.github.io/home
+# jamesai.dev
 
 [中文](README.md) · **English**
 
 My homepage: open-source macOS apps, Claude Code skills, and 《搞到钱再说》.
 
-🔗 **[Live site](https://iamzifei.github.io/home/)**
+🔗 **[Live site](https://jamesai.dev)**
 
 ## What this is
 
