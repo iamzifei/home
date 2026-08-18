@@ -11,6 +11,20 @@ const CATEGORIES = [
     featured: true,
     items: [
       {
+        repo: "Candela",
+        name: "Candela",
+        stars: 0,
+        shot: "assets/candela-card.jpg",
+        tagline: {
+          zh: "macOS 藏起来的显示器控制",
+          en: "Every display control macOS hides",
+        },
+        desc: {
+          zh: "外接显示器的真实亮度（走 DDC，和显示器自己的按键同一条通道）、macOS 对第三方屏藏起来的清晰 HiDPI 档位、在每块屏幕上都好使的亮度键，以及一根滑条调完整张桌子。免费开源，没有 Pro 版。",
+          en: "Real brightness on external monitors over DDC — the same channel the monitor's own buttons use — the sharp HiDPI modes macOS hides from third-party displays, brightness keys that work on every screen, and one slider for the whole desk. Free and open source, with no Pro tier.",
+        },
+      },
+      {
         repo: "clipstack",
         name: "ClipStack",
         stars: 3,

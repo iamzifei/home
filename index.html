@@ -259,11 +259,22 @@ section { padding-top: var(--rhythm); }
   min-height: 44px;
 }
 
-.index-row .what { font-weight: 500; white-space: nowrap; }
+.index-row .what { font-weight: 500; }
 .index-row .leader { flex: 1; border-bottom: 1px dotted var(--rule-strong); translate: 0 -0.25em; }
 .index-row .where { font-family: var(--sans); font-size: 0.8125rem; color: var(--ink-faint); white-space: nowrap; }
 .index-row:hover .what { color: var(--accent); }
 .index-row:hover .where { color: var(--ink-soft); }
+
+/* A contents line needs a line to run along. On a phone there is no room for
+   one, and an English label like "Audio device switching · audioswitch.dev"
+   next to a non-breaking title pushed the page 44px wider than the screen. So
+   below 34rem the row stacks and the leader goes away, which is what a printed
+   index does when the column narrows. */
+@media (max-width: 34rem) {
+  .index-row { display: block; }
+  .index-row .leader { display: none; }
+  .index-row .where { display: block; margin-top: 0.2rem; white-space: normal; }
+}
 
 /* --- Colophon ------------------------------------------------------------- */
 
