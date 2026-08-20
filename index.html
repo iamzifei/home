@@ -511,10 +511,9 @@ footer a:hover { color: var(--ink); }
   <section id="apps" class="reveal">
     <div class="dept-head">
       <p class="kicker"><span class="num">04</span> <span data-i18n="dept.sites.kicker">应用站点</span></p>
-      <h2 class="dept-title" data-i18n="dept.sites.title">三个菜单栏应用</h2>
+      <h2 class="dept-title" data-i18n="dept.sites.title">四个 Mac 应用</h2>
       <p class="dept-note" data-i18n="dept.sites.note">
-        都免费、开源、Apple 芯片原生，自己更新自己。
-      </p>
+        都免费、源码公开、Apple 芯片原生，自己更新自己。</p>
     </div>
     <div class="index-list">
       <a class="index-row" href="https://audioswitch.dev" rel="noopener">
@@ -528,6 +527,10 @@ footer a:hover { color: var(--ink); }
       <a class="index-row" href="https://getclipstack.app" rel="noopener">
         <span class="what">ClipStack</span><span class="leader"></span>
         <span class="where" data-i18n="site.clipstack">剪贴板历史 · getclipstack.app</span>
+      </a>
+      <a class="index-row" href="https://inkslab.app" rel="noopener">
+        <span class="what">Inkstone</span><span class="leader"></span>
+        <span class="where" data-i18n="site.inkstone">Markdown 笔记 · inkslab.app</span>
       </a>
     </div>
   </section>
@@ -568,11 +571,12 @@ const STRINGS = {
     'link.telegram': 'James FYI · 關於我（含微信）', 'link.x': '在悉尼和稀泥',
     'link.red': '在悉尼和稀泥', 'link.red.where': '小紅書 / RED',
     'link.github': '開源儲存庫', 'link.kofi': '請我喝杯咖啡',
-    'dept.sites.kicker': 'App 網站', 'dept.sites.title': '三個選單列 App',
-    'dept.sites.note': '都免費、開源、Apple 晶片原生，自己更新自己。',
+    'dept.sites.kicker': 'App 網站', 'dept.sites.title': '四個 Mac App',
+    'dept.sites.note': '都免費、原始碼公開、Apple 晶片原生，自己更新自己。',
     'site.audioswitch': '音訊裝置切換 · audioswitch.dev',
     'site.candela': '顯示器控制 · getcandela.app',
     'site.clipstack': '剪貼簿歷史 · getclipstack.app',
+    'site.inkstone': 'Markdown 筆記 · inkslab.app',
     'colophon': '用 Claude Code 構建 · MIT / CC BY-NC', 'colophon.source': '本頁原始碼',
     'lang.system': '跟隨系統',
   },
@@ -594,11 +598,12 @@ const STRINGS = {
     'link.telegram': 'James FYI · about me (WeChat inside)', 'link.x': '在悉尼和稀泥',
     'link.red': '在悉尼和稀泥', 'link.red.where': 'RED / Xiaohongshu',
     'link.github': 'Open-source repositories', 'link.kofi': 'Buy me a coffee',
-    'dept.sites.kicker': 'App sites', 'dept.sites.title': 'Three menu bar apps',
-    'dept.sites.note': 'All free, open source, Apple silicon native, and they update themselves.',
+    'dept.sites.kicker': 'App sites', 'dept.sites.title': 'Four Mac apps',
+    'dept.sites.note': 'All free, source public, Apple silicon native, and they update themselves.',
     'site.audioswitch': 'Audio device switching · audioswitch.dev',
     'site.candela': 'Display control · getcandela.app',
     'site.clipstack': 'Clipboard history · getclipstack.app',
+    'site.inkstone': 'Markdown notes · inkslab.app',
     'colophon': 'Built with Claude Code · MIT / CC BY-NC', 'colophon.source': 'Source of this page',
     'lang.system': 'System',
   },
@@ -620,11 +625,12 @@ const STRINGS = {
     'link.telegram': 'James FYI · 自己紹介（WeChat 同梱）', 'link.x': '在悉尼和稀泥',
     'link.red': '在悉尼和稀泥', 'link.red.where': 'RED / 小紅書',
     'link.github': 'オープンソースのリポジトリ', 'link.kofi': 'コーヒーを奢る',
-    'dept.sites.kicker': 'アプリのサイト', 'dept.sites.title': '3 つのメニューバーアプリ',
-    'dept.sites.note': 'いずれも無料・オープンソース・Apple シリコンネイティブで、自分で更新します。',
+    'dept.sites.kicker': 'アプリのサイト', 'dept.sites.title': '4 つの Mac アプリ',
+    'dept.sites.note': 'いずれも無料・ソース公開・Apple シリコンネイティブで、自分で更新します。',
     'site.audioswitch': 'オーディオ機器の切り替え · audioswitch.dev',
     'site.candela': 'ディスプレイ制御 · getcandela.app',
     'site.clipstack': 'クリップボード履歴 · getclipstack.app',
+    'site.inkstone': 'Markdown ノート · inkslab.app',
     'colophon': 'Claude Code で構築 · MIT / CC BY-NC', 'colophon.source': 'このページのソース',
     'lang.system': 'システムに合わせる',
   },
@@ -646,11 +652,12 @@ const STRINGS = {
     'link.telegram': 'James FYI · 소개 (위챗 포함)', 'link.x': '在悉尼和稀泥',
     'link.red': '在悉尼和稀泥', 'link.red.where': 'RED / 샤오훙수',
     'link.github': '오픈 소스 저장소', 'link.kofi': '커피 사주기',
-    'dept.sites.kicker': '앱 사이트', 'dept.sites.title': '메뉴 막대 앱 셋',
-    'dept.sites.note': '모두 무료, 오픈 소스, Apple 실리콘 네이티브이며 스스로 업데이트합니다.',
+    'dept.sites.kicker': '앱 사이트', 'dept.sites.title': 'Mac 앱 넷',
+    'dept.sites.note': '모두 무료, 소스 공개, Apple 실리콘 네이티브이며 스스로 업데이트합니다.',
     'site.audioswitch': '오디오 장치 전환 · audioswitch.dev',
     'site.candela': '디스플레이 제어 · getcandela.app',
     'site.clipstack': '클립보드 기록 · getclipstack.app',
+    'site.inkstone': 'Markdown 노트 · inkslab.app',
     'colophon': 'Claude Code로 제작 · MIT / CC BY-NC', 'colophon.source': '이 페이지의 소스',
     'lang.system': '시스템 설정 따르기',
   },
@@ -672,11 +679,12 @@ const STRINGS = {
     'link.telegram': 'James FYI · über mich (WeChat inklusive)', 'link.x': '在悉尼和稀泥',
     'link.red': '在悉尼和稀泥', 'link.red.where': 'RED / Xiaohongshu',
     'link.github': 'Quelloffene Repositories', 'link.kofi': 'Einen Kaffee spendieren',
-    'dept.sites.kicker': 'App-Seiten', 'dept.sites.title': 'Drei Menüleisten-Apps',
-    'dept.sites.note': 'Alle kostenlos, quelloffen, Apple Silicon nativ — und sie aktualisieren sich selbst.',
+    'dept.sites.kicker': 'App-Seiten', 'dept.sites.title': 'Vier Mac-Apps',
+    'dept.sites.note': 'Alle kostenlos, Quelltext offen einsehbar, Apple Silicon nativ — und sie aktualisieren sich selbst.',
     'site.audioswitch': 'Audiogeräte umschalten · audioswitch.dev',
     'site.candela': 'Display-Steuerung · getcandela.app',
     'site.clipstack': 'Zwischenablage-Verlauf · getclipstack.app',
+    'site.inkstone': 'Markdown-Notizen · inkslab.app',
     'colophon': 'Gebaut mit Claude Code · MIT / CC BY-NC', 'colophon.source': 'Quelltext dieser Seite',
     'lang.system': 'System',
   },
@@ -698,11 +706,12 @@ const STRINGS = {
     'link.telegram': 'James FYI · à propos de moi (WeChat inclus)', 'link.x': '在悉尼和稀泥',
     'link.red': '在悉尼和稀泥', 'link.red.where': 'RED / Xiaohongshu',
     'link.github': 'Dépôts open source', 'link.kofi': 'Offrir un café',
-    'dept.sites.kicker': 'Sites des apps', 'dept.sites.title': 'Trois apps de barre des menus',
-    'dept.sites.note': "Toutes gratuites, open source, natives Apple silicon — et elles se mettent à jour toutes seules.",
+    'dept.sites.kicker': 'Sites des apps', 'dept.sites.title': 'Quatre apps Mac',
+    'dept.sites.note': 'Toutes gratuites, code source public, natives Apple silicon — et elles se mettent à jour toutes seules.',
     'site.audioswitch': 'Changer de périphérique audio · audioswitch.dev',
     'site.candela': "Contrôle d'affichage · getcandela.app",
     'site.clipstack': 'Historique du presse-papiers · getclipstack.app',
+    'site.inkstone': 'Notes Markdown · inkslab.app',
     'colophon': 'Construit avec Claude Code · MIT / CC BY-NC', 'colophon.source': 'Source de cette page',
     'lang.system': 'Système',
   },
@@ -724,11 +733,12 @@ const STRINGS = {
     'link.telegram': 'James FYI · sobre mí (WeChat incluido)', 'link.x': '在悉尼和稀泥',
     'link.red': '在悉尼和稀泥', 'link.red.where': 'RED / Xiaohongshu',
     'link.github': 'Repositorios de código abierto', 'link.kofi': 'Invítame a un café',
-    'dept.sites.kicker': 'Sitios de las apps', 'dept.sites.title': 'Tres apps de barra de menús',
-    'dept.sites.note': 'Todas gratis, de código abierto, nativas de Apple silicon, y se actualizan solas.',
+    'dept.sites.kicker': 'Sitios de las apps', 'dept.sites.title': 'Cuatro apps de Mac',
+    'dept.sites.note': 'Todas gratis, código público, nativas de Apple silicon, y se actualizan solas.',
     'site.audioswitch': 'Cambio de dispositivo de audio · audioswitch.dev',
     'site.candela': 'Control de pantalla · getcandela.app',
     'site.clipstack': 'Historial del portapapeles · getclipstack.app',
+    'site.inkstone': 'Notas Markdown · inkslab.app',
     'colophon': 'Construido con Claude Code · MIT / CC BY-NC', 'colophon.source': 'Código de esta página',
     'lang.system': 'Sistema',
   },
