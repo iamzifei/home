@@ -11,7 +11,23 @@ const CATEGORIES = [
     featured: true,
     items: [
       {
+        repo: "inkstone",
+        site: "https://inkslab.app",
+        name: "Inkstone",
+        stars: 0,
+        shot: "assets/inkstone-card.jpg",
+        tagline: {
+          zh: "笔记就是你自己的文件",
+          en: "Notes that stay your own files",
+        },
+        desc: {
+          zh: "纯 Markdown，存在你自己选的文件夹里，没有数据库也没有导入。双链、反向链接、关系图谱、白板、日记，中英文混排按标准排版。可走 iCloud 或 GitHub 同步。macOS 与 iOS，原生 SwiftUI。",
+          en: "Plain Markdown in a folder you choose, with no database and no import step. Wikilinks, backlinks, a deterministic graph, a JSON Canvas board, daily notes, and mixed CJK-Latin typography set the way the standard asks for. Syncs through iCloud or a GitHub repository. macOS and iOS, native SwiftUI.",
+        },
+      },
+      {
         repo: "Candela",
+        site: "https://getcandela.app",
         name: "Candela",
         stars: 0,
         shot: "assets/candela-card.jpg",
@@ -26,6 +42,7 @@ const CATEGORIES = [
       },
       {
         repo: "clipstack",
+        site: "https://getclipstack.app",
         name: "ClipStack",
         stars: 3,
         shot: "assets/clipstack-card.jpg",
@@ -40,6 +57,7 @@ const CATEGORIES = [
       },
       {
         repo: "audioswitch",
+        site: "https://audioswitch.dev",
         name: "AudioSwitch",
         stars: 0,
         shot: "assets/audioswitch-card.jpg",

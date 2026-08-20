@@ -792,7 +792,10 @@ const STRINGS = {
     if (!host || typeof CATEGORIES === 'undefined') return;
     host.innerHTML = CATEGORIES.map((cat) => {
       const rows = cat.items.map((item) => {
-        const url = `https://github.com/iamzifei/${item.repo}`;
+        // An app with a site leads there; its site carries the download and
+        // links back to the source. Everything else still leads to GitHub,
+        // which for a skill or a library is the product.
+        const url = item.site || `https://github.com/iamzifei/${item.repo}`;
         const stars = item.stars > 0 ? `<span class="stars">★ ${item.stars}</span>` : '';
         const shot = item.shot
           ? `<img class="shot" src="${esc(item.shot)}" alt="" loading="lazy" decoding="async" width="640" height="400">`
