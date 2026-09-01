@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>你手上那件事，卡在哪一问 · 9月19日 悉尼</title>
+<title>产品课 · 詹明明的商业课 · 9月19日 悉尼</title>
 <meta name="description" content="2026年9月19日周六，悉尼 City，一整天，10 个人，中文讲。给已经在做线上产品的人：做出来之后没人付钱，问题出在哪，下一步动什么。">
 <meta name="theme-color" content="#faf8f4" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#12110e" media="(prefers-color-scheme: dark)">
@@ -123,6 +123,37 @@ p:last-child { margin-bottom: 0; }
 
 .soft { color: var(--ink-soft); font-size: 0.94em; }
 
+/* The schedule. Numbered because the order is the argument: each step only
+   works once the one above it has landed. */
+.run { list-style: none; counter-reset: step; margin: 0 0 0.9rem; padding: 0; }
+.run li {
+  counter-increment: step;
+  position: relative;
+  padding: 0.75rem 0 0.75rem 2.1rem;
+  border-top: 1px solid var(--rule);
+}
+.run li:last-child { border-bottom: 1px solid var(--rule); }
+.run li::before {
+  content: counter(step, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 0.95rem;
+  font-family: var(--sans);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  color: var(--accent);
+}
+.run b { display: block; }
+.run span { display: block; color: var(--ink-soft); font-size: 0.94em; margin-top: 0.15rem; }
+.run span b { display: inline; color: var(--ink); }
+
+.take { margin: 0; padding-left: 1.1rem; }
+.take li { margin: 0 0 0.55rem; }
+.take li::marker { color: var(--ink-faint); }
+
+/* Placeholders still to be filled in before this page goes live. */
+.todo { font-family: ui-monospace, Menlo, monospace; color: var(--accent); }
+
 footer {
   border-top: 1px solid var(--rule-strong);
   padding-top: 1.2rem;
@@ -141,7 +172,56 @@ footer a:hover { color: var(--accent); border-color: var(--accent); }
 <div class="wrap">
 
   <img class="poster" src="poster.png" width="896" height="1200"
-       alt="詹明明的商业课 · 模块一 · 首期。你手上那件事，卡在哪一问。9 月 19 日周六，悉尼 City，10 个人，中文讲。散场时你手上会有一张纸：这件事卡在哪一问，下一步动什么。首期 $880 + GST，10 位。">
+       alt="詹明明的商业课 · 产品课 · 首期。你手上那件事，卡在哪一问。9 月 19 日周六，悉尼 City，10 个人，中文讲。散场时你手上会有一张纸：这件事卡在哪一问，下一步动什么。首期 $880 + GST，10 位。">
+
+  <section>
+    <h2>这是哪一门</h2>
+    <p>
+      <b>《詹明明的商业课》</b>分三门，各自独立，分开报名：<br>
+      <b>产品课</b>（这一门）· 内容课 · AI 课。
+    </p>
+    <p class="soft">
+      产品课只讲线上产品：怎么判断你做的东西成不成立，做出来之后怎么让它有人买。
+      内容课讲获客与自媒体，AI 课讲人机协同与系统搭建——那两门稍后再开。
+    </p>
+  </section>
+
+  <section>
+    <h2>那天怎么过</h2>
+    <p class="soft">全天 <span class="todo">TIME_TODO</span>，中间有午餐。不教工具怎么用，也不从「怎么想点子」讲起——你已经过了那一步。</p>
+    <ol class="run">
+      <li>
+        <b>你做的那个东西，还不算产品</b>
+        <span>人人都做得出来的，叫物品。把物变成商品的是顾客，不是你。先把这条差别摆清楚，后面所有动作才有落点。</span>
+      </li>
+      <li>
+        <b>判据不能归干活的那个人所有</b>
+        <span>你现在既是做的人，又是给自己打分的人——这是为什么你自己看不出问题在哪，也是为什么改了三版还是没人买。</span>
+      </li>
+      <li>
+        <b>验证四问</b>
+        <span>反馈从哪来 · 多久拿到 · 能不能被推翻 · 能不能借别人的。这是那把尺子本身，你之后每个新想法都能自己过一遍。</span>
+      </li>
+      <li>
+        <b>十个人，一个一个上来</b>
+        <span>把你的产品拿出来，当场过一遍四问，我现场拆。<b>这是那天最花时间的部分，也是你来的原因。</b></span>
+      </li>
+      <li>
+        <b>收尾：把你那张纸写完</b>
+        <span>卡在哪一问，下一步动什么。</span>
+      </li>
+    </ol>
+    <p class="soft">带上你的产品——能当场打开给我看的那个版本就行。</p>
+  </section>
+
+  <section>
+    <h2>你带走什么</h2>
+    <ul class="take">
+      <li>一张纸：<b>你这个产品卡在哪一问，下一步动什么。</b></li>
+      <li>那把尺子本身。以后每个新点子，你自己就能过一遍。</li>
+      <li><b>另外九个产品被拆解的全过程。</b>十个人的场，你只讲一次，但要听九次——多数人事后说这部分比自己那一轮更有用。</li>
+    </ul>
+  </section>
 
   <section>
     <h2>给谁</h2>
@@ -151,18 +231,14 @@ footer a:hover { color: var(--accent); border-color: var(--accent); }
     </p>
     <p class="soft">
       不覆盖三种人：还没开始做任何东西的；做线下生意的老板；想学某个工具怎么操作的。
-      全程围绕你自己的产品转。
     </p>
   </section>
 
   <section>
     <h2>怎么报名</h2>
-    <p>本地银行转账，没有手续费。转完把截图发我微信，我回一条确认位子，并把 tax invoice 发到你邮箱。具体地址开课前几天单独发给你——房间按最终人数订。</p>
+    <p>本地银行转账，没有手续费。转完把截图发我微信，我回一条确认位子，并把 tax invoice 发到你邮箱。具体地址开课前几天单独发给你。</p>
     <p class="pay">BANK_DETAILS_TODO</p>
-    <p class="soft">
-      十个位子，坐满为止，第二期起 $1,080 + GST。
-      拿不准适不适合，直接微信问我——说不适合我会直说，也不会追着你发第二次。
-    </p>
+    <p class="soft">十个位子，坐满为止。第二期起 $1,080 + GST。</p>
   </section>
 
   <section>
