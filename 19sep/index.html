@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>你手上那件事，卡在哪一问 · 9月19日 悉尼</title>
+<meta name="description" content="2026年9月19日周六，悉尼 Chatswood，一整天，10 个人，中文讲。不教工具怎么用；你把手上正在做的那件事拿出来，当场过一遍四个问题。">
+<meta name="theme-color" content="#faf8f4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#12110e" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="../assets/favicon.png" sizes="48x48">
+<link rel="icon" href="../assets/favicon-32.png" sizes="32x32">
+<link rel="icon" href="../assets/favicon-16.png" sizes="16x16">
+<link rel="apple-touch-icon" href="../assets/favicon-180.png">
+<link rel="canonical" href="https://jamesai.dev/19sep/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="你手上那件事，卡在哪一问">
+<meta property="og:description" content="9月19日周六 · 悉尼 Chatswood · 一整天 · 10 个人 · 中文讲">
+<meta property="og:url" content="https://jamesai.dev/19sep/">
+<meta name="twitter:card" content="summary">
+
+<style>
+/* ---------------------------------------------------------------------------
+   One-day class, 19 Sep — a single landing page.
+
+   It borrows the homepage's press: warm paper, hairline rules, numbered
+   departments, seal red used at the scale of a printer's mark. No cards, no
+   shadows, no filled buttons anywhere except the one thing the page exists
+   for — the enrol action. That single filled element is the only place the
+   page raises its voice, which is precisely why it reads as the action.
+
+   Type is serif-led and script-aware: Latin faces first in each stack, CJK
+   after, so a mixed line takes Latin from New York/Charter and Chinese from
+   Songti instead of letting one face flatten both. All system faces — no
+   webfont request, and a Chinese reader never downloads a Latin font.
+   --------------------------------------------------------------------------- */
+
+:root {
+  color-scheme: light dark;
+
+  --paper: #faf8f4;
+  --paper-deep: #f2efe7;
+  --ink: #16150f;
+  --ink-soft: #55524a;
+  --ink-faint: #8b877c;
+  --rule: #e0dbcf;
+  --rule-strong: #cbc4b3;
+  --accent: #9c2f1f;
+
+  --serif-latin: ui-serif, "New York", "Iowan Old Style", Charter, "Palatino Linotype", Palatino, Georgia, serif;
+  --serif-cjk: "Songti SC", "Source Han Serif SC", "Noto Serif CJK SC", STSong, "Hiragino Mincho ProN", YuMincho, serif;
+  --sans: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Helvetica Neue", "PingFang SC", "Hiragino Sans GB", sans-serif;
+
+  --gutter: clamp(1.25rem, 5vw, 4.5rem);
+  --measure: 34rem;
+  --rhythm: clamp(2.75rem, 7vw, 5rem);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #12110e;
+    --paper-deep: #171612;
+    --ink: #efece3;
+    --ink-soft: #b0aca1;
+    --ink-faint: #837f74;
+    --rule: #2b2924;
+    --rule-strong: #3d3a33;
+    --accent: #d4614c;
+  }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif-latin), var(--serif-cjk);
+  font-size: clamp(1rem, 0.96rem + 0.2vw, 1.1rem);
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap {
+  max-width: calc(var(--measure) + var(--gutter) * 2);
+  margin: 0 auto;
+  padding: 0 var(--gutter) clamp(4rem, 10vw, 7rem);
+}
+
+/* --- masthead ------------------------------------------------------------ */
+
+header.masthead {
+  padding: clamp(3rem, 8vw, 5.5rem) 0 0;
+}
+
+.eyebrow {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 1.5rem;
+}
+
+h1 {
+  font-size: clamp(2rem, 1.4rem + 3vw, 3.1rem);
+  line-height: 1.22;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0 0 1.25rem;
+  text-wrap: balance;
+}
+
+.standfirst {
+  font-size: clamp(1.05rem, 1rem + 0.3vw, 1.2rem);
+  color: var(--ink-soft);
+  margin: 0 0 2rem;
+  text-wrap: pretty;
+}
+
+/* The facts line: the four things a reader checks before reading anything. */
+.facts {
+  font-family: var(--sans);
+  font-size: 0.86rem;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  border-top: 1px solid var(--rule-strong);
+  border-bottom: 1px solid var(--rule-strong);
+  padding: 0.9rem 0;
+  margin: 0 0 calc(var(--rhythm) * 1.25);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.4rem;
+}
+.facts b { font-weight: 600; }
+.facts span { white-space: nowrap; }
+
+/* --- departments --------------------------------------------------------- */
+
+section { margin: 0 0 var(--rhythm); }
+
+h2 {
+  font-family: var(--sans);
+  font-size: 0.74rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  font-weight: 600;
+  margin: 0 0 1.1rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  gap: 0.8rem;
+}
+h2 .num { color: var(--accent); }
+
+p { margin: 0 0 1.1rem; text-wrap: pretty; }
+p:last-child { margin-bottom: 0; }
+
+.lead {
+  font-size: 1.12em;
+  line-height: 1.6;
+}
+
+ul { margin: 0 0 1.1rem; padding-left: 1.1rem; }
+li { margin: 0 0 0.5rem; }
+li::marker { color: var(--ink-faint); }
+
+.aside {
+  color: var(--ink-soft);
+  font-size: 0.94em;
+}
+
+/* A run of time-stamped blocks for the shape of the day. */
+.run { margin: 0 0 1.1rem; }
+.run div {
+  display: grid;
+  grid-template-columns: 5.5rem 1fr;
+  gap: 0 1rem;
+  padding: 0.75rem 0;
+  border-top: 1px solid var(--rule);
+}
+.run div:last-child { border-bottom: 1px solid var(--rule); }
+.run dt {
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  color: var(--ink-faint);
+  padding-top: 0.28rem;
+}
+.run dd { margin: 0; }
+@media (max-width: 26rem) {
+  .run div { grid-template-columns: 1fr; gap: 0.2rem; }
+}
+
+/* The promise, set as a pull quote — it is the product. */
+blockquote {
+  margin: 0 0 1.1rem;
+  padding: 0 0 0 1.1rem;
+  border-left: 2px solid var(--accent);
+  font-size: 1.12em;
+  line-height: 1.6;
+}
+blockquote p { margin: 0 0 0.6rem; }
+blockquote p:last-child { margin: 0; }
+
+/* --- price + enrol ------------------------------------------------------- */
+
+.price {
+  font-family: var(--sans);
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  margin: 0 0 0.4rem;
+}
+.price b {
+  font-size: clamp(1.8rem, 1.4rem + 2vw, 2.4rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.price span { font-size: 0.9rem; color: var(--ink-soft); }
+
+/* The one filled element on the page. */
+.enrol {
+  display: inline-block;
+  margin: 1.4rem 0 0.9rem;
+  padding: 0.85rem 2rem;
+  background: var(--accent);
+  color: var(--paper);
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  border-radius: 2px;
+}
+.enrol:hover { opacity: 0.88; }
+
+.enrol-note {
+  font-family: var(--sans);
+  font-size: 0.84rem;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+/* --- colophon ------------------------------------------------------------ */
+
+footer {
+  border-top: 1px solid var(--rule-strong);
+  padding-top: 1.5rem;
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  color: var(--ink-faint);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1.4rem;
+}
+footer a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px solid var(--rule-strong); }
+footer a:hover { color: var(--accent); border-color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <p class="eyebrow">詹明明的商业课 · 首期</p>
+    <h1>你手上那件事，卡在哪一问</h1>
+    <p class="standfirst">
+      有个做实业的老板跟我说，他们把公司全部资料一次性喂给 AI，产出只有四十分。他问我是不是模型不行。<br>
+      不是模型不行。是没人说得清「什么样算做对了」——或者说得清的那个人，正好就是干活的那个人。
+    </p>
+    <p class="facts">
+      <span><b>9 月 19 日</b> 周六 全天</span>
+      <span>悉尼 <b>Chatswood</b></span>
+      <span><b>10</b> 个人</span>
+      <span>中文讲</span>
+    </p>
+  </header>
+
+  <section>
+    <h2><span class="num">01</span> 给谁</h2>
+    <ul>
+      <li>已经在做生意的人，公司大小不限。</li>
+      <li>上了 AI，但说不清到底有没有用的。</li>
+      <li>还没上、正在想要不要上的——这一类那天最省事，不用先拆掉一个已经装错的东西。</li>
+    </ul>
+    <p class="aside">
+      不适合三种人：想学某个工具怎么操作的；想听行业趋势和大方向的；手上还没有一件正在做的事的。
+      那天全程围绕你自己的项目转，没有项目就没东西可过。
+    </p>
+  </section>
+
+  <section>
+    <h2><span class="num">02</span> 那天干什么</h2>
+    <p class="lead">不教工具怎么用。</p>
+    <dl class="run">
+      <div>
+        <dt>上午</dt>
+        <dd>一把尺子：<b>判据不能归干活的那个人所有。</b>为什么买来的通用方案总是差一口气；为什么资料给得越多、不做整理，它反而越笨。</dd>
+      </div>
+      <div>
+        <dt>下午</dt>
+        <dd>你把手上正在做的那件事拿出来，当场过一遍四个问题。一个一个来，<b>十个人全部过完</b>——这是那天最花时间的部分，也是你来的原因。</dd>
+      </div>
+    </dl>
+  </section>
+
+  <section>
+    <h2><span class="num">03</span> 你带走什么</h2>
+    <blockquote>
+      <p>散场的时候，你手上会有一张纸：<b>你这件事卡在哪一问，下一步动什么。</b></p>
+      <p>拿不到这张纸，我全额退给你。</p>
+    </blockquote>
+  </section>
+
+  <section>
+    <h2><span class="num">04</span> 时间地点</h2>
+    <p>
+      2026 年 9 月 19 日，周六，全天。<br>
+      悉尼 Chatswood。<b>具体地址报名后单独通知</b>——房间按最终人数订，不想让十个人坐进一个二十人的会议室。
+    </p>
+  </section>
+
+  <section>
+    <h2><span class="num">05</span> 价格</h2>
+    <p class="price"><b>$980</b> <span>+ GST · 每位</span></p>
+    <p>十个位子，<b>首期价</b>。之后的场次不再是这个数。</p>
+    <p class="aside">
+      两种情况全额退：开课前 7 天以外取消；以及当天散场时你没拿到第 03 条那张纸。
+    </p>
+    <a class="enrol" href="PAYMENT_LINK_TODO">报名 · 占一个位子</a>
+    <p class="enrol-note">先想问清楚再决定，直接微信问我就行，我不会追着你发第二次。</p>
+  </section>
+
+  <section>
+    <h2><span class="num">06</span> 我是谁</h2>
+    <p>
+      前 NICTA / CSIRO 研究员，在职博士。<br>
+      没有员工，一个人运营数十款面向海外市场的软件产品。<br>
+      每周四上午在悉尼 CBD 组织一个免费的 AI 聚会，一帮在做东西的人坐一起，各自把手上的问题摊开来问。
+    </p>
+  </section>
+
+  <footer>
+    <span>James AI</span>
+    <a href="https://jamesai.dev/">jamesai.dev</a>
+    <span>悉尼</span>
+  </footer>
+
+</div>
+</body>
+</html>
