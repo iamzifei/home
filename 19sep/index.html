@@ -109,17 +109,19 @@ h2 {
 p { margin: 0 0 0.8rem; text-wrap: pretty; }
 p:last-child { margin-bottom: 0; }
 
-/* Bank details: the one thing on the page a reader will copy, so it is set
-   to be copied — monospaced, on its own line, nothing decorative around it. */
-.pay {
-  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
-  font-size: 0.95rem;
-  background: color-mix(in srgb, var(--accent) 6%, transparent);
-  border-left: 2px solid var(--accent);
-  padding: 0.7rem 0.9rem;
-  margin: 0 0 0.8rem;
-  overflow-wrap: anywhere;
+/* The QR is the only action on the page, so it gets room and a hard edge —
+   a scannable code needs quiet space around it and full contrast, which is
+   also why it never inverts in dark mode. */
+.qr { margin: 0 0 0.9rem; }
+.qr img {
+  display: block;
+  width: 10rem;
+  height: auto;
+  background: #fff;
+  padding: 0.6rem;
+  border: 1px solid var(--rule-strong);
 }
+.qr p { margin: 0.5rem 0 0; }
 
 .soft { color: var(--ink-soft); font-size: 0.94em; }
 
@@ -265,8 +267,11 @@ footer a:hover { color: var(--accent); border-color: var(--accent); }
 
   <section>
     <h2>怎么报名</h2>
-    <p>本地银行转账，没有手续费。转完把截图发我微信，我回一条确认位子，并把 tax invoice 发到你邮箱。具体地址开课前几天单独发给你。</p>
-    <p class="pay">BANK_DETAILS_TODO</p>
+    <p>加我微信，说一句你在做什么或者在考虑做什么。合适的话我把转账信息和位子确认发给你——本地转账，没有手续费，之后 tax invoice 发到你邮箱，地址开课前几天单独发。</p>
+    <div class="qr">
+      <img src="wechat.png" width="320" height="320" alt="James 的微信二维码">
+      <p class="soft">微信号：<b>WECHAT_ID_TODO</b></p>
+    </div>
     <p class="soft">十个位子，坐满为止。第二期起 $1,080 + GST。</p>
   </section>
 
