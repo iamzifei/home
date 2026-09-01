@@ -6,6 +6,36 @@
 <title>James AI</title>
 <!-- Shared with the homepage-era stylesheet. See the note at the top of site.css. -->
 <link rel="stylesheet" href="site.css?v=2">
+<script>
+/* Day / night / follow-the-system, resolved BEFORE the first paint. It used to
+   run at the foot of the body, which meant a reader in night mode watched the
+   page render light and then go dark. Same storage key as the homepage
+   (`jamesai.press`) — one setting, several pages. */
+(function () {
+  var KEY = 'jamesai.press';
+  function saved() {
+    try { return localStorage.getItem(KEY) || 'system'; } catch (e) { return 'system'; }
+  }
+  function apply(v) {
+    var dark = v === 'night';
+    if (v === 'system') {
+      try { dark = matchMedia('(prefers-color-scheme: dark)').matches; } catch (e) {}
+    }
+    /* site.css still names the dark run `data-lamp="off"`; renaming it is part
+       of merging that file into the homepage's stylesheet, not part of this. */
+    document.documentElement.setAttribute('data-lamp', dark ? 'off' : 'on');
+  }
+  window.__pressSaved = saved;
+  window.__pressApply = apply;
+  apply(saved());
+  try {
+    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function () {
+      if (saved() === 'system') apply('system');
+    });
+  } catch (e) {}
+})();
+</script>
+
 <link rel="icon" href="assets/favicon.png" sizes="48x48">
 <link rel="icon" href="assets/favicon-32.png" sizes="32x32">
 <link rel="apple-touch-icon" href="assets/favicon-180.png">
@@ -115,16 +145,75 @@
   :root { --page: min(100% - var(--m) * 4, 1216px); }
   .spec { grid-template-columns: minmax(0, 1fr); }
 }
+
+/* --- the two controls, lifted from the homepage's running head -------------
+   Same rule as there: they live among .sign-links, which are 11px mono
+   uppercase metadata, and they must not read as more of it — so the same mono
+   family (they belong to the bar), one step up, not uppercased, an icon each.
+   Below 34rem the three text links go and the controls stay: on a phone the
+   back arrow is the browser's, the repo and site links are repeated at the
+   foot of the page, and the two things with no other handle are these. */
+.press-tools { display: inline-flex; align-items: center; gap: 1.05rem;
+               color: var(--ink2);
+               font-family: var(--mono); font-size: 0.75rem; font-weight: 500;
+               letter-spacing: 0.02em; text-transform: none; }
+.press-tools .ico { width: 12px; height: 12px; flex: none; fill: none;
+                    stroke: currentColor; stroke-width: 1.2; }
+.press-switch, .press-lang-wrap { display: inline-flex; align-items: center; gap: 0.45em; }
+.press-switch {
+  font: inherit; letter-spacing: inherit; text-transform: none;
+  background: none; border: 0; padding: 0; cursor: pointer; color: inherit;
+}
+.press-switch .js-mode-label { border-bottom: 1px solid var(--rule); }
+.press-lang {
+  font: inherit; letter-spacing: inherit; text-transform: none;
+  background: none; border: 0; padding: 0 0.9em 0 0; color: inherit;
+  border-bottom: 1px solid var(--rule); cursor: pointer;
+  appearance: none; -webkit-appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%),
+                    linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-size: 4px 4px, 4px 4px;
+  background-position: right 3px center, right 0px center;
+  background-repeat: no-repeat;
+}
+.press-switch:hover, .press-lang:hover { color: var(--ink); }
+.press-lang option { color: initial; }
+.sign-links { align-items: center; }
+@media (max-width: 34rem) {
+  .sign-links > a { display: none; }
+  .sign-links { gap: 0; }
+  .press-tools { gap: 0.8rem; }
+}
 </style>
 </head>
 <body>
 
-<nav class="sign" aria-label="页面导航">
+<nav class="sign" id="sign" aria-label="Navigation">
   <a href="index.html" class="sign-brand">James AI</a>
   <span class="sign-links">
-    <a href="index.html">返回首页</a>
-    <a id="navSite" href="#">官网</a>
-    <a id="navRepo" href="#">源码</a>
+    <a href="index.html" data-k="back">返回首页</a>
+    <a id="navSite" href="#" data-k="site">官网</a>
+    <a id="navRepo" href="#" data-k="repo">源码</a>
+    <!-- The page used to argue it needed no switch because the homepage had
+         one. That was true when the homepage's switch sat at the very top of
+         the homepage; it is not true of a reader who arrives here from a
+         search result and has never seen it. Same setting, same storage keys,
+         another handle. -->
+    <span class="press-tools">
+      <button class="press-switch js-mode" type="button">
+        <svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3.6"/><path d="M8 .9v2M8 13.1v2M.9 8h2M13.1 8h2M3 3l1.4 1.4M11.6 11.6L13 13M13 3l-1.4 1.4M4.4 11.6L3 13"/></svg>
+        <span class="js-mode-label">跟随系统</span>
+      </button>
+      <label class="press-lang-wrap">
+        <svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.4"/><path d="M1.6 8h12.8M8 1.6c1.8 2 2.7 4.1 2.7 6.4S9.8 12.4 8 14.4C6.2 12.4 5.3 10.3 5.3 8S6.2 3.6 8 1.6z"/></svg>
+        <select class="press-lang js-lang" aria-label="Language">
+          <option value="system">跟随系统</option>
+          <option value="zh-Hans">简体中文</option>
+          <option value="zh-Hant">繁體中文</option>
+          <option value="en">English</option>
+        </select>
+      </label>
+    </span>
   </span>
 </nav>
 
@@ -132,17 +221,79 @@
   <div id="page"></div>
 
   <section class="foot">
-    <p>SZX–SYD · 一人公司</p>
-    <p><a href="index.html">返回首页 · Back to the front</a></p>
+    <p data-k="press">SZX–SYD · 一人公司</p>
+    <p><a href="index.html" data-k="home">返回首页</a></p>
   </section>
 </main>
 
-<script src="data.js?v=6"></script>
+<script src="data.js?v=7"></script>
+<script src="i18n.js?v=3"></script>
 <script>
 /* One product, from the shared catalogue. */
 (function () {
-  var LANG = 'zh';
-  function t(v) { return v && typeof v === 'object' ? (v[LANG] || v.en) : (v || ''); }
+  /* --- language ----------------------------------------------------------
+     Three, the same three the homepage offers, sharing its `press.lang` key so
+     a reader who chose English there does not arrive here in Chinese.
+
+     Two tables, because there are two kinds of string. The catalogue's own
+     words (names, taglines, captions) live in data.js and are picked by
+     `dataLang`. The page's furniture — four spec labels, the nav, the
+     neighbours, the 404 — is only ever seen here, so it lives here. */
+  var CHROME = {
+    'zh-Hans': {
+      back: '返回首页', site: '官网', repo: '源码', home: '回到首页',
+      press: 'SZX–SYD · 一人公司',
+      kind: '类型', stars: '星标', src: '源码', web: '官网',
+      prev: '← 上一项', next: '下一项 →',
+      lost: '没有这一项', lostBody: '目录里找不到 %s。', unnamed: '（未指定）',
+      auto: '自动', day: '日间版', night: '夜间版', mode: '显示模式',
+      sys: '跟随系统'
+    },
+    'zh-Hant': {
+      back: '回首頁', site: '官網', repo: '原始碼', home: '回到首頁',
+      press: 'SZX–SYD · 一人公司',
+      kind: '類型', stars: '星標', src: '原始碼', web: '官網',
+      prev: '← 上一項', next: '下一項 →',
+      lost: '沒有這一項', lostBody: '目錄裡找不到 %s。', unnamed: '（未指定）',
+      auto: '自動', day: '日間版', night: '夜間版', mode: '顯示模式',
+      sys: '跟隨系統'
+    },
+    en: {
+      back: 'Front page', site: 'Site', repo: 'Source', home: 'Back to the front',
+      press: 'SZX–SYD · a one-person press',
+      kind: 'Kind', stars: 'Stars', src: 'Source', web: 'Site',
+      prev: '← Previous', next: 'Next →',
+      lost: 'No such entry', lostBody: 'Nothing in the catalogue answers to %s.',
+      unnamed: '(none given)',
+      auto: 'Auto', day: 'Day', night: 'Night', mode: 'Appearance',
+      sys: 'System'
+    }
+  };
+  /* data.js carries zh / zh-Hant / en; the page's own lang tags are the same
+     three, so the two agree without a mapping table. */
+  var LANG_DATA = { 'zh-Hans': 'zh', 'zh-Hant': 'zh-Hant', en: 'en' };
+
+  function resolveLang(choice) {
+    if (choice !== 'system') return choice;
+    var wanted = navigator.languages || [navigator.language || 'zh'];
+    for (var i = 0; i < wanted.length; i++) {
+      var tag = String(wanted[i]).toLowerCase();
+      if (tag.indexOf('zh') === 0) return /hant|tw|hk|mo/.test(tag) ? 'zh-Hant' : 'zh-Hans';
+      if (tag.indexOf('en') === 0) return 'en';
+    }
+    return 'zh-Hans';
+  }
+
+  var langChoice = 'system';
+  try { langChoice = localStorage.getItem('press.lang') || 'system'; } catch (e) {}
+  var lang = resolveLang(langChoice);
+  var C = CHROME[lang] || CHROME['zh-Hans'];
+  var LANG = LANG_DATA[lang] || 'zh';
+  function L(k, arg) {
+    var v = (C[k] != null) ? C[k] : k;
+    return arg == null ? v : v.replace('%s', arg);
+  }
+  function t(v) { return v && typeof v === 'object' ? (v[LANG] || v.en || v.zh) : (v || ''); }
   function esc(s) {
     return String(s).replace(/[&<>"]/g, function (c) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
@@ -166,156 +317,217 @@
   flat.forEach(function (e, n) { if (e.it.repo === want) i = n; });
 
   var host = document.getElementById('page');
-  if (i < 0) {
-    /* A bad ?p= is a link that rotted, not a crash. Say so and offer the way
-       back rather than rendering an empty template. */
-    host.innerHTML = '<section class="p-head"><div class="p-id">'
-      + '<span class="p-kick">404</span><h1>没有这一项</h1>'
-      + '<p class="p-motto">目录里找不到 ' + esc(want || '（未指定）') + '。</p></div></section>'
-      + '<p class="p-out"><a href="index.html">回到首页</a></p>';
-    return;
-  }
 
-  var it = flat[i].it, kind = t(flat[i].cat.title);
-  var shots = it.shots || [];
-  document.title = it.name + ' · James AI';
+  /* Everything below depends on the language, so it is a function and not a
+     run of statements: changing the select re-runs exactly this. */
+  function paint() {
+    if (i < 0) {
+      /* A bad ?p= is a link that rotted, not a crash. Say so, in the reader's
+         language, and offer the way back rather than an empty template. */
+      document.title = L('lost') + ' \u00b7 James AI';
+      host.innerHTML = '<section class="p-head"><div class="p-id">'
+        + '<span class="p-kick">404</span><h1>' + esc(L('lost')) + '</h1>'
+        + '<p class="p-motto">' + esc(L('lostBody', want || L('unnamed'))) + '</p></div></section>'
+        + '<p class="p-out"><a href="index.html">' + esc(L('home')) + '</a></p>';
+      return;
+    }
+    var it = flat[i].it, kind = t(flat[i].cat.title);
+    var shots = it.shots || [];
+    document.title = t(it.name) + ' \u00b7 James AI';
 
-  function siteHost(u) { return u.replace(/^https?:\/\//, '').replace(/\/$/, ''); }
-  var repoUrl = 'https://github.com/iamzifei/' + it.repo;
-  document.getElementById('navRepo').href = repoUrl;
-  var navSite = document.getElementById('navSite');
-  if (it.site) { navSite.href = it.site; } else { navSite.remove(); }
+    function siteHost(u) { return u.replace(/^https?:\/\//, '').replace(/\/$/, ''); }
+    var repoUrl = 'https://github.com/iamzifei/' + it.repo;
+    /* paint() runs again on every language change, so these have to tolerate
+       having already been dealt with once: the site link is REMOVED for a
+       product that has no site, and the second pass would then be looking up
+       an element that is gone. */
+    var navRepo = document.getElementById('navRepo');
+    if (navRepo) navRepo.href = repoUrl;
+    var navSite = document.getElementById('navSite');
+    if (navSite) { if (it.site) { navSite.href = it.site; } else { navSite.remove(); } }
 
-  /* 源码 and 官网 name a place, so they link to it. They were plain text, which
-     reads fine right up until somebody tries to click "inkslab.app". */
-  function spec() {
-    var rows = [['类型', kind, null],
-                ['星标', it.stars ? it.stars + ' ★' : '—', null],
-                ['源码', 'iamzifei/' + it.repo, 'https://github.com/iamzifei/' + it.repo]];
-    if (it.site) rows.push(['官网', siteHost(it.site), it.site]);
-    return '<dl class="spec">' + rows.map(function (r) {
-      var v = esc(r[1]);
-      if (r[2]) v = '<a href="' + esc(r[2]) + '" rel="noopener">' + v + '</a>';
-      return '<div><dt>' + esc(r[0]) + '</dt><dd>' + v + '</dd></div>';
-    }).join('') + '</dl>';
-  }
+    /* Source and Site name a place, so they link to it. They were plain text,
+       which reads fine right up until somebody tries to click "inkslab.app". */
+    function spec() {
+      var rows = [[L('kind'), kind, null],
+                  [L('stars'), it.stars ? it.stars + ' ★' : '—', null],
+                  [L('src'), 'iamzifei/' + it.repo, 'https://github.com/iamzifei/' + it.repo]];
+      if (it.site) rows.push([L('web'), siteHost(it.site), it.site]);
+      return '<dl class="spec">' + rows.map(function (r) {
+        var v = esc(r[1]);
+        if (r[2]) v = '<a href="' + esc(r[2]) + '" rel="noopener">' + v + '</a>';
+        return '<div><dt>' + esc(r[0]) + '</dt><dd>' + v + '</dd></div>';
+      }).join('') + '</dl>';
+    }
 
-  /* Neighbours inside the same category only. Walking off the end of "macOS
-     apps" into a skill repository is a link that looks like a sequence and is
-     not one. */
-  function sibling(step) {
-    var j = i + step;
-    if (j < 0 || j >= flat.length) return null;
-    if (flat[j].cat !== flat[i].cat) return null;
-    return flat[j].it;
-  }
-  function sibLink(item, label, side) {
-    if (!item) return '<span></span>';
-    return '<a href="product.html?p=' + encodeURIComponent(item.repo) + '" style="text-align:'
-      + side + '">' + label + '<b>' + esc(t(item.name)) + '</b></a>';
-  }
+    /* Neighbours inside the same category only. Walking off the end of "macOS
+       apps" into a skill repository is a link that looks like a sequence and is
+       not one. */
+    function sibling(step) {
+      var j = i + step;
+      if (j < 0 || j >= flat.length) return null;
+      if (flat[j].cat !== flat[i].cat) return null;
+      return flat[j].it;
+    }
+    function sibLink(item, label, side) {
+      if (!item) return '<span></span>';
+      return '<a href="product.html?p=' + encodeURIComponent(item.repo) + '" style="text-align:'
+        + side + '">' + label + '<b>' + esc(t(item.name)) + '</b></a>';
+    }
 
-  var out = [];
-  out.push('<header class="p-head">'
-    + '<div class="p-id"><span class="p-kick">' + esc(kind) + ' · '
-    +   ('0' + (i + 1)).slice(-2) + '</span>'
-    + '<h1>' + esc(t(it.name)) + '</h1>'
-    + '<p class="p-motto">' + esc(t(it.tagline)) + '</p></div>'
-    + '<div class="p-txt"><p>' + esc(t(it.desc)) + '</p>' + spec() + '</div>'
-    + '</header>');
+    var out = [];
+    out.push('<header class="p-head">'
+      + '<div class="p-id"><span class="p-kick">' + esc(kind) + ' · '
+      +   ('0' + (i + 1)).slice(-2) + '</span>'
+      + '<h1>' + esc(t(it.name)) + '</h1>'
+      + '<p class="p-motto">' + esc(t(it.tagline)) + '</p></div>'
+      + '<div class="p-txt"><p>' + esc(t(it.desc)) + '</p>' + spec() + '</div>'
+      + '</header>');
 
-  /* The lead picture is the one the reader just clicked, still moving. It is
-     above the fold and there is exactly one of it, so it needs none of the
-     observer machinery the homepage row has — autoplay is the right moment
-     here, which is the whole reason that page does not use it.
+    /* The lead picture is the one the reader just clicked, still moving. It is
+       above the fold and there is exactly one of it, so it needs none of the
+       observer machinery the homepage row has — autoplay is the right moment
+       here, which is the whole reason that page does not use it.
 
-     `prefers-reduced-motion` is honoured by not asking for autoplay at all
-     rather than by pausing afterwards: the poster is frame 0 and a complete
-     picture, so nothing is missing. */
-  var still = it.shot.replace(/\.(jpg|webp)$/, '');
-  var reduce = false;
-  try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
-  if (it.shot && it.motion) {
-    out.push('<figure class="p-hero">'
-      + '<video poster="' + still + '.webp' + V + '" muted loop playsinline'
-      + (reduce ? '' : ' autoplay') + ' preload="' + (reduce ? 'none' : 'auto') + '"'
-      + ' aria-label="' + esc(t(it.name)) + '">'
-      + '<source src="' + still + '.webm' + V + '" type="video/webm">'
-      + '<source src="' + still + '.mp4' + V + '" type="video/mp4">'
-      + '</video></figure>');
-  } else if (it.shot) {
-    out.push('<figure class="p-hero"><img src="' + it.shot + V
-      + '" alt="' + esc(t(it.name)) + '"></figure>');
-  }
+       `prefers-reduced-motion` is honoured by not asking for autoplay at all
+       rather than by pausing afterwards: the poster is frame 0 and a complete
+       picture, so nothing is missing. */
+    var still = it.shot.replace(/\.(jpg|webp)$/, '');
+    var reduce = false;
+    try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+    if (it.shot && it.motion) {
+      out.push('<figure class="p-hero">'
+        + '<video poster="' + still + '.webp' + V + '" muted loop playsinline'
+        + (reduce ? '' : ' autoplay') + ' preload="' + (reduce ? 'none' : 'auto') + '"'
+        + ' aria-label="' + esc(t(it.name)) + '">'
+        + '<source src="' + still + '.webm' + V + '" type="video/webm">'
+        + '<source src="' + still + '.mp4' + V + '" type="video/mp4">'
+        + '</video></figure>');
+    } else if (it.shot) {
+      out.push('<figure class="p-hero"><img src="' + it.shot + V
+        + '" alt="' + esc(t(it.name)) + '"></figure>');
+    }
 
-  if (shots.length) {
-    out.push('<section class="p-gal">' + shots.map(function (s, n) {
-      return '<figure class="p-fig">'
-        + '<span class="shot"><img src="' + s.src + V + '" alt="" loading="lazy" decoding="async"></span>'
-        + '<figcaption><span class="p-num">' + ('0' + (n + 1)).slice(-2) + '</span>'
-        + '<p class="p-cap">' + esc(t(s.cap)) + '</p></figcaption></figure>';
-    }).join('') + '</section>');
-  }
+    if (shots.length) {
+      out.push('<section class="p-gal">' + shots.map(function (s, n) {
+        return '<figure class="p-fig">'
+          + '<span class="shot"><img src="' + s.src + V + '" alt="" loading="lazy" decoding="async"></span>'
+          + '<figcaption><span class="p-num">' + ('0' + (n + 1)).slice(-2) + '</span>'
+          + '<p class="p-cap">' + esc(t(s.cap)) + '</p></figcaption></figure>';
+      }).join('') + '</section>');
+    }
 
-  var links = ['<a href="' + repoUrl + '">iamzifei/' + esc(it.repo) + '</a>'];
-  if (it.site) links.unshift('<a href="' + it.site + '">' + esc(siteHost(it.site)) + '</a>');
-  out.push('<p class="p-out">' + links.join('') + '</p>');
+    var links = ['<a href="' + repoUrl + '">iamzifei/' + esc(it.repo) + '</a>'];
+    if (it.site) links.unshift('<a href="' + it.site + '">' + esc(siteHost(it.site)) + '</a>');
+    out.push('<p class="p-out">' + links.join('') + '</p>');
 
-  out.push('<nav class="p-sib">'
-    + sibLink(sibling(-1), '← 上一项', 'left')
-    + sibLink(sibling(1), '下一项 →', 'right') + '</nav>');
+    out.push('<nav class="p-sib">'
+      + sibLink(sibling(-1), L('prev'), 'left')
+      + sibLink(sibling(1), L('next'), 'right') + '</nav>');
 
-  host.innerHTML = out.join('');
+    host.innerHTML = out.join('');
 
-  /* NOBODY GETS BLOWN UP.
+    /* NOBODY GETS BLOWN UP.
 
-     The pictures are deliberately different sizes — a 1756px note editor and a
-     640px menu-bar panel are not the same object photographed differently, they
-     are a window and a popover — and a layout that gives both the same 803px
-     column has to upscale one of them. Measured: Candela's hero at the full
-     measure was a 2.9x upscale of a screenshot, which looks exactly as soft as
-     it sounds.
+       The pictures are deliberately different sizes — a 1756px note editor and a
+       640px menu-bar panel are not the same object photographed differently, they
+       are a window and a popover — and a layout that gives both the same 803px
+       column has to upscale one of them. Measured: Candela's hero at the full
+       measure was a 2.9x upscale of a screenshot, which looks exactly as soft as
+       it sounds.
 
-     So each picture's box is capped at 1.3x its own device pixels. On a 2x
-     display that is `natural / 2 * 1.3` CSS px. The consequence is that a
-     menu-bar app gets a smaller lead picture than a note editor, which is not a
-     layout compromise — it is the truth about the two applications.
+       So each picture's box is capped at 1.3x its own device pixels. On a 2x
+       display that is `natural / 2 * 1.3` CSS px. The consequence is that a
+       menu-bar app gets a smaller lead picture than a note editor, which is not a
+       layout compromise — it is the truth about the two applications.
 
-     Portrait plates additionally take the narrow column, so their left edge
-     stays on column 1 rather than floating in a wide box. Which ones are
-     portrait is read off the file, not declared in data.js: the shape belongs
-     to the picture, and a hand-kept list of tall ones goes wrong the first time
-     one is re-shot. */
-  var DPR_CAP = 1.3;
-  function cap(img, box) {
-    if (!img.naturalWidth) return;
-    box.style.maxWidth = Math.round(img.naturalWidth / 2 * DPR_CAP) + 'px';
-    if (img.naturalWidth / img.naturalHeight < 0.8) {
-      var fig = img.closest('.p-fig');
-      if (fig) fig.classList.add('tall');
+       Portrait plates additionally take the narrow column, so their left edge
+       stays on column 1 rather than floating in a wide box. Which ones are
+       portrait is read off the file, not declared in data.js: the shape belongs
+       to the picture, and a hand-kept list of tall ones goes wrong the first time
+       one is re-shot. */
+    var DPR_CAP = 1.3;
+    function cap(img, box) {
+      if (!img.naturalWidth) return;
+      box.style.maxWidth = Math.round(img.naturalWidth / 2 * DPR_CAP) + 'px';
+      if (img.naturalWidth / img.naturalHeight < 0.8) {
+        var fig = img.closest('.p-fig');
+        if (fig) fig.classList.add('tall');
+      }
+    }
+    function measure(img, box) {
+      if (img.complete) cap(img, box);
+      else img.addEventListener('load', function () { cap(img, box); }, { once: true });
+    }
+    [].forEach.call(host.querySelectorAll('.p-fig img'), function (img) {
+      measure(img, img.closest('.shot'));
+    });
+    /* The hero may be a video, which has no naturalWidth. Its poster does, and
+       the poster is frame 0 of that video — same pixels, same width — so the cap
+       is measured off an Image that is never inserted into the page. */
+    var hero = host.querySelector('.p-hero');
+    if (hero) {
+      var heroImg = hero.querySelector('img');
+      if (heroImg) {
+        measure(heroImg, hero);
+      } else {
+        var probe = new Image();
+        probe.onload = function () { cap(probe, hero); };
+        probe.src = hero.querySelector('video').getAttribute('poster');
+      }
     }
   }
-  function measure(img, box) {
-    if (img.complete) cap(img, box);
-    else img.addEventListener('load', function () { cap(img, box); }, { once: true });
+
+  /* --- the two handles ---------------------------------------------------
+     Same wiring as the homepage: one setting, several controls, read from a
+     list so they cannot disagree about what is selected. */
+  var langSels = [].slice.call(document.querySelectorAll(".js-lang"));
+  var modeBtns = [].slice.call(document.querySelectorAll(".js-mode"));
+  var MODE_NEXT = { system: "day", day: "night", night: "system" };
+
+  function chrome() {
+    document.documentElement.lang = lang;
+    [].forEach.call(document.querySelectorAll("[data-k]"), function (el) {
+      el.textContent = L(el.getAttribute("data-k"));
+    });
+    langSels.forEach(function (sl) { sl.options[0].textContent = L("sys"); });
+    modeLabel();
   }
-  [].forEach.call(host.querySelectorAll('.p-fig img'), function (img) {
-    measure(img, img.closest('.shot'));
+  function modeLabel() {
+    var v = window.__pressSaved ? __pressSaved() : "system";
+    var name = v === "day" ? L("day") : v === "night" ? L("night") : L("auto");
+    modeBtns.forEach(function (b) {
+      var s = b.querySelector(".js-mode-label");
+      if (s) s.textContent = name;
+      b.setAttribute("aria-label", L("mode") + " \u00b7 " + name);
+    });
+  }
+  modeBtns.forEach(function (b) {
+    b.addEventListener("click", function () {
+      var v = MODE_NEXT[__pressSaved()] || "system";
+      try { localStorage.setItem("jamesai.press", v); } catch (e) {}
+      __pressApply(v);
+      modeLabel();
+    });
   });
-  /* The hero may be a video, which has no naturalWidth. Its poster does, and
-     the poster is frame 0 of that video — same pixels, same width — so the cap
-     is measured off an Image that is never inserted into the page. */
-  var hero = host.querySelector('.p-hero');
-  if (hero) {
-    var heroImg = hero.querySelector('img');
-    if (heroImg) {
-      measure(heroImg, hero);
-    } else {
-      var probe = new Image();
-      probe.onload = function () { cap(probe, hero); };
-      probe.src = hero.querySelector('video').getAttribute('poster');
-    }
-  }
+  langSels.forEach(function (sl) {
+    sl.value = langChoice;
+    sl.addEventListener("change", function () {
+      langChoice = sl.value;
+      langSels.forEach(function (o) { o.value = langChoice; });
+      try { localStorage.setItem("press.lang", langChoice); } catch (e) {}
+      lang = resolveLang(langChoice);
+      C = CHROME[lang] || CHROME["zh-Hans"];
+      LANG = LANG_DATA[lang] || "zh";
+      chrome();
+      paint();
+      /* The spacing pass ran over the old nodes. Re-space the new ones. */
+      if (window.__space) window.__space(document.body);
+    });
+  });
+
+  chrome();
+  paint();
 })();
 </script>
 
@@ -362,27 +574,12 @@
       node.parentNode.replaceChild(frag, node);
     });
   }
+  /* Exposed so a language change can re-space the part of the page it
+     rebuilt. The first pass over the whole body still happens here. */
+  window.__space = walk;
   walk(document.body);
 })();
 </script>
 
-<script>
-/* No switch here — the homepage has one, and two controls for one setting is
-   one more than the system prints. This only follows what the homepage was
-   told, and the system when it was told nothing. It reads `jamesai.press`,
-   the homepage's own key; it used to read `jamesai.lamp`, which belonged to an
-   earlier design, so arriving here from a dark homepage lit the lights. */
-(function () {
-  var choice = 'system';
-  try { choice = localStorage.getItem('jamesai.press') || 'system'; } catch (e) {}
-  var dark = choice === 'night';
-  if (choice === 'system') {
-    try { dark = matchMedia('(prefers-color-scheme: dark)').matches; } catch (e) {}
-  }
-  /* site.css still names the dark run `data-lamp="off"`; renaming it is part of
-     merging that file into the homepage's stylesheet, not part of this fix. */
-  document.documentElement.setAttribute('data-lamp', dark ? 'off' : 'on');
-})();
-</script>
 </body>
 </html>
