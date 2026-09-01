@@ -227,6 +227,90 @@ const CATEGORIES = [
   },
 ];
 
+/* Everything in the catalogue that is not a repo.
+ *
+ * These three lists were on jamesai.dev from the start and were the biggest
+ * thing missing when the site was rebuilt: two products that are not code,
+ * where to find the four apps, and where to find James. They live here rather
+ * than in the page because they change on the same clock as CATEGORIES — when
+ * a product changes — and because a link list hard-coded into markup is a link
+ * list nobody updates.
+ *
+ * `note` is the department's own line, in James's voice. It is printed above
+ * the rows; a department with nothing to say does not get one.
+ */
+const WRITING = {
+  title: { zh: "《搞到钱再说》与其他", en: "Money First, and other things" },
+  kicker: { zh: "写作与产品", en: "Writing & products" },
+  note: {
+    zh: "两年前写的一本 PDF，讲的是先把钱赚到手再谈别的；还有一套把内容生产自动化的工作流。",
+    en: "A PDF written two years ago about getting paid before anything else, and a workflow that automates content production.",
+  },
+  items: [
+    { name: { zh: "《搞到钱再说》· 百万副业日记", en: "Money First · A million-dollar side-hustle diary" },
+      where: { zh: "PDF · 购买", en: "PDF · buy" },
+      url: "https://bit.ly/4q46f5G" },
+    { name: { zh: "AI 内容写作自动化工作流", en: "AI content workflow" },
+      where: { zh: "工作流 · 购买", en: "Workflow · buy" },
+      url: "https://bit.ly/4bMfbZp" },
+  ],
+};
+
+const ELSEWHERE = {
+  title: { zh: "找到我", en: "Find me" },
+  kicker: { zh: "别处", en: "Elsewhere" },
+  note: {
+    zh: "人在悉尼的话，每周四上午有个免费的 AI 局；线上日常在 X 和小红书，深一点的话在 Telegram 群里（也放了微信）。",
+    en: "If you are in Sydney there is a free AI meetup on Thursday mornings; day to day I am on X and RED, and deeper conversation happens in the Telegram group (WeChat is in there too).",
+  },
+  items: [
+    { name: { zh: "Vibe Thursday · 悉尼每周四上午的 AI 局", en: "Vibe Thursday · Sydney, Thursday mornings" },
+      where: { zh: "线下 · 免费 · vibethursday.com", en: "In person · free · vibethursday.com" },
+      url: "https://vibethursday.com" },
+    { name: { zh: "James FYI · 关于我（含微信）", en: "James FYI · about me (WeChat inside)" },
+      where: { zh: "Telegram", en: "Telegram" },
+      url: "https://t.me/+BA7dxgMiP6Q0OWI9" },
+    { name: { zh: "在悉尼和稀泥", en: "在悉尼和稀泥" },
+      where: { zh: "X · @JamesAI", en: "X · @JamesAI" },
+      url: "https://x.com/JamesAI" },
+    { name: { zh: "在悉尼和稀泥", en: "在悉尼和稀泥" },
+      where: { zh: "小红书 / RED", en: "RED / Xiaohongshu" },
+      url: "https://www.xiaohongshu.com/user/profile/5af26425e8ac2b0a9bc030d2" },
+    { name: { zh: "开源仓库", en: "Open source" },
+      where: { zh: "GitHub · @iamzifei", en: "GitHub · @iamzifei" },
+      url: "https://github.com/iamzifei" },
+    { name: { zh: "请我喝杯咖啡", en: "Buy me a coffee" },
+      where: { zh: "Ko-fi", en: "Ko-fi" },
+      url: "https://ko-fi.com/james_ai/tip" },
+  ],
+};
+
+const SITES = {
+  title: { zh: "四个 Mac 应用", en: "Four Mac apps" },
+  kicker: { zh: "应用站点", en: "App sites" },
+  note: { zh: "都免费、源码公开、Apple 芯片原生，自己更新自己。",
+          en: "All free, source public, native on Apple silicon, and they update themselves." },
+  items: [
+    { name: { zh: "AudioSwitch", en: "AudioSwitch" },
+      where: { zh: "音频设备切换 · audioswitch.dev", en: "Audio device switching · audioswitch.dev" },
+      url: "https://audioswitch.dev" },
+    { name: { zh: "Candela", en: "Candela" },
+      where: { zh: "显示器控制 · getcandela.app", en: "Display control · getcandela.app" },
+      url: "https://getcandela.app" },
+    { name: { zh: "ClipStack", en: "ClipStack" },
+      where: { zh: "剪贴板历史 · getclipstack.app", en: "Clipboard history · getclipstack.app" },
+      url: "https://getclipstack.app" },
+    { name: { zh: "Inkstone", en: "Inkstone" },
+      where: { zh: "Markdown 笔记 · inkslab.app", en: "Markdown notes · inkslab.app" },
+      url: "https://inkslab.app" },
+  ],
+};
+
+const COLOPHON = {
+  zh: "用 Claude Code 构建 · MIT / CC BY-NC",
+  en: "Built with Claude Code · MIT / CC BY-NC",
+};
+
 const LINKS = {
   github: "https://github.com/iamzifei",
   x: "https://x.com/JamesAI",
