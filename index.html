@@ -278,8 +278,19 @@ a { color: inherit; }
   background: none; border: 0; padding: 0; cursor: pointer; color: inherit;
 }
 .press-switch .js-mode-label { border-bottom: 1px solid var(--rule); }
-.press-switch:hover { color: var(--ink); }
-.press-switch:hover .js-mode-label { border-bottom-color: currentColor; }
+/* The only real button on the page, and it changes something the reader is
+   looking at, so it has to answer the press itself rather than let the whole
+   page repainting be the answer. 0.96 on a 12px control is about a pixel —
+   felt, not seen. */
+.press-switch { transition: transform 120ms cubic-bezier(.16,1,.3,1),
+                            color 180ms ease; }
+.press-switch:active { transform: scale(0.96); }
+@media (prefers-reduced-motion: reduce) { .press-switch { transition: color 180ms ease; }
+                                          .press-switch:active { transform: none; } }
+@media (hover: hover) and (pointer: fine) {
+  .press-switch:hover { color: var(--ink); }
+  .press-switch:hover .js-mode-label { border-bottom-color: currentColor; }
+}
 /* The facts stay one flat run so the dateline's own gap still sits between
    them; the two controls are pushed to the end of the line together. */
 .dl-facts { display: contents; }
@@ -318,7 +329,7 @@ a { color: inherit; }
   background-position: right 3px center, right 0px center;
   background-repeat: no-repeat;
 }
-.press-lang:hover { color: var(--ink); }
+@media (hover: hover) and (pointer: fine) { .press-lang:hover { color: var(--ink); } }
 .press-lang option { color: initial; }
 /* Narrow screens: the DATELINE copy drops onto its own line, because the
    dateline is a wrapping row of facts and the controls should not be the
@@ -350,7 +361,10 @@ a { color: inherit; }
   background: color-mix(in srgb, var(--p0) 92%, transparent);
   border-bottom: 1px solid var(--rule);
   opacity: 0; visibility: hidden;
-  transition: opacity 220ms ease, visibility 220ms;
+  /* An element arriving on screen gets the decelerating curve, like everything
+     else that arrives here. `ease` holds the first third back, which is the
+     third the reader is looking at. */
+  transition: opacity 200ms cubic-bezier(.16,1,.3,1), visibility 200ms;
 }
 @supports (backdrop-filter: blur(2px)) {
   /* The only filter in the edition, on a strip that never moves relative to
@@ -371,7 +385,7 @@ a { color: inherit; }
 .runner .here .f { color: var(--ink3); margin-right: 0.5em; }
 .runner .press-tools { margin-left: auto; gap: 0.9rem; }
 .runner .back { color: var(--ink3); border-bottom: 1px solid var(--rule); }
-.runner .back:hover { color: var(--ink); }
+@media (hover: hover) and (pointer: fine) { .runner .back:hover { color: var(--ink); } }
 /* Narrow: the strip drops the masthead name, then the section name, so the
    two controls and the way back to the contents always survive. They are the
    only things in it a reader can act on. */
@@ -398,7 +412,7 @@ a { color: inherit; }
 .toc .lead-rule { flex: 1 1 auto; border-bottom: 1px dotted var(--rule);
                   transform: translateY(-0.28em); }
 .toc .n { font-family: var(--mono); font-size: 0.75rem; color: var(--ink3); }
-@media (hover: hover) { .toc a:hover .t { color: var(--sig-t); } }
+@media (hover: hover) and (pointer: fine) { .toc a:hover .t { color: var(--sig-t); } }
 
 /* --- section openers -------------------------------------------------- */
 .sec { padding-block: clamp(2.6rem, 6vw, 4.5rem); }
@@ -552,7 +566,7 @@ a { color: inherit; }
 .idx-item .tag { font-style: italic; color: var(--ink2); font-size: 0.9375rem; }
 .idx-item p { font-size: 0.875rem; color: var(--ink2); margin-top: 0.35rem; }
 .idx-item a { text-decoration: none; }
-@media (hover: hover) { .idx-item a:hover h4 { color: var(--sig-t); } }
+@media (hover: hover) and (pointer: fine) { .idx-item a:hover h4 { color: var(--sig-t); } }
 
 /* --- ruled lists (writing, elsewhere, sites) --------------------------- */
 .rows { border-top: 1px solid var(--rule); }
@@ -566,7 +580,7 @@ a { color: inherit; }
                    transform: translateY(-0.28em); min-width: 1.5rem; }
 .rows .w { font-family: var(--mono); font-size: 0.6875rem; color: var(--ink3);
            text-align: right; overflow-wrap: anywhere; }
-@media (hover: hover) { .rows a:hover .t { color: var(--sig-t); } }
+@media (hover: hover) and (pointer: fine) { .rows a:hover .t { color: var(--sig-t); } }
 /* Narrow: a long title and its source cannot share a line, and the leader
    between them then wraps into a dotted stub. The source drops under the
    title instead and the leader goes away with it — measured at 390px on the
@@ -598,7 +612,7 @@ a { color: inherit; }
 .colophon p + p { margin-top: 0.15rem; }
 .colophon a { color: var(--ink2); text-decoration: underline;
               text-underline-offset: 3px; text-decoration-thickness: 1px; }
-.colophon a:hover { color: var(--ink); }
+@media (hover: hover) and (pointer: fine) { .colophon a:hover { color: var(--ink); } }
 .imprint { display: flex; flex-wrap: wrap; gap: 0.4rem 1.5rem;
            margin-top: 1.4rem; padding-top: 0.9rem;
            border-top: 1px solid var(--rule2); }
@@ -632,17 +646,34 @@ a { color: inherit; }
    the durations: a reader who asked for no motion gets a page that was never
    going to move, not a fast version of the moving one. */
 @media (prefers-reduced-motion: no-preference) {
+  /* 420ms, not 620. This one fires WHILE the reader is scrolling, six times
+     down the page, and at 620ms a section was still arriving well after they
+     had reached it — the reveal was reading as the page being slow rather than
+     as the page settling. There is no stagger here on purpose: scroll position
+     already staggers six blocks better than any delay ladder would. */
   .motion .rise { opacity: 0; transform: translateY(9px);
-                  transition: opacity 620ms cubic-bezier(.16,1,.3,1),
-                              transform 620ms cubic-bezier(.16,1,.3,1); }
+                  transition: opacity 420ms cubic-bezier(.16,1,.3,1),
+                              transform 420ms cubic-bezier(.16,1,.3,1); }
   .motion .rise.seen { opacity: 1; transform: none; }
 
+  /* The masthead is seen once per visit and is the page's one first
+     impression, so it is allowed to be slower than the 300ms a UI control
+     gets. It is not allowed to be 900ms: the rule was the last thing on the
+     sheet to finish and it gates nothing. 560/620 still reads as paper coming
+     to rest and stops holding the page open.
+
+     The delays are a proper ladder now — kick, name, alias, dateline, in
+     reading order, 60ms apart. The kick and the name used to fire together,
+     which is the one place the eye could tell the sequence was approximate. */
   .motion .mast-name, .motion .mast-cn, .motion .mast-kick, .motion .dateline {
-    animation: settle 760ms cubic-bezier(.16,1,.3,1) both;
+    animation: settle 560ms cubic-bezier(.16,1,.3,1) both;
   }
-  .motion .mast-cn   { animation-delay: 70ms; }
-  .motion .dateline  { animation-delay: 140ms; }
-  .motion .mast-rule { transform-origin: left center; animation: draw 900ms cubic-bezier(.16,1,.3,1) both; }
+  .motion .mast-kick { animation-delay: 0ms; }
+  .motion .mast-name { animation-delay: 60ms; }
+  .motion .mast-cn   { animation-delay: 120ms; }
+  .motion .dateline  { animation-delay: 180ms; }
+  .motion .mast-rule { transform-origin: left center;
+                       animation: draw 620ms cubic-bezier(.16,1,.3,1) 120ms both; }
   @keyframes settle { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: none; } }
   @keyframes draw   { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
@@ -651,18 +682,32 @@ a { color: inherit; }
      reads as the picture coming forward rather than the card leaving the
      paper. */
   @media (hover: hover) and (pointer: fine) {
-    .fig img, .fig video { transition: transform 520ms cubic-bezier(.16,1,.3,1); }
+    /* 200ms, not 520. A hover is a RESPONSE — the reader has already moved the
+       pointer and is waiting to be told the thing is a link. At 520ms the plate
+       was still growing half a second after they arrived, which reads as lag,
+       not as weight. Same curve, so it still decelerates like the rest of the
+       page; it just gets there. */
+    .fig img, .fig video { transition: transform 200ms cubic-bezier(.16,1,.3,1); }
     a.fig:hover img, a.fig:hover video { transform: scale(1.015); }
+    /* Pressing a plate is a press. Without this the picture is the one thing on
+       the page that does not answer a click until the next page loads. */
+    a.fig:active img, a.fig:active video { transform: scale(0.995);
+                                           transition-duration: 110ms; }
   }
 }
-/* Colour is allowed to move everywhere, always: it costs nothing and it is
-   what tells a pointer that a row is a link. */
-.toc a .t, .rows a .t, .idx-item h4, .spec dd a, .runner .back, .press-switch,
-.colophon a, .imprint a {
-  transition: color 180ms ease, border-color 180ms ease;
+/* Colour is allowed to move, but only where there is a pointer to move it.
+   On a touch screen `:hover` sticks after the tap, and an ungated transition
+   was animating a row into the accent and then leaving it there. */
+@media (hover: hover) and (pointer: fine) {
+  .toc a .t, .rows a .t, .idx-item h4, .spec dd a, .runner .back,
+  .colophon a, .imprint a {
+    transition: color 180ms ease, border-color 180ms ease;
+  }
 }
 .spec dd a { text-decoration: none; border-bottom: 1px solid var(--rule); }
-.spec dd a:hover { color: var(--sig-t); border-bottom-color: currentColor; }
+@media (hover: hover) and (pointer: fine) {
+  .spec dd a:hover { color: var(--sig-t); border-bottom-color: currentColor; }
+}
 
 /* The quarter-em where the two scripts meet. `text-autospace` still does
    nothing in this browser, so the gap is a margin on the Latin run, applied
@@ -1179,6 +1224,34 @@ a { color: inherit; }
       return;
     }
     if (revealIO) revealIO.disconnect();
+
+    /* ONLY WHAT IS STILL BELOW THE FOLD IS HANDED TO THE OBSERVER.
+       Everything at or above the fold is revealed right here, in the same task
+       that rendered it, so it has no previous value to transition from and
+       simply paints. Two things were wrong without this:
+
+       1. A page opened in a background tab ran no intersection callbacks and
+          advanced no transitions, so the contents page and the lead sat at
+          opacity 0 — measured, and it screenshots as a blank sheet under the
+          masthead. A reveal that can leave the top of the page empty is not
+          worth the 9px it buys.
+       2. `render()` rebuilds this markup on a language change, which drops
+          `.seen`. A reader who switched language near the foot of the page
+          would scroll back up through sections that had been re-hidden and
+          could never re-intersect, because they were already passed.
+
+       It is also the better motion: the masthead already settles on arrival,
+       and a second reveal 9px behind it was one animation too many for the
+       first screen. The rise now only ever happens to something the reader
+       scrolled to — which is the only place it ever meant anything. */
+    var fold = window.innerHeight || document.documentElement.clientHeight;
+    var pending = [];
+    els.forEach(function (el) {
+      if (el.getBoundingClientRect().top < fold) el.classList.add('seen');
+      else pending.push(el);
+    });
+    if (!pending.length) return;
+
     revealIO = new IntersectionObserver(function (entries, obs) {
       entries.forEach(function (e) {
         if (!e.isIntersecting) return;
@@ -1186,7 +1259,7 @@ a { color: inherit; }
         obs.unobserve(e.target);
       });
     }, { rootMargin: '0px 0px -8% 0px' });
-    els.forEach(function (el) { revealIO.observe(el); });
+    pending.forEach(function (el) { revealIO.observe(el); });
   }
 
   /* --- the running head --------------------------------------------------
@@ -1280,6 +1353,23 @@ a { color: inherit; }
       });
     }, { rootMargin: '200px 0px' });
     vids.forEach(function (v) { io.observe(v); });
+  }
+
+  /* The skip link is the one navigation on the page that is only ever reached
+     from the keyboard, and a keyboard action should land, not travel. The
+     page's `scroll-behavior: smooth` is right for a reader who clicked an
+     entry in the contents; it is wrong here, where the whole point is to get
+     past the masthead in one keystroke. */
+  var skip = document.getElementById('skip');
+  if (skip) {
+    skip.addEventListener('click', function (ev) {
+      var target = document.querySelector(skip.getAttribute('href'));
+      if (!target) return;
+      ev.preventDefault();
+      target.scrollIntoView({ behavior: 'auto', block: 'start' });
+      target.setAttribute('tabindex', '-1');
+      target.focus({ preventScroll: true });
+    });
   }
 
   applyLang(langChoice);
