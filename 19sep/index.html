@@ -36,8 +36,21 @@
   window.__pressApply = function (choice) {
     var night = choice === 'night' || (choice === 'system' && m && m.matches);
     r.setAttribute('data-press', night ? 'night' : 'day');
+    /* Swapping the src rather than shipping both means only the stock in use
+       is ever fetched. The element does not exist yet on the first call — this
+       script runs in <head>, before the body — and that is fine: the markup
+       ships with the day sheet, and the first call after DOMContentLoaded
+       below corrects it. */
+    var plate = document.getElementById('poster');
+    if (plate) {
+      var want = plate.getAttribute(night ? 'data-night' : 'data-day');
+      if (plate.getAttribute('src') !== want) plate.setAttribute('src', want);
+    }
   };
   __pressApply(__pressSaved());
+  document.addEventListener('DOMContentLoaded', function () {
+    __pressApply(__pressSaved());
+  });
   if (m && m.addEventListener) {
     m.addEventListener('change', function () {
       if (__pressSaved() === 'system') __pressApply('system');
@@ -400,7 +413,11 @@ p:last-child { margin-bottom: 0; }
   display: block;
   width: 10.5rem;
   height: auto;
-  background: #fff;
+  /* The quiet zone stays light in BOTH stocks — a QR wants a pale ground
+     to scan, so this is the one plate that does not invert. Pure #fff
+     was a fourth colour on a page with two inks and a substrate; the
+     substrate itself is well inside what a scanner will read. */
+  background: #F5F1E8;
   padding: 0.6rem;
   border: 1px solid var(--rule-strong);
 }
@@ -441,11 +458,15 @@ footer a:hover { color: var(--accent-text); border-color: currentColor; }
     <span>10 席 · 中文讲</span>
   </div>
 
-  <a class="poster-link" href="poster.png"><picture>
-    <source srcset="poster.webp" type="image/webp">
-    <img class="poster" src="poster.png" width="896" height="1200" fetchpriority="high" decoding="async"
-       alt="詹明明的商业课 · 产品课 · 首期。不知道做什么，做了又没人买。一天，把「该做什么」和「凭什么有人买」这两件事定下来。9 月 19 日周六，悉尼 City，10 个人，中文讲。一天带走三样东西：需求嗅探清单、验证四问、你自己那张诊断纸。首期 $880 + GST，10 位。">
-  </picture></a>
+  <!-- Two stocks, one drawing. The night sheet is the SAME artwork re-inked
+       for dark paper (tools/poster-reink.py), not a second design — a bright
+       beige rectangle on a near-black page is the one thing that would still
+       look bolted on after the restyle. The download and the og:image stay the
+       day sheet: that is the one people share. -->
+  <a class="poster-link" href="poster.png?v=2"><img class="poster" id="poster"
+       src="poster.webp?v=2" data-day="poster.webp?v=2" data-night="poster-night.webp?v=2"
+       width="896" height="1200" fetchpriority="high" decoding="async"
+       alt="詹明明的商业课 · 产品课 · 首期。不知道做什么，做了又没人买。一天，把「该做什么」和「凭什么有人买」这两件事定下来。9 月 19 日周六，悉尼 City，10 个人，中文讲。一天带走三样东西：需求嗅探清单、验证四问、你自己那张诊断纸。首期 $880 + GST，10 位。"></a>
 
   <section>
     <h2>这是哪一门</h2>
