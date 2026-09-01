@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-Hans" data-lamp="on">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>James AI</title>
+<!-- Shared with the homepage-era stylesheet. See the note at the top of site.css. -->
+<link rel="stylesheet" href="site.css?v=2">
+<link rel="icon" href="assets/favicon.png" sizes="48x48">
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="assets/favicon-180.png">
+<style>
+/* =====================================================================
+   product.html — one product, at length.
+
+   WHY THERE IS A SECOND PAGE AT ALL
+   The homepage row is a scanning surface: name, one line, one paragraph, one
+   picture. That is the right density for a list and the wrong place to show
+   how something works — measured, a row thumbnail is 473px wide and a single
+   picture there has to answer "what is this" in one glance. Everything else a
+   product has to say was going to somebody else's website.
+
+   So the row now carries the ONE representative picture and links here, and
+   here is where the rest of the pictures live, each with the sentence that
+   says what it is evidence of. Nothing on this page is decoration: a shot
+   without a claim attached to it was left out.
+
+   ONE TEMPLATE, NOT FOUR PAGES
+   Rendered from data.js like the magazine is. Four hand-written pages would
+   agree with the catalogue today and drift from it by the next release, and
+   the drift would be silent.
+   ===================================================================== */
+
+/* --- head ------------------------------------------------------------ */
+.p-head { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--gut);
+          align-items: start; padding-block: calc(var(--m) * 9) calc(var(--m) * 5); }
+.p-id   { grid-column: 1 / span 6; }
+.p-kick { font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.14em;
+          text-transform: uppercase; color: var(--ink3); display: block;
+          margin-bottom: calc(var(--m) * 2); }
+.p-head h1 { font-size: clamp(2.4rem, 5.2vw, 3.6rem); line-height: 1.06;
+             font-weight: 500; letter-spacing: -0.02em; }
+.p-motto { font-size: clamp(1.05rem, 2vw, 1.35rem); color: var(--ink2);
+           margin-top: calc(var(--m) * 1.5); }
+.p-txt { grid-column: 8 / span 5; }
+.p-txt p { font-family: var(--serif); font-size: 0.9375rem; line-height: 1.75;
+           color: var(--ink2); }
+
+/* --- the lead picture -------------------------------------------------
+   Full measure and 16:10, the same crop the homepage row uses. Repeating it
+   here is deliberate: it is the picture the reader clicked, and landing on a
+   page that opens with something else reads as having arrived somewhere
+   unrelated. */
+.p-hero { position: relative; display: block; aspect-ratio: 16 / 10;
+          /* Width is capped per picture, in script — see `cap()`. */
+          overflow: hidden; border-radius: var(--r-l);
+          background: var(--g1); box-shadow: var(--lift); }
+.p-hero img, .p-hero video { position: absolute; inset: 0; width: 100%; height: 100%;
+              object-fit: cover; max-width: none; background: var(--g1); }
+
+/* --- the gallery ------------------------------------------------------
+   One figure per row of the grid: picture on the left edge, its sentence in
+   the text column, tops aligned. Same two rules the magazine spread follows,
+   for the same reason — the pictures are different shapes and a centred or
+   middle-aligned set makes every one of them start somewhere else.
+
+   Portrait plates take a narrower column instead of a smaller box inside a
+   wide one, so their left edge is still column 1. Which ones those are is not
+   written down anywhere: it is read off the file when it loads (see `fit`),
+   because a hand-maintained list of "these three are tall" is a list that goes
+   wrong the first time a shot is replaced. */
+.p-gal { margin-top: calc(var(--m) * 10); }
+.p-fig { display: grid; grid-template-columns: repeat(12, 1fr); gap: var(--gut);
+         align-items: start; padding-block: calc(var(--m) * 5);
+         border-top: 1px solid var(--rule); }
+.p-fig:last-child { border-bottom: 1px solid var(--rule); }
+.p-fig .shot { grid-column: 1 / span 8; display: block; border-radius: var(--r-l);
+               overflow: hidden; background: var(--g1); box-shadow: var(--lift); }
+.p-fig.tall .shot { grid-column: 1 / span 4; }
+.p-fig .shot img { width: 100%; height: auto; }
+.p-fig figcaption { grid-column: 10 / span 3; }
+.p-fig.tall figcaption { grid-column: 6 / span 5; }
+.p-num { font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.14em;
+         color: var(--accent-text); display: block; margin-bottom: var(--m); }
+.p-cap { font-family: var(--serif); font-size: 0.875rem; line-height: 1.75;
+         color: var(--ink2); }
+
+/* --- where to go next ------------------------------------------------- */
+.p-out { display: flex; flex-wrap: wrap; gap: calc(var(--m) * 3);
+         margin-top: calc(var(--m) * 6); padding-top: calc(var(--m) * 3);
+         border-top: 1px solid var(--rule); }
+.p-out a { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.06em;
+           color: var(--ink2); text-decoration: underline;
+           text-underline-offset: 3px; text-decoration-thickness: 1px; }
+.p-out a:hover { color: var(--ink); }
+.p-sib { display: flex; justify-content: space-between; gap: var(--gut);
+         margin-top: calc(var(--m) * 8); padding-top: calc(var(--m) * 3);
+         border-top: 1px solid var(--rule);
+         font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.12em;
+         text-transform: uppercase; }
+.p-sib a { color: var(--ink2); text-decoration: none; }
+.p-sib a:hover { color: var(--accent-text); }
+.p-sib b { display: block; font-family: var(--sans); font-size: 0.9375rem;
+           letter-spacing: -0.01em; text-transform: none; color: var(--ink);
+           margin-top: 4px; font-weight: 600; }
+
+@media (max-width: 62rem) {
+  .p-id, .p-txt { grid-column: 1 / span 12; }
+  .p-txt { margin-top: calc(var(--m) * 3); }
+  .p-fig .shot, .p-fig.tall .shot { grid-column: 1 / span 12; }
+  .p-fig figcaption, .p-fig.tall figcaption { grid-column: 1 / span 12; }
+  .p-fig.tall .shot { max-width: 26rem; }
+}
+@media (max-width: 40rem) {
+  :root { --page: min(100% - var(--m) * 4, 1216px); }
+  .spec { grid-template-columns: minmax(0, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<nav class="sign" aria-label="页面导航">
+  <a href="index.html" class="sign-brand">James AI</a>
+  <span class="sign-links">
+    <a href="index.html">返回首页</a>
+    <a id="navSite" href="#">官网</a>
+    <a id="navRepo" href="#">源码</a>
+  </span>
+</nav>
+
+<main class="wrap" id="top">
+  <div id="page"></div>
+
+  <section class="foot">
+    <p>SZX–SYD · 一人公司</p>
+    <p><a href="index.html">返回首页 · Back to the front</a></p>
+  </section>
+</main>
+
+<script src="data.js?v=6"></script>
+<script>
+/* One product, from the shared catalogue. */
+(function () {
+  var LANG = 'zh';
+  function t(v) { return v && typeof v === 'object' ? (v[LANG] || v.en) : (v || ''); }
+  function esc(s) {
+    return String(s).replace(/[&<>"]/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+    });
+  }
+  /* One version token for every generated asset, kept in step with
+     index.html by hand. Without it the browser keeps serving the file it
+     cached under the same name after a re-shot. */
+  var V = '?v=15';
+
+  /* Flatten the catalogue once: the page needs the item, the category it came
+     from (for the "kind" label) and its neighbours (for the foot), and all
+     three come from the same walk. */
+  var flat = [];
+  CATEGORIES.forEach(function (c) {
+    (c.items || []).forEach(function (it) { flat.push({ it: it, cat: c }); });
+  });
+
+  var want = new URLSearchParams(location.search).get('p') || '';
+  var i = -1;
+  flat.forEach(function (e, n) { if (e.it.repo === want) i = n; });
+
+  var host = document.getElementById('page');
+  if (i < 0) {
+    /* A bad ?p= is a link that rotted, not a crash. Say so and offer the way
+       back rather than rendering an empty template. */
+    host.innerHTML = '<section class="p-head"><div class="p-id">'
+      + '<span class="p-kick">404</span><h1>没有这一项</h1>'
+      + '<p class="p-motto">目录里找不到 ' + esc(want || '（未指定）') + '。</p></div></section>'
+      + '<p class="p-out"><a href="index.html">回到首页</a></p>';
+    return;
+  }
+
+  var it = flat[i].it, kind = t(flat[i].cat.title);
+  var shots = it.shots || [];
+  document.title = it.name + ' · James AI';
+
+  function siteHost(u) { return u.replace(/^https?:\/\//, '').replace(/\/$/, ''); }
+  var repoUrl = 'https://github.com/iamzifei/' + it.repo;
+  document.getElementById('navRepo').href = repoUrl;
+  var navSite = document.getElementById('navSite');
+  if (it.site) { navSite.href = it.site; } else { navSite.remove(); }
+
+  /* 源码 and 官网 name a place, so they link to it. They were plain text, which
+     reads fine right up until somebody tries to click "inkslab.app". */
+  function spec() {
+    var rows = [['类型', kind, null],
+                ['星标', it.stars ? it.stars + ' ★' : '—', null],
+                ['源码', 'iamzifei/' + it.repo, 'https://github.com/iamzifei/' + it.repo]];
+    if (it.site) rows.push(['官网', siteHost(it.site), it.site]);
+    return '<dl class="spec">' + rows.map(function (r) {
+      var v = esc(r[1]);
+      if (r[2]) v = '<a href="' + esc(r[2]) + '" rel="noopener">' + v + '</a>';
+      return '<div><dt>' + esc(r[0]) + '</dt><dd>' + v + '</dd></div>';
+    }).join('') + '</dl>';
+  }
+
+  /* Neighbours inside the same category only. Walking off the end of "macOS
+     apps" into a skill repository is a link that looks like a sequence and is
+     not one. */
+  function sibling(step) {
+    var j = i + step;
+    if (j < 0 || j >= flat.length) return null;
+    if (flat[j].cat !== flat[i].cat) return null;
+    return flat[j].it;
+  }
+  function sibLink(item, label, side) {
+    if (!item) return '<span></span>';
+    return '<a href="product.html?p=' + encodeURIComponent(item.repo) + '" style="text-align:'
+      + side + '">' + label + '<b>' + esc(t(item.name)) + '</b></a>';
+  }
+
+  var out = [];
+  out.push('<header class="p-head">'
+    + '<div class="p-id"><span class="p-kick">' + esc(kind) + ' · '
+    +   ('0' + (i + 1)).slice(-2) + '</span>'
+    + '<h1>' + esc(t(it.name)) + '</h1>'
+    + '<p class="p-motto">' + esc(t(it.tagline)) + '</p></div>'
+    + '<div class="p-txt"><p>' + esc(t(it.desc)) + '</p>' + spec() + '</div>'
+    + '</header>');
+
+  /* The lead picture is the one the reader just clicked, still moving. It is
+     above the fold and there is exactly one of it, so it needs none of the
+     observer machinery the homepage row has — autoplay is the right moment
+     here, which is the whole reason that page does not use it.
+
+     `prefers-reduced-motion` is honoured by not asking for autoplay at all
+     rather than by pausing afterwards: the poster is frame 0 and a complete
+     picture, so nothing is missing. */
+  var still = it.shot.replace(/\.(jpg|webp)$/, '');
+  var reduce = false;
+  try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+  if (it.shot && it.motion) {
+    out.push('<figure class="p-hero">'
+      + '<video poster="' + still + '.webp' + V + '" muted loop playsinline'
+      + (reduce ? '' : ' autoplay') + ' preload="' + (reduce ? 'none' : 'auto') + '"'
+      + ' aria-label="' + esc(t(it.name)) + '">'
+      + '<source src="' + still + '.webm' + V + '" type="video/webm">'
+      + '<source src="' + still + '.mp4' + V + '" type="video/mp4">'
+      + '</video></figure>');
+  } else if (it.shot) {
+    out.push('<figure class="p-hero"><img src="' + it.shot + V
+      + '" alt="' + esc(t(it.name)) + '"></figure>');
+  }
+
+  if (shots.length) {
+    out.push('<section class="p-gal">' + shots.map(function (s, n) {
+      return '<figure class="p-fig">'
+        + '<span class="shot"><img src="' + s.src + V + '" alt="" loading="lazy" decoding="async"></span>'
+        + '<figcaption><span class="p-num">' + ('0' + (n + 1)).slice(-2) + '</span>'
+        + '<p class="p-cap">' + esc(t(s.cap)) + '</p></figcaption></figure>';
+    }).join('') + '</section>');
+  }
+
+  var links = ['<a href="' + repoUrl + '">iamzifei/' + esc(it.repo) + '</a>'];
+  if (it.site) links.unshift('<a href="' + it.site + '">' + esc(siteHost(it.site)) + '</a>');
+  out.push('<p class="p-out">' + links.join('') + '</p>');
+
+  out.push('<nav class="p-sib">'
+    + sibLink(sibling(-1), '← 上一项', 'left')
+    + sibLink(sibling(1), '下一项 →', 'right') + '</nav>');
+
+  host.innerHTML = out.join('');
+
+  /* NOBODY GETS BLOWN UP.
+
+     The pictures are deliberately different sizes — a 1756px note editor and a
+     640px menu-bar panel are not the same object photographed differently, they
+     are a window and a popover — and a layout that gives both the same 803px
+     column has to upscale one of them. Measured: Candela's hero at the full
+     measure was a 2.9x upscale of a screenshot, which looks exactly as soft as
+     it sounds.
+
+     So each picture's box is capped at 1.3x its own device pixels. On a 2x
+     display that is `natural / 2 * 1.3` CSS px. The consequence is that a
+     menu-bar app gets a smaller lead picture than a note editor, which is not a
+     layout compromise — it is the truth about the two applications.
+
+     Portrait plates additionally take the narrow column, so their left edge
+     stays on column 1 rather than floating in a wide box. Which ones are
+     portrait is read off the file, not declared in data.js: the shape belongs
+     to the picture, and a hand-kept list of tall ones goes wrong the first time
+     one is re-shot. */
+  var DPR_CAP = 1.3;
+  function cap(img, box) {
+    if (!img.naturalWidth) return;
+    box.style.maxWidth = Math.round(img.naturalWidth / 2 * DPR_CAP) + 'px';
+    if (img.naturalWidth / img.naturalHeight < 0.8) {
+      var fig = img.closest('.p-fig');
+      if (fig) fig.classList.add('tall');
+    }
+  }
+  function measure(img, box) {
+    if (img.complete) cap(img, box);
+    else img.addEventListener('load', function () { cap(img, box); }, { once: true });
+  }
+  [].forEach.call(host.querySelectorAll('.p-fig img'), function (img) {
+    measure(img, img.closest('.shot'));
+  });
+  /* The hero may be a video, which has no naturalWidth. Its poster does, and
+     the poster is frame 0 of that video — same pixels, same width — so the cap
+     is measured off an Image that is never inserted into the page. */
+  var hero = host.querySelector('.p-hero');
+  if (hero) {
+    var heroImg = hero.querySelector('img');
+    if (heroImg) {
+      measure(heroImg, hero);
+    } else {
+      var probe = new Image();
+      probe.onload = function () { cap(probe, hero); };
+      probe.src = hero.querySelector('video').getAttribute('poster');
+    }
+  }
+})();
+</script>
+
+<script>
+/* CJK / Latin spacing — the same pass the homepage runs, and for the same
+   reason: `text-autospace` does nothing in this browser, so the quarter-em the
+   standard asks for is applied as a margin on the Latin run. A wrapper and not
+   an inserted character, because an inserted character is one a reader copies
+   out with the text. */
+(function () {
+  var CJK = /[㐀-鿿぀-ヿ＀-￯]/;
+  var RUN = /([A-Za-z0-9][A-Za-z0-9@._+\-/:]*)/g;
+  var SKIP = { CODE: 1, PRE: 1, SCRIPT: 1, STYLE: 1, TIME: 1 };
+  function walk(root) {
+    var it = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (n) {
+        if (!n.nodeValue || !CJK.test(n.nodeValue)) return NodeFilter.FILTER_REJECT;
+        var p = n.parentElement;
+        while (p && p !== root) {
+          if (SKIP[p.tagName] || p.classList.contains('lat')) return NodeFilter.FILTER_REJECT;
+          if (getComputedStyle(p).fontFamily.indexOf('mono') > -1) return NodeFilter.FILTER_REJECT;
+          p = p.parentElement;
+        }
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var nodes = [], n;
+    while ((n = it.nextNode())) nodes.push(n);
+    nodes.forEach(function (node) {
+      var s = node.nodeValue, frag = document.createDocumentFragment(), last = 0, m;
+      RUN.lastIndex = 0;
+      while ((m = RUN.exec(s))) {
+        var before = s[m.index - 1], after = s[m.index + m[0].length];
+        if (!(before && CJK.test(before)) && !(after && CJK.test(after))) continue;
+        if (m.index > last) frag.appendChild(document.createTextNode(s.slice(last, m.index)));
+        var span = document.createElement('span');
+        span.className = 'lat';
+        span.textContent = m[0];
+        frag.appendChild(span);
+        last = m.index + m[0].length;
+      }
+      if (!last) return;
+      if (last < s.length) frag.appendChild(document.createTextNode(s.slice(last)));
+      node.parentNode.replaceChild(frag, node);
+    });
+  }
+  walk(document.body);
+})();
+</script>
+
+<script>
+/* No switch here — the homepage has one, and two controls for one setting is
+   one more than the system prints. This only follows what the homepage was
+   told, and the system when it was told nothing. It reads `jamesai.press`,
+   the homepage's own key; it used to read `jamesai.lamp`, which belonged to an
+   earlier design, so arriving here from a dark homepage lit the lights. */
+(function () {
+  var choice = 'system';
+  try { choice = localStorage.getItem('jamesai.press') || 'system'; } catch (e) {}
+  var dark = choice === 'night';
+  if (choice === 'system') {
+    try { dark = matchMedia('(prefers-color-scheme: dark)').matches; } catch (e) {}
+  }
+  /* site.css still names the dark run `data-lamp="off"`; renaming it is part of
+     merging that file into the homepage's stylesheet, not part of this fix. */
+  document.documentElement.setAttribute('data-lamp', dark ? 'off' : 'on');
+})();
+</script>
+</body>
+</html>

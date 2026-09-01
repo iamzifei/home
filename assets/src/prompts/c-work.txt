@@ -1,0 +1,37 @@
+A two-ink editorial print plate. Flat, front-facing paper canvas — the image IS
+the printed sheet, seen straight on, filling the frame edge to edge.
+
+CANVAS AND INKS
+Substrate: pale beige paper, #F5F1E8, clean and contemporary — not aged, not
+sepia, not stained. Exactly two printing inks and no third colour:
+  Cobalt #2148B8 — dominant, roughly 80% of the printed area, carrying the
+  image and every structural line.
+  Terracotta #C65F38 — accent, under 15%, with ONE job, in ONE place.
+Any grey is cobalt laid thinly over the paper, never a neutral grey ink.
+
+TEXT
+No text of any kind. No words, no labels, no numbers, no logos, no signature,
+no watermark. Where writing would appear, print SOLID OR HALFTONE BARS standing
+in for lines of type — greeking, never legible characters.
+
+MATERIAL AND PROHIBITIONS
+Screenprint / risograph reproduction: visible halftone dots at close range,
+uneven ink density, clipped highlights where the paper shows through, about 1mm
+of registration drift between the two plates. Absolutely no mockup: no desk
+under the sheet, no photograph of paper, no drop shadow, no curled corner, no
+frame, no border, no background surface. No people, no faces, no hands. No
+gradient mesh, no glow, no 3D render, no photographic depth.
+
+COMPOSITION
+Portrait sheet. One dominant object occupying about 60% of the area, anchored to
+the TOP and the LEFT edge, cropping off the top edge. Roughly 40% bare paper,
+gathered as one quiet region at the lower right.
+
+SUBJECT
+Four application windows drawn as four plain rectangles, seen straight on, fanned
+in a shallow overlapping stack like four sheets pulled slightly apart — the top
+one furthest left, each one behind it stepped down and to the right. Each window
+has a thin title bar with three small circles at its left. The frontmost window's
+body is filled with a coarse halftone dot screen; the ones behind it are outline
+only. A single small solid square sits inside the frontmost title bar — this
+square is the ONLY terracotta mark on the sheet.

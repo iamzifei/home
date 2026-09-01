@@ -2,3 +2,9 @@
 
 # working notes stay local
 docs/
+
+# build inputs, not site output: raw window captures and the desk plate the
+# crops were cut from. 7.7MB of PNG nothing on the site loads.
+assets/src/shots/
+assets/src/desk.png
+__pycache__/

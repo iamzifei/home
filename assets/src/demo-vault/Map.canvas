@@ -1,0 +1,23 @@
+{
+  "nodes": [
+    { "id": "n1", "type": "text",  "x": -520, "y": -300, "width": 300, "height": 110,
+      "text": "# 排版\n\n中英混排的四分之一字宽间隙", "color": "5" },
+    { "id": "n2", "type": "file",  "x": -120, "y": -320, "width": 320, "height": 200,
+      "file": "Typography Notes.md" },
+    { "id": "n3", "type": "file",  "x": 300,  "y": -60,  "width": 300, "height": 180,
+      "file": "Notes/The Measure.md" },
+    { "id": "n4", "type": "text",  "x": -520, "y": -60,  "width": 300, "height": 130,
+      "text": "文件就是真相\n\n没有数据库，没有导入步骤", "color": "1" },
+    { "id": "n5", "type": "file",  "x": -120, "y": 40,   "width": 320, "height": 170,
+      "file": "Notes/Files as Truth.md" },
+    { "id": "n6", "type": "text",  "x": 300,  "y": -320, "width": 300, "height": 110,
+      "text": "Graph Thinking\n\n链接先于层级", "color": "4" }
+  ],
+  "edges": [
+    { "id": "e1", "fromNode": "n1", "toNode": "n2", "toEnd": "arrow" },
+    { "id": "e2", "fromNode": "n2", "toNode": "n6", "toEnd": "arrow" },
+    { "id": "e3", "fromNode": "n4", "toNode": "n5", "toEnd": "arrow" },
+    { "id": "e4", "fromNode": "n5", "toNode": "n3", "toEnd": "arrow" },
+    { "id": "e5", "fromNode": "n2", "toNode": "n3", "toEnd": "arrow" }
+  ]
+}

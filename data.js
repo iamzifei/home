@@ -14,8 +14,26 @@ const CATEGORIES = [
         repo: "inkstone",
         site: "https://inkslab.app",
         name: "Inkstone",
-        stars: 0,
-        shot: "assets/inkstone-card.jpg",
+        stars: 4,
+        shot: "assets/shot-inkstone.webp",
+        /* There are .mp4 and .webm siblings of `shot`, and its .webp is
+           frame 0 of them — see tools/app-motion.py. */
+        motion: true,
+        /* The homepage row gets ONE picture; the rest are the detail page. */
+        shots: [
+          { src: "assets/ink-editor.webp",
+            cap: { zh: "一篇笔记就是一个 .md 文件。中英混排按 W3C《中文排版需求》排，表格、行内链接、frontmatter 全是纯文本。",
+                   en: "One note is one .md file. Mixed CJK-Latin text is set the way the W3C layout requirements ask for; the table, the links and the frontmatter are all just text." } },
+          { src: "assets/ink-graph.webp",
+            cap: { zh: "关系图谱是确定性的：节点是文件，边是双链。同一批文件，永远算出同一张图。",
+                   en: "The graph is deterministic: nodes are files, edges are wikilinks. The same folder always produces the same graph." } },
+          { src: "assets/ink-daily.webp",
+            cap: { zh: "日记、待办、双链在同一个文件里。右栏实时给出大纲、反向链接和局部图谱。",
+                   en: "Daily note, tasks and links in one file, with the outline, backlinks and local graph kept live beside it." } },
+          { src: "assets/ink-inspector.webp",
+            cap: { zh: "右栏：属性、标签、大纲、反向链接、出链、局部图谱——不用离开正文。",
+                   en: "The inspector: properties, tags, outline, backlinks, outgoing links and a local graph, without leaving the text." } },
+        ],
         tagline: {
           zh: "笔记就是你自己的文件",
           en: "Notes that stay your own files",
@@ -29,8 +47,23 @@ const CATEGORIES = [
         repo: "Candela",
         site: "https://getcandela.app",
         name: "Candela",
-        stars: 0,
-        shot: "assets/candela-card.jpg",
+        stars: 1,
+        shot: "assets/shot-candela.webp",
+        /* There are .mp4 and .webm siblings of `shot`, and its .webp is
+           frame 0 of them — see tools/app-motion.py. */
+        motion: true,
+        /* The homepage row gets ONE picture; the rest are the detail page. */
+        shots: [
+          { src: "assets/cand-panel.webp",
+            cap: { zh: "一个面板列出所有接着的屏幕。外接屏走 DDC，和显示器自己的按键同一条通道。",
+                   en: "Every attached display in one panel. External monitors go over DDC — the same channel their own buttons use." } },
+          { src: "assets/cand-combined.webp",
+            cap: { zh: "Combined 一根滑条调完整张桌子；旁边是深色模式与 Night Shift 的直接开关。",
+                   en: "One Combined slider for the whole desk, with Dark Mode and Night Shift as direct switches next to it." } },
+          { src: "assets/cand-tools.webp",
+            cap: { zh: "预设保存常用的亮度组合；Tools 里是 HiDPI 档位这类 macOS 对第三方屏藏起来的东西。",
+                   en: "Presets keep the brightness combinations you use; Tools is where the HiDPI modes macOS hides from third-party displays live." } },
+        ],
         tagline: {
           zh: "macOS 藏起来的显示器控制",
           en: "Every display control macOS hides",
@@ -44,8 +77,23 @@ const CATEGORIES = [
         repo: "clipstack",
         site: "https://getclipstack.app",
         name: "ClipStack",
-        stars: 3,
-        shot: "assets/clipstack-card.jpg",
+        stars: 5,
+        shot: "assets/shot-clipstack.webp",
+        /* There are .mp4 and .webm siblings of `shot`, and its .webp is
+           frame 0 of them — see tools/app-motion.py. */
+        motion: true,
+        /* The homepage row gets ONE picture; the rest are the detail page. */
+        shots: [
+          { src: "assets/clip-panel.webp",
+            cap: { zh: "⇧⌘V 呼出：左边是可搜索的历史，右边是完整预览。文本、图片、文件都留得住。",
+                   en: "Shift-Cmd-V brings it up: searchable history on the left, a full preview on the right. Text, images and files all persist." } },
+          { src: "assets/clip-preview.webp",
+            cap: { zh: "预览带类型、大小、时间和来源应用；文本原样显示，不做截断。",
+                   en: "The preview carries type, size, time and source app, and shows text verbatim rather than truncated." } },
+          { src: "assets/clip-keys.webp",
+            cap: { zh: "⌘1–9 直接粘第 N 条，⌘P 置顶，⌘T 常驻，esc 关掉。手不用离开键盘。",
+                   en: "Cmd-1 to 9 pastes the Nth entry, Cmd-P pins, Cmd-T keeps it on top, esc closes. Hands never leave the keyboard." } },
+        ],
         tagline: {
           zh: "菜单栏剪贴板历史",
           en: "Clipboard history in the menu bar",
@@ -59,8 +107,23 @@ const CATEGORIES = [
         repo: "audioswitch",
         site: "https://audioswitch.dev",
         name: "AudioSwitch",
-        stars: 0,
-        shot: "assets/audioswitch-card.jpg",
+        stars: 2,
+        shot: "assets/shot-audioswitch.webp",
+        /* There are .mp4 and .webm siblings of `shot`, and its .webp is
+           frame 0 of them — see tools/app-motion.py. */
+        motion: true,
+        /* The homepage row gets ONE picture; the rest are the detail page. */
+        shots: [
+          { src: "assets/audio-panel.webp",
+            cap: { zh: "输出、输入、开关，全在一个面板里。设备列表与系统设置完全一致。",
+                   en: "Output, input and switches in one panel. The device list matches System Settings exactly." } },
+          { src: "assets/audio-input.webp",
+            cap: { zh: "输入侧有实时电平表和音量滑块——开会前一眼看出麦克风到底在不在收音。",
+                   en: "The input side carries a live level meter and a volume slider, so you can see whether the microphone is actually picking anything up." } },
+          { src: "assets/audio-locks.webp",
+            cap: { zh: "锁定输出/输入设备，防止会议软件擅自抢占；还有一个真正的麦克风硬开关。",
+                   en: "Lock the output or input device against apps that grab them, plus a real hard switch for the microphone." } },
+        ],
         tagline: {
           zh: "菜单栏音频设备切换",
           en: "Audio device switching from the menu bar",
@@ -83,7 +146,7 @@ const CATEGORIES = [
       {
         repo: "show-me-the-money",
         name: "Show Me The Money · 来财",
-        stars: 810,
+        stars: 849,
         tagline: { zh: "从想法到收入的自动化商业套件", en: "Idea to revenue, on autopilot" },
         desc: {
           zh: "一套 Claude Code 技能，从选品、定价、落地页、投放到客服和复盘，把一门小生意端到端跑起来。",
@@ -103,7 +166,7 @@ const CATEGORIES = [
       {
         repo: "zmm",
         name: "zmm",
-        stars: 0,
+        stars: 1,
         tagline: { zh: "做内容 + 看生意", en: "Make content, read the business" },
         desc: {
           zh: "两套 AI 技能共用一个入口。用人话说你卡在哪，它挑对的那套来处理。只需要记一条命令：/zmm。",
@@ -123,7 +186,7 @@ const CATEGORIES = [
       {
         repo: "wechat-article-publisher-skill",
         name: { zh: "公众号发布", en: "WeChat Publisher" },
-        stars: 153,
+        stars: 156,
         tagline: { zh: "Markdown 直发微信公众号草稿", en: "Markdown straight to a WeChat draft" },
         desc: {
           zh: "把 Markdown 或 HTML 文章通过官方 API 发到公众号草稿箱，图片自动上传。",
@@ -133,7 +196,7 @@ const CATEGORIES = [
       {
         repo: "wechat-article-formatter-skill",
         name: { zh: "公众号排版", en: "WeChat Formatter" },
-        stars: 75,
+        stars: 76,
         tagline: { zh: "微信公众号文章排版", en: "Typesetting for WeChat articles" },
         desc: {
           zh: "把 Markdown 渲染成公众号能用的样式，支持自定义主题。",
@@ -143,7 +206,7 @@ const CATEGORIES = [
       {
         repo: "linkedin-article-publisher-skill",
         name: { zh: "LinkedIn 发布", en: "LinkedIn Publisher" },
-        stars: 19,
+        stars: 20,
         tagline: { zh: "发布 LinkedIn 长文", en: "Publish LinkedIn articles" },
         desc: {
           zh: "把 Markdown 文章发成 LinkedIn Article，保留格式。",
@@ -153,7 +216,7 @@ const CATEGORIES = [
       {
         repo: "red-publisher-skill",
         name: { zh: "小红书发布", en: "Xiaohongshu Publisher" },
-        stars: 10,
+        stars: 11,
         tagline: { zh: "发布到小红书", en: "Publish to Xiaohongshu" },
         desc: {
           zh: "把内容发到小红书，图文一起处理。",
@@ -183,7 +246,7 @@ const CATEGORIES = [
       {
         repo: "bili-music-skill",
         name: { zh: "B 站音乐", en: "Bili Music" },
-        stars: 0,
+        stars: 1,
         tagline: {
           zh: "B 站收藏夹变成车载歌单",
           en: "A Bilibili favorites folder, as a car playlist",
@@ -196,7 +259,7 @@ const CATEGORIES = [
       {
         repo: "james-design",
         name: "james-design",
-        stars: 36,
+        stars: 37,
         tagline: { zh: "高保真 UI 设计技能", en: "Hi-fi UI design skill" },
         desc: {
           zh: "让 Claude Code 产出高保真 HTML 设计稿、原型、幻灯片和动效，而不是灰底线框。",
@@ -206,7 +269,7 @@ const CATEGORIES = [
       {
         repo: "gtd-coach-plugin",
         name: "GTD Coach",
-        stars: 35,
+        stars: 36,
         tagline: { zh: "把待办拆成能动手的计划", en: "Turns a todo list into a plan you can act on" },
         desc: {
           zh: "按你的目标把每天的待办拆成带细节的行动计划，而不是又一份清单。",
