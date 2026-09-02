@@ -84,12 +84,17 @@
      layout     composition_editorial_journal + composition_ruled_information
      type       type_literary (reading) + type_programmatic (labels, data)
 
-   Terracotta appears in exactly four places on this page, and they are
+   Terracotta appears in exactly four places in this page's CSS, and they are
    listed because a list is the only thing that keeps an accent ink honest:
    the dropped initial, the heavy rule under the nameplate, the issue number in
    the dateline, and the dot inside the printer's mark. A fifth would mean the
    discipline had quietly become decoration. (There were five; the chronology
    was the other one, and it has been cut.)
+
+   The PLATES are not part of that count and never were. A plate is a printed
+   picture and both inks have always been allowed inside one — the opener
+   carries terracotta, and so does the class banner's one warm sheet. What the
+   budget governs is the page's own chrome: rules, marks, labels, links.
    ===================================================================== */
 
 :root {
@@ -393,6 +398,72 @@ a { color: inherit; }
 @media (max-width: 34rem) { .runner .here { display: none; } }
 /* Anchors land below the strip rather than under it. */
 .sec, .toc, #lead { scroll-margin-top: 3.2rem; }
+
+/* --- the house ad ------------------------------------------------------
+   Under the nameplate, above the contents: where a paper prints its own
+   business. Ruled top and bottom and set in the page's own faces, so it reads
+   as a NOTICE in this publication rather than as an advertisement someone
+   sold space to.
+
+   The accent budget is unchanged. Terracotta still appears in four places in
+   this stylesheet — the dropped initial, the nameplate rule, the issue number
+   and the printer's mark. The one warm sheet in the plate is INSIDE a picture,
+   which is where both inks have always been allowed to go; the opener plate
+   carries terracotta too. The box's own chrome is cobalt throughout.
+   -------------------------------------------------------------------- */
+.ad {
+  display: grid; gap: 0 var(--gut);
+  grid-template-columns: 1fr auto;
+  grid-template-areas: "plate plate" "txt meta";
+  align-items: end;
+  margin: calc(var(--m) * 3) 0 calc(var(--m) * 2);
+  padding: calc(var(--m) * 1.5) 0 calc(var(--m) * 2.5);
+  border-top: 1px solid var(--ink);
+  border-bottom: 1px solid var(--rule);
+  text-decoration: none; color: inherit;
+}
+/* The plate is 21:9 and the page is wide, so at full measure it would be a
+   500px tall picture introducing a link. It is cropped to a band instead —
+   the same move the class's own poster makes with its steel rule. */
+.ad-plate { grid-area: plate; margin: 0 0 calc(var(--m) * 2); }
+/* Kept short on purpose. This block sits between the nameplate and the
+   contents page, and the contents is the front page's navigation — every
+   pixel the notice takes is a pixel that pushes the way around the paper
+   below the fold. Measured, same window, same language: the contents page
+   began at 731px with a 150px band and begins at 694px with this one. */
+.ad-plate img {
+  width: 100%; height: clamp(76px, 8.5vw, 118px);
+  object-fit: cover; object-position: 50% 86%;
+  background: var(--p1);
+}
+.ad-txt  { grid-area: txt; min-width: 0; }
+.ad-meta { grid-area: meta; min-width: 0; white-space: nowrap; }
+.ad-kick { color: var(--ink3); }
+.ad-t {
+  margin-top: 0.5rem;
+  font-size: clamp(1.25rem, 2.6vw, 1.7rem); line-height: 1.25;
+  font-weight: 600; letter-spacing: -0.02em;
+}
+.ad-sub { margin-top: 0.4rem; font-size: 0.9375rem; color: var(--ink2);
+          max-width: 34em; }
+.ad-facts { margin-top: 0.75rem; color: var(--ink3); }
+.ad-more {
+  font-family: var(--mono); font-size: 0.75rem;
+  letter-spacing: 0.02em; color: var(--ink);
+  border-bottom: 1px solid var(--rule); display: inline-block;
+  padding-bottom: 1px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .ad-t, .ad-more { transition: color 180ms ease, border-color 180ms ease; }
+  .ad:hover .ad-t { color: var(--sig-t); }
+  .ad:hover .ad-more { color: var(--sig-t); border-bottom-color: currentColor; }
+}
+/* Narrow: the meta drops under the text and goes back to the left edge
+   everything else on the page is aligned to. */
+@media (max-width: 46rem) {
+  .ad { grid-template-columns: 1fr; grid-template-areas: "plate" "txt" "meta"; }
+  .ad-meta { text-align: left; margin-top: calc(var(--m) * 2); }
+}
 
 /* --- the contents page ------------------------------------------------
    Set as a book's, not as a menu: a folio, a title, a leader, a count. The
@@ -784,7 +855,7 @@ a { color: inherit; }
 
 <script src="data.js?v=7"></script>
 <script src="issues.js?v=6"></script>
-<script src="i18n.js?v=3"></script>
+<script src="i18n.js?v=4"></script>
 <script>
 /* The whole edition, set from the same files the live site reads. */
 (function () {
@@ -844,6 +915,13 @@ a { color: inherit; }
     'p.apps': '四个 macOS 应用',
     'p.backTop': '回到页首 ↑',
     'p.city': '悉尼',
+    /* The class. Its own words, taken from /19sep/ rather than rewritten, so
+       the announcement and the page it announces say the same thing. */
+    'c.kick': '线下课 · 悉尼',
+    'c.title': '不知道做什么，做了又没人买',
+    'c.sub': '一天，把「该做什么」和「凭什么有人买」这两件事定下来。',
+    'c.facts': '2026-9-19 周六 · 悉尼 City · 10 席 · 中文讲',
+    'c.more': '课程详情',
     'p.contents': '本期目录',
     'p.count': '%s 项',
     'p.date': '%s 年 %s 月 %s 日',
@@ -886,7 +964,7 @@ a { color: inherit; }
   }
   /* One token for every generated asset. Without it the browser keeps serving
      the file it cached under the same name after a re-shoot. */
-  var V = '?v=16';
+  var V = '?v=17';
   var CN = ['', 'I', 'II', 'III', 'IV', 'V', 'VI'];
   function pn(n) { return ('0' + n).slice(-2); }
 
@@ -975,6 +1053,34 @@ a { color: inherit; }
     ];
 
     var out = [];
+
+    /* THE HOUSE AD.
+       A paper announces its own business on the front page, under the
+       nameplate and above the contents, in a ruled box that is obviously an
+       announcement and not an article. That is exactly the right shape for
+       this: it is the one thing on the page a reader can buy, it is dated, and
+       it expires.
+
+       The whole block is one <a>. A notice with a headline, a strapline, a
+       fact line and a "read more" link is four tap targets pretending to be
+       one thing; making the box itself the target is both easier to hit and
+       honest about there being a single destination. */
+    out.push('<a class="ad" href="19sep/">'
+      + '<figure class="ad-plate">'
+      +   '<img src="assets/course-19sep.webp' + V + '" alt="" width="1600" height="680"'
+      +   ' data-day="assets/course-19sep.webp' + V + '"'
+      +   ' data-night="assets/course-19sep-night.webp' + V + '"'
+      +   ' decoding="async" fetchpriority="high">'
+      + '</figure>'
+      + '<div class="ad-txt">'
+      +   '<p class="label ad-kick">' + esc(T('c.kick')) + '</p>'
+      +   '<h2 class="ad-t">' + esc(T('c.title')) + '</h2>'
+      +   '<p class="ad-sub">' + esc(T('c.sub')) + '</p>'
+      +   '<p class="label ad-facts">' + esc(T('c.facts')) + '</p>'
+      + '</div>'
+      + '<div class="ad-meta">'
+      +   '<p class="ad-more">' + esc(T('c.more')) + ' \u2192</p>'
+      + '</div></a>');
 
     out.push('<nav class="toc rise" id="contents" aria-label="' + esc(T('p.contents')) + '">'
       + '<p class="label" style="padding-bottom:.7rem;border-bottom:1px solid var(--ink)">'
