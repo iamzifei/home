@@ -247,12 +247,15 @@ a { color: inherit; }
    horizon, and a line of facts nobody reads twice. All three, and nothing
    else — a nameplate carrying a navigation bar is a website wearing a
    newspaper's hat. */
-.mast { padding-block: clamp(2.5rem, 7vw, 5rem) 0; }
+/* Was clamp(2.5rem, 7vw, 5rem). The nameplate measured 359px at 1440x900 —
+   two fifths of the screen before a reader has been told anything. Still the
+   largest thing on the page by a wide margin; just not half the view. */
+.mast { padding-block: clamp(1.8rem, 4.4vw, 3rem) 0; }
 .mast-kick { display: flex; justify-content: space-between; gap: 1rem;
              padding-bottom: 0.9rem; flex-wrap: wrap; }
 .mast-name {
   font-family: var(--serif);
-  font-size: clamp(3.2rem, 13vw, 8.5rem);
+  font-size: clamp(3rem, 10.5vw, 6.8rem);
   line-height: 0.86;
   font-weight: 600;
   letter-spacing: -0.035em;
@@ -468,6 +471,33 @@ a { color: inherit; }
   .notice:hover .notice-t { color: var(--sig-t); }
   .notice:hover .notice-more { color: var(--sig-t); border-bottom-color: currentColor; }
 }
+/* WIDE: THE PICTURE SITS BESIDE THE WORDS, NOT ABOVE THEM.
+   Stacked, this block was 613px — plate plus text — and the headline landed at
+   1119px, which is off the bottom of a 900px screen. A reader arriving at the
+   front page got a nameplate, a paragraph about me, and the top half of a
+   picture: no sentence anywhere saying what is on offer.
+
+   Side by side the block is as tall as whichever column is taller instead of
+   both added together, and the headline comes up onto the first screen. It is
+   also the more ordinary shape for a printed notice: the cut on the left, the
+   announcement set beside it. */
+@media (min-width: 62rem) {
+  .notice {
+    grid-template-columns: 1.15fr 1fr;
+    grid-template-areas: "plate txt" "plate meta";
+    grid-template-rows: auto auto;
+    column-gap: clamp(1.8rem, 3.4vw, 3rem);
+    align-items: start;
+  }
+  /* No fixed ratio here. The plate STRETCHES to whatever the words beside it
+     come to and crops itself to fit, so the block is exactly as tall as its
+     text and never taller. A fixed 5:3 made it 375px against 200px of words,
+     which left the link stranded at the foot of an empty column. */
+  .notice-plate { margin: 0; aspect-ratio: auto; align-self: stretch;
+                  min-height: 11rem; }
+  .notice-plate img { height: 100%; }
+  .notice-meta { margin-top: 1.1rem; align-self: start; }
+}
 /* Narrow: the meta drops under the text and goes back to the left edge
    everything else on the page is aligned to. */
 @media (max-width: 46rem) {
@@ -479,12 +509,31 @@ a { color: inherit; }
    Set as a book's, not as a menu: a folio, a title, a leader, a count. The
    leader is a border on a flexed span rather than a row of dots, because
    dots wrap and a wrapped leader reads as a mistake. */
-.toc { padding-block: clamp(1.6rem, 4vw, 2.6rem); }
+/* --- the opening band --------------------------------------------------
+   The contents page and the standfirst are the same job — telling a reader
+   where they have landed — and they were stacked, two full-measure blocks one
+   under the other. Measured at 1440x900 they cost 449px between them, and the
+   first product name on the page sat at 1759px: two screens of scrolling to
+   reach the first actual thing.
+
+   Side by side they cost about 200px and say exactly as much. A paper does
+   this too: the contents is a column beside the opening paragraph, not a page
+   of its own.
+
+   The voice takes the wider column and reads first; the contents sits beside
+   it, one row per department instead of a 2x2 grid, which is also the more
+   honest shape for four items. Below 62rem they stack again, in that order.
+   -------------------------------------------------------------------- */
+.open-band { padding-block: clamp(1.4rem, 3.4vw, 2.2rem); }
+@media (min-width: 62rem) {
+  .open-band { display: grid; gap: 0 clamp(2rem, 4vw, 3.4rem);
+               grid-template-columns: 1fr minmax(17rem, 0.62fr);
+               align-items: start; }
+}
 .toc-grid { display: grid; gap: 0 var(--gut); grid-template-columns: 1fr; }
-@media (min-width: 46rem) { .toc-grid { grid-template-columns: 1fr 1fr; } }
 .toc a {
   display: flex; align-items: baseline; gap: 0.9rem;
-  padding-block: 0.55rem; border-bottom: 1px solid var(--rule2);
+  padding-block: 0.42rem; border-bottom: 1px solid var(--rule2);
   text-decoration: none;
 }
 .toc .folio { font-family: var(--mono); font-size: 0.75rem; color: var(--ink3);
@@ -516,12 +565,14 @@ a { color: inherit; }
    Two columns and a dropped initial, which is the one place on the page
    where the design is allowed to be the point. The initial is terracotta:
    one of the four things that ink is permitted to do here. */
-.lead { padding-block: clamp(2rem, 5vw, 3.4rem); }
+.lead { padding-block: 0; }
+/* The opener used to be the tail of the lead section and took its padding.
+   It is its own section now. */
+.opener { padding-block: 0 clamp(1.5rem, 4vw, 2.6rem); }
 .lead-body { font-size: 1.0625rem; line-height: 1.9; }
-@media (min-width: 62rem) {
-  .lead-body { column-count: 2; column-gap: clamp(2rem, 4vw, 3.2rem);
-               column-rule: 1px solid var(--rule2); }
-}
+/* One column now. It used to run two across the full measure; in the band it
+   has a little over half of it, and two columns of ~26 characters is a
+   newspaper classified, not a standfirst. */
 .lead-body p + p { margin-top: 1.1em; }
 /* CJK takes a dropped initial as happily as Latin does; the glyph is square,
    so it needs less descent correction and a touch more optical space after. */
@@ -530,7 +581,7 @@ a { color: inherit; }
   font-size: 3.5em; line-height: 0.86;
   margin: 0.06em 0.1em 0 0; color: var(--sig-t);
 }
-.lead-by { margin-top: 1.6rem; padding-top: 0.8rem;
+.lead-by { margin-top: 1.1rem; padding-top: 0.7rem;
            border-top: 1px solid var(--rule2); display: flex;
            flex-wrap: wrap; gap: 0.4rem 1.4rem; }
 
@@ -1064,7 +1115,16 @@ a { color: inherit; }
 
     var out = [];
 
-    out.push('<nav class="toc rise" id="contents" aria-label="' + esc(T('p.contents')) + '">'
+    /* One band, two columns: the voice, and the contents beside it. They were
+       two stacked full-measure blocks; see the note on `.open-band`. */
+    out.push('<div class="open-band rise">');
+
+    out.push('<section class="lead" id="lead">'
+      + '<div class="lead-body"><p>' + T('standfirst') + '</p></div>'
+      + '<p class="lead-by label">' + esc(T('byline')) + '</p>'
+      + '</section>');
+
+    out.push('<nav class="toc" id="contents" aria-label="' + esc(T('p.contents')) + '">'
       + '<p class="label" style="padding-bottom:.7rem;border-bottom:1px solid var(--ink)">'
       + esc(T('p.contents')) + '</p><div class="toc-grid">'
       + SECTIONS.map(function (s, i) {
@@ -1074,13 +1134,9 @@ a { color: inherit; }
                + '<span class="n">' + esc(s.n) + '</span></a>';
         }).join('') + '</div></nav>');
 
-    /* 卷首. The paragraph is the live site's standfirst — the one a person has
-       already translated into seven languages. This edition used to write its
-       own here, including a line about being the second design: a note to the
-       author, printed for the reader. */
-    out.push('<section class="lead rise" id="lead">'
-      + '<div class="lead-body"><p>' + T('standfirst') + '</p></div>'
-      + '<p class="lead-by label">' + esc(T('byline')) + '</p>'
+    out.push('</div>');
+
+    out.push('<section class="opener rise">'
       /* THE OPENER IS THE CLASS.
          This slot held a decorative plate — a magazine opener, and a good one,
          but it said nothing and led nowhere. The one thing on this site a
