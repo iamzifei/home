@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="zh-Hans" data-lamp="on">
+<html lang="zh-Hans" data-press="day">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>James AI</title>
 <!-- Shared with the homepage-era stylesheet. See the note at the top of site.css. -->
-<link rel="stylesheet" href="site.css?v=2">
+<link rel="stylesheet" href="site.css?v=3">
 <script>
 /* Day / night / follow-the-system, resolved BEFORE the first paint. It used to
    run at the foot of the body, which meant a reader in night mode watched the
@@ -21,9 +21,10 @@
     if (v === 'system') {
       try { dark = matchMedia('(prefers-color-scheme: dark)').matches; } catch (e) {}
     }
-    /* site.css still names the dark run `data-lamp="off"`; renaming it is part
-       of merging that file into the homepage's stylesheet, not part of this. */
-    document.documentElement.setAttribute('data-lamp', dark ? 'off' : 'on');
+    /* Same attribute and same value the front page sets, so one selector in
+       site.css serves both. It used to be `data-lamp="on|off"`, a name left
+       over from a design that had a lamp switch on it. */
+    document.documentElement.setAttribute('data-press', dark ? 'night' : 'day');
   }
   window.__pressSaved = saved;
   window.__pressApply = apply;
@@ -122,15 +123,15 @@
 .p-out a { font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.06em;
            color: var(--ink2); text-decoration: underline;
            text-underline-offset: 3px; text-decoration-thickness: 1px; }
-.p-out a:hover { color: var(--ink); }
+@media (hover: hover) and (pointer: fine) { .p-out a:hover { color: var(--ink); } }
 .p-sib { display: flex; justify-content: space-between; gap: var(--gut);
          margin-top: calc(var(--m) * 8); padding-top: calc(var(--m) * 3);
          border-top: 1px solid var(--rule);
          font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.12em;
          text-transform: uppercase; }
 .p-sib a { color: var(--ink2); text-decoration: none; }
-.p-sib a:hover { color: var(--accent-text); }
-.p-sib b { display: block; font-family: var(--sans); font-size: 0.9375rem;
+@media (hover: hover) and (pointer: fine) { .p-sib a:hover { color: var(--accent-text); } }
+.p-sib b { display: block; font-family: var(--serif); font-size: 0.9375rem;
            letter-spacing: -0.01em; text-transform: none; color: var(--ink);
            margin-top: 4px; font-weight: 600; }
 
@@ -176,7 +177,16 @@
   background-position: right 3px center, right 0px center;
   background-repeat: no-repeat;
 }
-.press-switch:hover, .press-lang:hover { color: var(--ink); }
+/* The same press feedback the front page's copy of this control has: it
+   changes something the reader is looking at, so it answers the press
+   itself rather than letting the repaint be the only answer. */
+.press-switch { transition: transform 120ms cubic-bezier(.16,1,.3,1), color 180ms ease; }
+.press-switch:active { transform: scale(0.96); }
+@media (prefers-reduced-motion: reduce) {
+  .press-switch { transition: color 180ms ease; }
+  .press-switch:active { transform: none; }
+}
+@media (hover: hover) and (pointer: fine) { .press-switch:hover, .press-lang:hover { color: var(--ink); } }
 .press-lang option { color: initial; }
 .sign-links { align-items: center; }
 @media (max-width: 34rem) {

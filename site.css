@@ -19,7 +19,7 @@
 
    WHAT IS SHARED, AND WHAT IS NOT
    Shared: the two inks and the paper, the reset, the type roles and scale, the
-   CJK/Latin gap, the page measure, the sign, the reading lamp, the foot.
+   CJK/Latin gap, the page measure, the sign, the foot.
    Not shared: anything that is one page's furniture — the porthole, the
    departures board, the magazine plates, the product rows. Those stay in the
    page that has them, because a shared file of things one page uses is just a
@@ -53,13 +53,19 @@
   --accent-text: #A94A26;   /* the same ink, denser, for text on paper */
 
   /* [EXT] The dark state. All three catalog substrates are light, and this
-     site has a reading lamp. This is not a third ink: it is the press run
-     inverted — paper becomes the light, the inks stay the same two. */
+     site has a day/night switch. Not a third ink: the press run inverted —
+     the paper becomes the light, the two inks stay the two inks. */
 
-  --serif: ui-serif, "New York", "Iowan Old Style", Charter, "Palatino Linotype",
-           Georgia, "Source Han Serif SC", "Noto Serif CJK SC", "Songti SC", serif;
-  --sans: "Helvetica Neue", Inter, -apple-system, BlinkMacSystemFont, "SF Pro Text",
-          "Segoe UI", Arial, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  /* Identical to index.html's, and the order matters: `ui-serif` sits LAST,
+     not first. A generic family is allowed to resolve to a system CJK face on
+     its own, and if it does it wins before the PressSong alias below is ever
+     consulted — which is how this file ended up setting the detail page in a
+     different face from the front page. */
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua",
+           Georgia, "PressSong", "Songti SC", "STSong", "Source Han Serif SC",
+           "Noto Serif SC", ui-serif, serif;
+  --sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue",
+          "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
   --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
 
   --m: 8px;
@@ -74,15 +80,46 @@
   --lift-2: 0 1px 0 rgba(18, 37, 94, 0.16);
 }
 
-:root[data-lamp="off"] {
+/* The night run, and it is the HOMEPAGE'S night run, value for value.
+   Measured 2026-09-02: six of these nine had drifted. The dark paper was
+   #17171A against the front page's #14161C, and --ink3 was #8C8A86 — a WARM
+   grey, which is a third ink on a page whose whole argument is that there are
+   two. It showed up only on the detail page and only at night, which is
+   exactly how a divergence like this survives.
+
+   Do not edit these here. They are index.html's :root[data-press="night"];
+   change them there and copy. */
+/* The CJK alias, same as index.html's: it scopes 宋体 to the ideographs — and
+   to the em dash and the ellipsis, which Iowan sets too short for a Chinese
+   line — at no download cost, because every face named is one the system
+   already has. Without it this page was picking a CJK face by luck. */
+@font-face {
+  font-family: "PressSong";
+  src: local("Songti SC"), local("STSong"), local("Source Han Serif SC"),
+       local("Noto Serif SC"), local("SimSun");
+  unicode-range: U+2014, U+2026, U+3000-303F, U+3400-4DBF, U+4E00-9FFF,
+                 U+F900-FAFF, U+FE30-FE4F, U+FF00-FFEF;
+  font-display: swap;
+}
+@font-face {
+  font-family: "PressSong";
+  font-weight: 600 900;
+  src: local("Songti SC Bold"), local("STSong"), local("Songti SC"),
+       local("Source Han Serif SC"), local("SimSun");
+  unicode-range: U+2014, U+2026, U+3000-303F, U+3400-4DBF, U+4E00-9FFF,
+                 U+F900-FAFF, U+FE30-FE4F, U+FF00-FFEF;
+  font-display: swap;
+}
+
+:root[data-press="night"] {
   color-scheme: dark;
-  --g0:  #17171A;
-  --g1:  #1E1F25;
-  --g2:  #101014;
+  --g0:  #14161C;
+  --g1:  #1B1E27;
+  --g2:  #0F1116;
   --ink:  #ECE8DF;
-  --ink2: #A7B0CA;
-  --ink3: #8C8A86;   /* 55% of the paper ink over the dark ground = 5.19:1 */
-  --rule: #343849;
+  --ink2: #AEB6CC;
+  --ink3: #8B93A8;
+  --rule: #333849;
   --accent: #E0784B;
   --accent-text: #E89468;
   --lift:   0 1px 0 rgba(0, 0, 0, 0.5);
@@ -103,7 +140,10 @@ body {
   margin: 0;
   background: var(--g0);
   color: var(--ink);
-  font-family: var(--sans);
+  /* The page's reading voice, and it is the front page's: Iowan Old Style with
+     宋体 scoped to the ideographs. It was var(--sans) — one click from a
+     printed sheet into a system dialog. */
+  font-family: var(--serif);
   font-size: 16px; line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
@@ -126,16 +166,22 @@ button { font: inherit; color: inherit; }
    the positioning paragraph, the leg notes, the feature copy. Display never
    uses it and it never sets a label.
    -------------------------------------------------------------------- */
-h1, h2, h3, .part-t, .sect-head h3, .leg-place, .row-name b, .ix-what,
-.away b, .panel h3, .feat-txt h4, .row-txt h4 {
-  font-family: var(--sans);
+/* Display type is the reading serif, exactly as on the front page. This rule
+   used to set it in a grotesk, which is why the same product name was a serif
+   on the homepage and a sans one click later — the single most visible thing
+   telling a reader the two pages were not one publication. -0.02em is the
+   front page's own tracking for display serif (index.html `.entry h3`).
+
+   Most of the selectors that used to be listed here — .part-t, .leg-place,
+   .row-name b, .ix-what, .away b, .feat-txt h4, .row-txt h4 — belonged to an
+   earlier design and matched nothing on this page. */
+h1, h2, h3 {
+  font-family: var(--serif);
   font-weight: 600;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.02em;
   font-variant-numeric: tabular-nums;
 }
-.lede, .leg-note, .standfirst, .dept-note, .row-txt p, .p-motto {
-  font-family: var(--serif);
-}
+.standfirst, .p-motto { font-family: var(--serif); }
 
 /* --- type scale ------------------------------------------------------
    Five sizes. Braun's own printed matter runs on about that many, and a
@@ -156,39 +202,6 @@ h1, h2, h3, .part-t, .sect-head h3, .leg-place, .row-name b, .ix-what,
 .lat { margin-inline: 0.12em; }
 
 .wrap { width: var(--page); margin-inline: auto; }
-
-
-/* ---------- the reading lamp ---------- */
-/* --- the reading lamp ---------------------------------------------------
-   Lost in the window rewrite — the switch styles lived inside the block that
-   was replaced, and it had been rendering as a plain bordered button since.
-   A pill switch: the track is a hairline of the cobalt plate, filled with the
-   accent when the lamp is on, because a control's own state is exactly the
-   kind of signal the accent plate exists for.
-   -------------------------------------------------------------------- */
-.lamp {
-  display: inline-flex; align-items: center; gap: calc(var(--m) * 1.5);
-  background: none; border: 0; padding: 0; cursor: pointer;
-  font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.1em;
-  color: var(--ink3);
-}
-.lamp .track {
-  position: relative; display: block; width: 44px; height: 22px;
-  border-radius: 999px; background: var(--rule);
-  transition: background 200ms ease;
-}
-.lamp .bulb {
-  position: absolute; top: 3px; left: 3px; width: 16px; height: 16px;
-  border-radius: 50%; background: var(--g2);
-  box-shadow: 0 1px 2px rgba(18, 37, 94, 0.28);
-  transition: transform 200ms cubic-bezier(0.32,0.72,0,1);
-}
-:root[data-lamp="on"] .lamp .track { background: var(--accent); }
-:root[data-lamp="on"] .lamp .bulb  { transform: translateX(22px); }
-.lamp:hover .label { color: var(--ink2); }
-@media (prefers-reduced-motion: reduce) {
-  .lamp .track, .lamp .bulb { transition: none; }
-}
 
 
 /* ---------- the sign (sticky nav) ---------- */
@@ -216,7 +229,11 @@ h1, h2, h3, .part-t, .sect-head h3, .leg-place, .row-name b, .ix-what,
 .sign-brand { color: var(--ink); letter-spacing: 0.1em; }
 .sign-links { display: flex; gap: calc(var(--m) * 3); }
 .sign-links a { padding: 4px 0; border-bottom: 1px solid transparent; }
-.sign-links a:hover, .sign-links a:focus-visible { color: var(--ink); }
+.sign-links a:focus-visible { color: var(--ink); }
+/* Gated: on a touch screen `:hover` sticks after the tap and there is
+   nothing to take it off again. `:focus-visible` above is keyboard-only
+   and stays ungated, which is the point of it. */
+@media (hover: hover) and (pointer: fine) { .sign-links a:hover { color: var(--ink); } }
 .sign-links a[aria-current="true"] { color: var(--accent-text); border-bottom-color: currentColor; }
 /* the bar sits on the page measure, like everything else */
 .sign { padding-inline: max(calc((100% - var(--page)) / 2), calc(var(--m) * 2)); }
@@ -232,13 +249,18 @@ h1, h2, h3, .part-t, .sect-head h3, .leg-place, .row-name b, .ix-what,
    as the rest of the foot and gets its emphasis from the underline alone. */
 .foot a { color: var(--ink2); text-decoration: underline;
           text-underline-offset: 3px; text-decoration-thickness: 1px; }
-.foot a:hover { color: var(--ink); }
+@media (hover: hover) and (pointer: fine) { .foot a:hover { color: var(--ink); } }
 .foot p + p { margin-top: var(--m); }
 
 /* ---------- spec values that are links ---------- */
 .spec dd a { color: inherit; text-decoration: none; border-bottom: 1px solid var(--rule);
-             transition: color 180ms ease, border-color 180ms ease; }
-.spec dd a:hover { color: var(--accent-text); border-bottom-color: currentColor; }
+             }
+@media (hover: hover) and (pointer: fine) {
+  .spec dd a { transition: color 180ms ease, border-color 180ms ease; }
+}
+@media (hover: hover) and (pointer: fine) {
+  .spec dd a:hover { color: var(--accent-text); border-bottom-color: currentColor; }
+}
 
 /* ---------- the spec block ----------
    Both pages set one. Moved here out of journey.html when product.html
@@ -249,7 +271,8 @@ h1, h2, h3, .part-t, .sect-head h3, .leg-place, .row-name b, .ix-what,
         padding-top: calc(var(--m) * 2); border-top: 1px solid var(--rule);
         grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .spec > div { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.spec dt { font-size: 0.625rem; font-weight: 500; letter-spacing: 0.12em;
+.spec dt { font-family: var(--mono); font-size: 0.6875rem; font-weight: 500;
+           letter-spacing: 0.12em; white-space: nowrap;
            text-transform: uppercase; color: var(--ink3); }
 .spec dd { font-family: var(--mono); font-size: 0.75rem; color: var(--ink);
            overflow: hidden; text-overflow: ellipsis; }
