@@ -426,7 +426,8 @@ a { color: inherit; }
   grid-template-columns: 1fr auto;
   grid-template-areas: "plate plate" "txt meta";
   align-items: end;
-  margin: calc(var(--m) * 3) 0 calc(var(--m) * 2);
+  /* The spacing the opener plate had, because this is now the opener. */
+  margin-block: clamp(2.4rem, 5vw, 3.6rem);
   padding: calc(var(--m) * 1.5) 0 calc(var(--m) * 2.5);
   border-top: 1px solid var(--ink);
   border-bottom: 1px solid var(--rule);
@@ -435,17 +436,16 @@ a { color: inherit; }
 /* The plate is 21:9 and the page is wide, so at full measure it would be a
    500px tall picture introducing a link. It is cropped to a band instead —
    the same move the class's own poster makes with its steel rule. */
-.notice-plate { grid-area: plate; margin: 0 0 calc(var(--m) * 2); }
-/* Kept short on purpose. This block sits between the nameplate and the
-   contents page, and the contents is the front page's navigation — every
-   pixel the notice takes is a pixel that pushes the way around the paper
-   below the fold. Measured, same window, same language: the contents page
-   began at 731px with a 150px band and begins at 694px with this one. */
-.notice-plate img {
-  width: 100%; height: clamp(76px, 8.5vw, 118px);
-  object-fit: cover; object-position: 50% 86%;
-  background: var(--p1);
-}
+.notice-plate { grid-area: plate; margin: 0 0 calc(var(--m) * 2.5);
+                background: var(--p1); aspect-ratio: 3 / 1; overflow: hidden; }
+/* 3:1, not the plate's own 21:9. Shown whole, the top third of the drawing is
+   bare paper — right on a printed sheet, where it is the quiet the row needs,
+   and 230px of nothing here, where the block already has the byline's white
+   space above it. The crop keeps a little of that band, all ten sheets and the
+   table rule, and lands at 405px tall against the 521px of the 16/7 plate it
+   replaces. */
+.notice-plate img { width: 100%; height: 100%; object-fit: cover;
+                    object-position: 50% 68%; }
 .notice-txt  { grid-area: txt; min-width: 0; }
 .notice-meta { grid-area: meta; min-width: 0; white-space: nowrap; }
 .notice-kick { color: var(--ink3); }
@@ -1064,34 +1064,6 @@ a { color: inherit; }
 
     var out = [];
 
-    /* THE HOUSE AD.
-       A paper announces its own business on the front page, under the
-       nameplate and above the contents, in a ruled box that is obviously an
-       announcement and not an article. That is exactly the right shape for
-       this: it is the one thing on the page a reader can buy, it is dated, and
-       it expires.
-
-       The whole block is one <a>. A notice with a headline, a strapline, a
-       fact line and a "read more" link is four tap targets pretending to be
-       one thing; making the box itself the target is both easier to hit and
-       honest about there being a single destination. */
-    out.push('<a class="notice" href="19sep/">'
-      + '<figure class="notice-plate">'
-      +   '<img src="assets/course-19sep.webp' + V + '" alt="" width="1600" height="680"'
-      +   ' data-day="assets/course-19sep.webp' + V + '"'
-      +   ' data-night="assets/course-19sep-night.webp' + V + '"'
-      +   ' decoding="async" fetchpriority="high">'
-      + '</figure>'
-      + '<div class="notice-txt">'
-      +   '<p class="label notice-kick">' + esc(T('c.kick')) + '</p>'
-      +   '<h2 class="notice-t">' + esc(T('c.title')) + '</h2>'
-      +   '<p class="notice-sub">' + esc(T('c.sub')) + '</p>'
-      +   '<p class="label notice-facts">' + esc(T('c.facts')) + '</p>'
-      + '</div>'
-      + '<div class="notice-meta">'
-      +   '<p class="notice-more">' + esc(T('c.more')) + ' \u2192</p>'
-      + '</div></a>');
-
     out.push('<nav class="toc rise" id="contents" aria-label="' + esc(T('p.contents')) + '">'
       + '<p class="label" style="padding-bottom:.7rem;border-bottom:1px solid var(--ink)">'
       + esc(T('p.contents')) + '</p><div class="toc-grid">'
@@ -1109,12 +1081,38 @@ a { color: inherit; }
     out.push('<section class="lead rise" id="lead">'
       + '<div class="lead-body"><p>' + T('standfirst') + '</p></div>'
       + '<p class="lead-by label">' + esc(T('byline')) + '</p>'
-      + '<figure class="plate">'
-      +   '<img src="assets/mag-opener.webp' + V + '" alt="" width="1600" height="1075"'
-      +   ' data-day="assets/mag-opener.webp' + V + '"'
-      +   ' data-night="assets/mag-opener-night.webp' + V + '"'
-      +   ' loading="lazy" decoding="async">'
-      + '</figure></section>');
+      /* THE OPENER IS THE CLASS.
+         This slot held a decorative plate — a magazine opener, and a good one,
+         but it said nothing and led nowhere. The one thing on this site a
+         reader can actually turn up to now occupies it: same position, same
+         full measure, and every part of it is the link.
+
+         It is here and NOT in a strip above the contents page, which is where
+         it went first. Two placements of one link on one screen is the same
+         offer made twice, and the opener is the stronger of the two — a reader
+         reaches it having just been told who is making the offer.
+
+         The whole block is one <a>. A kicker, a headline, a strapline, a fact
+         line and a "read more" are five tap targets pretending to be one
+         thing; making the block the target is easier to hit and honest about
+         there being a single destination. */
+      + '<a class="notice" href="19sep/">'
+      +   '<figure class="notice-plate">'
+      +     '<img src="assets/course-19sep.webp' + V + '" alt="" width="1600" height="680"'
+      +     ' data-day="assets/course-19sep.webp' + V + '"'
+      +     ' data-night="assets/course-19sep-night.webp' + V + '"'
+      +     ' decoding="async" fetchpriority="high">'
+      +   '</figure>'
+      +   '<div class="notice-txt">'
+      +     '<p class="label notice-kick">' + esc(T('c.kick')) + '</p>'
+      +     '<h2 class="notice-t">' + esc(T('c.title')) + '</h2>'
+      +     '<p class="notice-sub">' + esc(T('c.sub')) + '</p>'
+      +     '<p class="label notice-facts">' + esc(T('c.facts')) + '</p>'
+      +   '</div>'
+      +   '<div class="notice-meta">'
+      +     '<p class="notice-more">' + esc(T('c.more')) + ' \u2192</p>'
+      +   '</div>'
+      + '</a></section>');
 
     if (apps) {
       var kind = t(apps.title), items = apps.items;
