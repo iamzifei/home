@@ -399,9 +399,19 @@ a { color: inherit; }
 /* Anchors land below the strip rather than under it. */
 .sec, .toc, #lead { scroll-margin-top: 3.2rem; }
 
-/* --- the house ad ------------------------------------------------------
+/* --- the house notice ------------------------------------------------------
    Under the nameplate, above the contents: where a paper prints its own
-   business. Ruled top and bottom and set in the page's own faces, so it reads
+   business.
+
+   ⚠️  DO NOT RENAME THESE BACK TO `ad-*`. They were `.ad`, `.ad-txt` and so on
+   for about an hour, and on the live site in a browser with an ad blocker the
+   whole text block rendered at `display: none` — no rule in this stylesheet,
+   nothing inline, just gone. A cosmetic filter rule matches `.ad-txt`.
+   Measured on jamesai.dev: `.ad`, `.ad-plate`, `.ad-meta` and `.ad-more` all
+   rendered; `.ad-txt` alone was hidden, and a div created in the console with
+   that class was hidden too. `notice-*` tests clean. The one block on this
+   site that earns money is the last one that should be named after the thing
+   filter lists exist to remove. Ruled top and bottom and set in the page's own faces, so it reads
    as a NOTICE in this publication rather than as an advertisement someone
    sold space to.
 
@@ -411,7 +421,7 @@ a { color: inherit; }
    which is where both inks have always been allowed to go; the opener plate
    carries terracotta too. The box's own chrome is cobalt throughout.
    -------------------------------------------------------------------- */
-.ad {
+.notice {
   display: grid; gap: 0 var(--gut);
   grid-template-columns: 1fr auto;
   grid-template-areas: "plate plate" "txt meta";
@@ -425,44 +435,44 @@ a { color: inherit; }
 /* The plate is 21:9 and the page is wide, so at full measure it would be a
    500px tall picture introducing a link. It is cropped to a band instead —
    the same move the class's own poster makes with its steel rule. */
-.ad-plate { grid-area: plate; margin: 0 0 calc(var(--m) * 2); }
+.notice-plate { grid-area: plate; margin: 0 0 calc(var(--m) * 2); }
 /* Kept short on purpose. This block sits between the nameplate and the
    contents page, and the contents is the front page's navigation — every
    pixel the notice takes is a pixel that pushes the way around the paper
    below the fold. Measured, same window, same language: the contents page
    began at 731px with a 150px band and begins at 694px with this one. */
-.ad-plate img {
+.notice-plate img {
   width: 100%; height: clamp(76px, 8.5vw, 118px);
   object-fit: cover; object-position: 50% 86%;
   background: var(--p1);
 }
-.ad-txt  { grid-area: txt; min-width: 0; }
-.ad-meta { grid-area: meta; min-width: 0; white-space: nowrap; }
-.ad-kick { color: var(--ink3); }
-.ad-t {
+.notice-txt  { grid-area: txt; min-width: 0; }
+.notice-meta { grid-area: meta; min-width: 0; white-space: nowrap; }
+.notice-kick { color: var(--ink3); }
+.notice-t {
   margin-top: 0.5rem;
   font-size: clamp(1.25rem, 2.6vw, 1.7rem); line-height: 1.25;
   font-weight: 600; letter-spacing: -0.02em;
 }
-.ad-sub { margin-top: 0.4rem; font-size: 0.9375rem; color: var(--ink2);
+.notice-sub { margin-top: 0.4rem; font-size: 0.9375rem; color: var(--ink2);
           max-width: 34em; }
-.ad-facts { margin-top: 0.75rem; color: var(--ink3); }
-.ad-more {
+.notice-facts { margin-top: 0.75rem; color: var(--ink3); }
+.notice-more {
   font-family: var(--mono); font-size: 0.75rem;
   letter-spacing: 0.02em; color: var(--ink);
   border-bottom: 1px solid var(--rule); display: inline-block;
   padding-bottom: 1px;
 }
 @media (hover: hover) and (pointer: fine) {
-  .ad-t, .ad-more { transition: color 180ms ease, border-color 180ms ease; }
-  .ad:hover .ad-t { color: var(--sig-t); }
-  .ad:hover .ad-more { color: var(--sig-t); border-bottom-color: currentColor; }
+  .notice-t, .notice-more { transition: color 180ms ease, border-color 180ms ease; }
+  .notice:hover .notice-t { color: var(--sig-t); }
+  .notice:hover .notice-more { color: var(--sig-t); border-bottom-color: currentColor; }
 }
 /* Narrow: the meta drops under the text and goes back to the left edge
    everything else on the page is aligned to. */
 @media (max-width: 46rem) {
-  .ad { grid-template-columns: 1fr; grid-template-areas: "plate" "txt" "meta"; }
-  .ad-meta { text-align: left; margin-top: calc(var(--m) * 2); }
+  .notice { grid-template-columns: 1fr; grid-template-areas: "plate" "txt" "meta"; }
+  .notice-meta { text-align: left; margin-top: calc(var(--m) * 2); }
 }
 
 /* --- the contents page ------------------------------------------------
@@ -1065,21 +1075,21 @@ a { color: inherit; }
        fact line and a "read more" link is four tap targets pretending to be
        one thing; making the box itself the target is both easier to hit and
        honest about there being a single destination. */
-    out.push('<a class="ad" href="19sep/">'
-      + '<figure class="ad-plate">'
+    out.push('<a class="notice" href="19sep/">'
+      + '<figure class="notice-plate">'
       +   '<img src="assets/course-19sep.webp' + V + '" alt="" width="1600" height="680"'
       +   ' data-day="assets/course-19sep.webp' + V + '"'
       +   ' data-night="assets/course-19sep-night.webp' + V + '"'
       +   ' decoding="async" fetchpriority="high">'
       + '</figure>'
-      + '<div class="ad-txt">'
-      +   '<p class="label ad-kick">' + esc(T('c.kick')) + '</p>'
-      +   '<h2 class="ad-t">' + esc(T('c.title')) + '</h2>'
-      +   '<p class="ad-sub">' + esc(T('c.sub')) + '</p>'
-      +   '<p class="label ad-facts">' + esc(T('c.facts')) + '</p>'
+      + '<div class="notice-txt">'
+      +   '<p class="label notice-kick">' + esc(T('c.kick')) + '</p>'
+      +   '<h2 class="notice-t">' + esc(T('c.title')) + '</h2>'
+      +   '<p class="notice-sub">' + esc(T('c.sub')) + '</p>'
+      +   '<p class="label notice-facts">' + esc(T('c.facts')) + '</p>'
       + '</div>'
-      + '<div class="ad-meta">'
-      +   '<p class="ad-more">' + esc(T('c.more')) + ' \u2192</p>'
+      + '<div class="notice-meta">'
+      +   '<p class="notice-more">' + esc(T('c.more')) + ' \u2192</p>'
       + '</div></a>');
 
     out.push('<nav class="toc rise" id="contents" aria-label="' + esc(T('p.contents')) + '">'
