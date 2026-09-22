@@ -241,13 +241,31 @@ body {
      the white space reads as measured rather than empty. It must stay fainter
      than every rule on the page — the rules are information, the grid is
      paper — and it is the same ink thinned again, so it adds no colour. Plates
-     and wells paint over it with their own --p1. */
+     and wells paint over it with their own --p1.
+
+     IN THE MARGINS ONLY. It first ran under the text as well, and 宋体 at body
+     sizes has horizontals about as fine as a 1px line and running the same
+     way, so every grid line crossing a paragraph read as part of the letters.
+     Measured: --ink3 went from 4.61:1 on paper to 4.28:1 on a line, under
+     the 4.5 floor. So the top layer is a band of plain paper the width of the
+     page measure plus a rem each side, and the grid shows only either side of
+     it. On a phone the measure is the screen, so there is no grid at all. */
   --grid: color-mix(in srgb, var(--rule2) 45%, transparent);
+  --col: calc(min(100% - 2.5rem, 76rem) / 2 + 1rem);
   background-image:
+    linear-gradient(to right, transparent calc(50% - var(--col)),
+                    var(--p0) calc(50% - var(--col)), var(--p0) calc(50% + var(--col)),
+                    transparent calc(50% + var(--col))),
     linear-gradient(to right, var(--grid) 1px, transparent 1px),
     linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
-  background-size: 32px 32px;
-  background-position: center top;
+  background-size: 100% 100%, 32px 32px, 32px 32px;
+  background-repeat: repeat-y, repeat, repeat;
+  background-position: 0 0, center top, center top;
+  /* No slanted Chinese. CJK faces have no italic, so an italic standfirst
+     was the browser shearing 宋体 — thinner and blurrier than the upright,
+     which is the last thing a hairline face needs. Latin still gets Iowan's
+     real italic; only the synthetic slant is refused. */
+  font-synthesis-style: none;
 }
 h1, h2, h3, h4, p, dl, dd, figure, ul, ol { margin: 0; }
 ul, ol { list-style: none; padding: 0; }
@@ -435,6 +453,15 @@ a { color: inherit; }
    only things in it a reader can act on. */
 @media (max-width: 46rem) { .runner .brand { display: none; } }
 @media (max-width: 34rem) { .runner .here { display: none; } }
+/* --- small Chinese prose, one density up ------------------------------
+   The descriptions under a title are set small (14–15px), and in 宋体 at that
+   size --ink2's 7.4:1 still reads grey: the contrast is in the colour, and the
+   face has almost no stroke to carry it. In Chinese they take full ink. Latin
+   keeps --ink2 — Iowan has the stroke. Hierarchy is held by size and by the
+   standfirst above staying --ink2, and it is still the one cobalt ink. */
+:root:lang(zh) .entry p.desc, :root:lang(zh) .idx-item p:not(.tag),
+:root:lang(zh) .sec-note, :root:lang(zh) .notice-sub { color: var(--ink); }
+
 /* --- the rail -------------------------------------------------------------
    How far down the issue the reader is: a 2px hairline in the left margin that
    fills with ink, and the percentage under it in the programmatic face. The
@@ -502,14 +529,13 @@ a { color: inherit; }
    the same move the class's own poster makes with its steel rule. */
 .notice-plate { grid-area: plate; margin: 0 0 calc(var(--m) * 2.5);
                 background: var(--p1); aspect-ratio: 3 / 1; overflow: hidden; }
-/* 3:1, not the plate's own 21:9. Shown whole, the top third of the drawing is
-   bare paper — right on a printed sheet, where it is the quiet the row needs,
-   and 230px of nothing here, where the block already has the byline's white
-   space above it. The crop keeps a little of that band, all ten sheets and the
-   table rule, and lands at 405px tall against the 521px of the 16/7 plate it
-   replaces. */
+/* 3:1, not the plate's own proportion. The plate is the laptop drawing now
+   (it was the class's ten sheets until 19 Sep), and its left half is bare
+   paper and a table edge — so the crop is pulled right and a little down, onto
+   the screen and the hands, which are the part that says "bring what you
+   made". */
 .notice-plate img { width: 100%; height: 100%; object-fit: cover;
-                    object-position: 50% 68%; }
+                    object-position: 72% 60%; }
 .notice-txt  { grid-area: txt; min-width: 0; }
 .notice-meta { grid-area: meta; min-width: 0; white-space: nowrap; }
 .notice-kick { color: var(--ink3); }
@@ -1007,9 +1033,9 @@ a { color: inherit; }
   </div>
 </footer>
 
-<script src="data.js?v=7"></script>
+<script src="data.js?v=8"></script>
 <script src="issues.js?v=6"></script>
-<script src="i18n.js?v=4"></script>
+<script src="i18n.js?v=5"></script>
 <script>
 /* The whole edition, set from the same files the live site reads. */
 (function () {
@@ -1076,6 +1102,13 @@ a { color: inherit; }
     'c.sub': '一天，把「该做什么」和「凭什么有人买」这两件事定下来。',
     'c.facts': '2026-9-19 周六 · 悉尼 City · 10 席 · 中文讲',
     'c.more': '课程详情',
+    /* The Thursday table, which holds the opener now. Its own words, taken
+       from vibethursday.com (src/lib/content.ts), not rewritten. */
+    'vt.kick': '每周四 · 悉尼 · 免费',
+    'vt.title': 'Vibe Thursday · 每周四上午的 AI 局',
+    'vt.sub': '一群在做东西的人围一张桌子喝咖啡，聊各自在用 AI 干什么、卡在哪。手上有东西想给大家看，随时可以；只想听，也完全没问题。',
+    'vt.facts': '每周四 10:30 开门 · Chatswood The Avenue · 免费，店里点杯喝的就行',
+    'vt.more': '报名 · vibethursday.com',
     'p.contents': '本期目录',
     'p.count': '%s 项',
     'p.date': '%s 年 %s 月 %s 日',
@@ -1122,6 +1155,7 @@ a { color: inherit; }
   var CN = ['', 'I', 'II', 'III', 'IV', 'V', 'VI'];
   function pn(n) { return ('0' + n).slice(-2); }
 
+  var lastSections = [];   /* the running order as last rendered; see render() */
   var issue = (typeof ISSUES !== 'undefined' && ISSUES.length) ? ISSUES[ISSUES.length - 1] : null;
   var apps = CATEGORIES.filter(function (c) { return c.featured; })[0];
   var rest = CATEGORIES.filter(function (c) { return !c.featured; });
@@ -1200,12 +1234,40 @@ a { color: inherit; }
       '<span>' + T('p.skills', restCount) + '</span>'
     ].filter(Boolean).join('');
 
-    var SECTIONS = [
-      { id: 'tools',     t: T('dept.work.title'),    n: apps ? T('p.count', apps.items.length) : '' },
-      { id: 'index',     t: T('p.systems'),          n: T('p.count', restCount) },
-      { id: 'writing',   t: T('dept.writing.title'), n: T('p.count', WRITING.items.length) },
-      { id: 'elsewhere', t: T('dept.links.title'),   n: T('p.count', ELSEWHERE.items.length + SITES.items.length) }
-    ];
+    /* THE RUNNING ORDER — the one list that sets it.
+       Contents, section numerals (I–IV and the 01–04 behind them) and the
+       running head all read from this, so reordering the issue is moving a
+       line here and nothing else.
+
+       Ordered by what each department is worth, to a reader and to the house:
+         1. writing    the only things on the page that are paid for, and two
+                       short rows — cheap to put before the long sections,
+                       where most readers never get past the first film
+         2. tools      the four apps: the strongest reason to trust the rest,
+                       and the most useful thing here to a stranger
+         3. elsewhere  the ways to reach me; the Thursday table and the group
+                       are where a reader becomes a conversation
+         4. index      the twelve skills — a reference catalogue, read by the
+                       reader who is already looking for one */
+    var ORDER = ['writing', 'tools', 'elsewhere', 'index'];
+    var DEPT = {
+      tools:     { t: T('dept.work.title'),    n: apps ? T('p.count', apps.items.length) : '' },
+      index:     { t: T('p.systems'),          n: T('p.count', restCount) },
+      writing:   { t: T('dept.writing.title'), n: T('p.count', WRITING.items.length) },
+      elsewhere: { t: T('dept.links.title'),   n: T('p.count', ELSEWHERE.items.length + SITES.items.length) }
+    };
+    var SECTIONS = ORDER.filter(function (id) { return id !== 'tools' || apps; })
+      .map(function (id) { return { id: id, t: DEPT[id].t, n: DEPT[id].n }; });
+    /* A department's head: the outlined folio, the numeral, the title, the
+       note. `n` is its place in SECTIONS, counted from 1. */
+    function head(n, title, note) {
+      return '<div class="sec-head"><span class="sec-wm" aria-hidden="true">' + pn(n) + '</span>'
+        + '<span class="sec-no">' + CN[n] + '</span>'
+        + '<h2 class="sec-t">' + esc(title) + '</h2>'
+        + (note ? '<p class="sec-note">' + esc(note) + '</p>' : '') + '</div>';
+    }
+    lastSections = SECTIONS;
+
 
     var out = [];
 
@@ -1231,46 +1293,45 @@ a { color: inherit; }
     out.push('</div>');
 
     out.push('<section class="opener rise">'
-      /* THE OPENER IS THE CLASS.
-         This slot held a decorative plate — a magazine opener, and a good one,
-         but it said nothing and led nowhere. The one thing on this site a
-         reader can actually turn up to now occupies it: same position, same
-         full measure, and every part of it is the link.
+      /* THE OPENER IS THE THURSDAY TABLE.
+         It was the 19 Sep class until that had run; the class is now a row
+         in the writing department, and its page stays up as the record.
+         The table is the right thing for this slot because it never expires:
+         it is on every week, it is free, and it is where a reader who liked
+         the page can turn up and become a conversation.
 
-         It is here and NOT in a strip above the contents page, which is where
-         it went first. Two placements of one link on one screen is the same
-         offer made twice, and the opener is the stronger of the two — a reader
-         reaches it having just been told who is making the offer.
+         The plate is the house's own laptop drawing, the one that stood in
+         this slot before the class did. The meetup's own card is set in
+         another publication's neon, and it prints a time the meetup has
+         since moved away from.
 
-         The whole block is one <a>. A kicker, a headline, a strapline, a fact
-         line and a "read more" are five tap targets pretending to be one
-         thing; making the block the target is easier to hit and honest about
-         there being a single destination. */
-      + '<a class="notice" href="19sep/">'
+         The whole block is one <a>: a kicker, a headline, a strapline, a
+         fact line and a "read more" are five tap targets pretending to be
+         one thing. */
+      + '<a class="notice" href="https://vibethursday.com" rel="noopener">'
       +   '<figure class="notice-plate">'
-      +     '<img src="assets/course-19sep.webp' + V + '" alt="" width="1600" height="680"'
-      +     ' data-day="assets/course-19sep.webp' + V + '"'
-      +     ' data-night="assets/course-19sep-night.webp' + V + '"'
+      +     '<img src="assets/mag-opener.webp' + V + '" alt="" width="1600" height="1075"'
+      +     ' data-day="assets/mag-opener.webp' + V + '"'
+      +     ' data-night="assets/mag-opener-night.webp' + V + '"'
       +     ' decoding="async" fetchpriority="high">'
       +   '</figure>'
       +   '<div class="notice-txt">'
-      +     '<p class="label notice-kick">' + esc(T('c.kick')) + '</p>'
-      +     '<h2 class="notice-t">' + esc(T('c.title')) + '</h2>'
-      +     '<p class="notice-sub">' + esc(T('c.sub')) + '</p>'
-      +     '<p class="label notice-facts">' + esc(T('c.facts')) + '</p>'
+      +     '<p class="label notice-kick">' + esc(T('vt.kick')) + '</p>'
+      +     '<h2 class="notice-t">' + esc(T('vt.title')) + '</h2>'
+      +     '<p class="notice-sub">' + esc(T('vt.sub')) + '</p>'
+      +     '<p class="label notice-facts">' + esc(T('vt.facts')) + '</p>'
       +   '</div>'
       +   '<div class="notice-meta">'
-      +     '<p class="notice-more">' + esc(T('c.more')) + ' \u2192</p>'
+      +     '<p class="notice-more">' + esc(T('vt.more')) + ' →</p>'
       +   '</div>'
       + '</a></section>');
 
-    if (apps) {
+    var BUILD = {};
+
+    BUILD.tools = function (n) {
       var kind = t(apps.title), items = apps.items;
       var body = ['<section class="sec rise" id="tools">'
-        + '<div class="sec-head"><span class="sec-wm" aria-hidden="true">' + pn(1) + '</span>'
-        + '<span class="sec-no">' + CN[1] + '</span>'
-        + '<h2 class="sec-t">' + esc(T('dept.work.title')) + '</h2>'
-        + '<p class="sec-note">' + esc(T('dept.work.note')) + '</p></div>'];
+        + head(n, T('dept.work.title'), T('dept.work.note'))];
 
       var f = items[0];
       body.push('<article class="feature">'
@@ -1294,53 +1355,53 @@ a { color: inherit; }
           +   spec(it, kind)
           + '</div></article>');
       });
-      out.push(body.join('') + '</section>');
-    }
+      return body.join('') + '</section>';
+    };
 
     /* The classifieds — name, one line, one paragraph, twelve of them in three
        columns. The paragraphs were cut once to buy back half a screen and put
        straight back: they are 425 characters of the 1500 this edition carries,
        and trading content for a screen count is optimising the wrong number.
        The half screen came from cropping the two plates to bands instead. */
-    out.push('<section class="sec rise" id="index">'
-      + '<div class="sec-head"><span class="sec-wm" aria-hidden="true">' + pn(2) + '</span>'
-        + '<span class="sec-no">' + CN[2] + '</span>'
-      + '<h2 class="sec-t">' + esc(T('p.systems')) + '</h2></div>'
-      + rest.map(function (c) {
-          return '<p class="label idx-head">' + esc(t(c.title)) + ' · '
-               + esc(T('p.count', c.items.length)) + '</p>'
-               + '<div class="idx">' + c.items.map(function (it) {
-                   return '<div class="idx-item"><a href="' + url(it) + '">'
-                        + '<h4>' + esc(t(it.name))
-                        + (it.stars ? '<span class="star">★ ' + it.stars + '</span>' : '')
-                        + '</h4>'
-                        + '<p class="tag">' + esc(t(it.tagline)) + '</p>'
-                        + '<p>' + esc(t(it.desc)) + '</p></a></div>';
-                 }).join('') + '</div>';
-        }).join('') + '</section>');
+    BUILD.index = function (n) {
+      return '<section class="sec rise" id="index">'
+        + head(n, T('p.systems'))
+        + rest.map(function (c) {
+            return '<p class="label idx-head">' + esc(t(c.title)) + ' · '
+                 + esc(T('p.count', c.items.length)) + '</p>'
+                 + '<div class="idx">' + c.items.map(function (it) {
+                     return '<div class="idx-item"><a href="' + url(it) + '">'
+                          + '<h4>' + esc(t(it.name))
+                          + (it.stars ? '<span class="star">★ ' + it.stars + '</span>' : '')
+                          + '</h4>'
+                          + '<p class="tag">' + esc(t(it.tagline)) + '</p>'
+                          + '<p>' + esc(t(it.desc)) + '</p></a></div>';
+                   }).join('') + '</div>';
+          }).join('') + '</section>';
+    };
 
-    out.push('<section class="sec rise" id="writing">'
-      + '<div class="sec-head"><span class="sec-wm" aria-hidden="true">' + pn(3) + '</span>'
-        + '<span class="sec-no">' + CN[3] + '</span>'
-      + '<h2 class="sec-t">' + esc(T('dept.writing.title')) + '</h2>'
-      + '<p class="sec-note">' + esc(T('dept.writing.note')) + '</p></div>'
-      + rows(WRITING.items) + '</section>');
+    BUILD.writing = function (n) {
+      return '<section class="sec rise" id="writing">'
+        + head(n, T('dept.writing.title'), T('dept.writing.note'))
+        + rows(WRITING.items) + '</section>';
+    };
 
-    out.push('<section class="sec rise" id="elsewhere">'
-      + '<div class="sec-head"><span class="sec-wm" aria-hidden="true">' + pn(4) + '</span>'
-        + '<span class="sec-no">' + CN[4] + '</span>'
-      + '<h2 class="sec-t">' + esc(T('dept.links.title')) + '</h2>'
-      + '<p class="sec-note">' + esc(T('dept.links.note')) + '</p></div>'
-      + rows(ELSEWHERE.items)
-      + '<p class="label idx-head">' + esc(T('dept.sites.title')) + ' · '
-      + esc(T('dept.sites.note')) + '</p>'
-      + rows(SITES.items)
-      + '<figure class="plate">'
-      +   '<img src="assets/mag-back.webp' + V + '" alt="" width="1600" height="1164"'
-      +   ' data-day="assets/mag-back.webp' + V + '"'
-      +   ' data-night="assets/mag-back-night.webp' + V + '"'
-      +   ' loading="lazy" decoding="async">'
-      + '</figure></section>');
+    BUILD.elsewhere = function (n) {
+      return '<section class="sec rise" id="elsewhere">'
+        + head(n, T('dept.links.title'), T('dept.links.note'))
+        + rows(ELSEWHERE.items)
+        + '<p class="label idx-head">' + esc(T('dept.sites.title')) + ' · '
+        + esc(T('dept.sites.note')) + '</p>'
+        + rows(SITES.items)
+        + '<figure class="plate">'
+        +   '<img src="assets/mag-back.webp' + V + '" alt="" width="1600" height="1164"'
+        +   ' data-day="assets/mag-back.webp' + V + '"'
+        +   ' data-night="assets/mag-back-night.webp' + V + '"'
+        +   ' loading="lazy" decoding="async">'
+        + '</figure></section>';
+    };
+
+    SECTIONS.forEach(function (s, i) { out.push(BUILD[s.id](i + 1)); });
 
     document.getElementById('paper').innerHTML = out.join('');
 
@@ -1547,12 +1608,12 @@ a { color: inherit; }
     if (back) back.textContent = T('p.toTop');
     runner.querySelector('.brand').textContent = T('alias');
 
+    /* In the issue's running order, which render() left in lastSections —
+       the numeral here has to be the one printed on the section itself. */
     var marks = [{ el: document.getElementById('lead'), f: '', t: T('p.lead') }];
-    [['tools', T('dept.work.title')], ['index', T('p.systems')],
-     ['writing', T('dept.writing.title')],
-     ['elsewhere', T('dept.links.title')]].forEach(function (pair, i) {
-      var el = document.getElementById(pair[0]);
-      if (el) marks.push({ el: el, f: CN[i + 1], t: pair[1] });
+    lastSections.forEach(function (sec, i) {
+      var el = document.getElementById(sec.id);
+      if (el) marks.push({ el: el, f: CN[i + 1], t: sec.t });
     });
 
     var pending = false, last = -1, shown = false;

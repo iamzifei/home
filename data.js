@@ -331,6 +331,11 @@ const WRITING = {
     { name: { zh: "AI 内容写作自动化工作流", "zh-Hant": "AI 內容寫作自動化工作流", en: "AI content workflow" },
       where: { zh: "工作流 · 购买", "zh-Hant": "工作流 · 購買", en: "Workflow · buy" },
       url: "https://bit.ly/4bMfbZp" },
+    /* The 19 Sep class, kept as a record once it had run. It held the
+       front page's opener until then; the page it pointed at stays up. */
+    { name: { zh: "线下课归档 · 不知道做什么，做了又没人买", "zh-Hant": "線下課歸檔 · 不知道做什麼，做了又沒人買", en: "Class archive · Not sure what to build — and what you built, nobody buys" },
+      where: { zh: "2026-9-19 · 已结束", "zh-Hant": "2026-9-19 · 已結束", en: "19 Sep 2026 · past" },
+      url: "19sep/" },
   ],
 };
 

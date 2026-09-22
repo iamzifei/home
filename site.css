@@ -153,6 +153,8 @@ body {
      printed sheet into a system dialog. */
   font-family: var(--serif);
   font-size: 16px; line-height: 1.7;
+  /* as on the front page: CJK has no italic, so refuse the synthetic slant */
+  font-synthesis-style: none;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
