@@ -133,6 +133,23 @@
   --page: min(100% - 2.5rem, 76rem);
   --gut: clamp(1.2rem, 2.4vw, 2.2rem);
   --measure: 34em;          /* the reading measure, in the reading face */
+
+  /* --- motion: one curve, four durations -------------------------------
+     Every transition and animation on the page reads from these. The curve
+     was already the same literal in six places; naming it is what stops a
+     seventh place from quietly using `ease`. It decelerates hard — most of
+     the travel happens in the first fifth — which is what makes paper read as
+     settling rather than as a UI sliding.
+
+       --t-press   an answer to a press, felt more than seen
+       --t-hover   a response to the pointer; the reader is already waiting
+       --t-rise    something arriving while the reader scrolls
+       --t-settle  the first impression, seen once per visit */
+  --ease: cubic-bezier(.16, 1, .3, 1);
+  --t-press: 120ms;
+  --t-hover: 200ms;
+  --t-rise: 420ms;
+  --t-settle: 600ms;
 }
 
 /* The dark state is not a theme. It is the same press run with the paper and
@@ -219,6 +236,18 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   font-kerning: normal;
+  /* The layout grid, printed very faintly on the sheet: a 32px square in the
+     lighter hairline ink, at a little under half its strength. It is there so
+     the white space reads as measured rather than empty. It must stay fainter
+     than every rule on the page — the rules are information, the grid is
+     paper — and it is the same ink thinned again, so it adds no colour. Plates
+     and wells paint over it with their own --p1. */
+  --grid: color-mix(in srgb, var(--rule2) 45%, transparent);
+  background-image:
+    linear-gradient(to right, var(--grid) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-position: center top;
 }
 h1, h2, h3, h4, p, dl, dd, figure, ul, ol { margin: 0; }
 ul, ol { list-style: none; padding: 0; }
@@ -262,6 +291,13 @@ a { color: inherit; }
   margin: 0;
 }
 .mast-name em { font-style: italic; font-weight: 500; }
+/* Each word sits in its own clipped line so the entrance can lift it up from
+   under an invisible baseline, like type being set. The padding keeps the
+   italic's overhang and the descenders inside the clip; the negative margin
+   hands that room back so the nameplate measures exactly what it did. */
+.mast-name .ln { display: inline-block; overflow: hidden; vertical-align: top;
+                 padding: 0 0.08em 0.16em 0; margin: 0 -0.08em -0.16em 0; }
+.mast-name .ln > * { display: inline-block; }
 .mast-sub {
   display: flex; align-items: baseline; justify-content: space-between;
   gap: 1rem; flex-wrap: wrap; margin-top: 0.9rem;
@@ -290,10 +326,10 @@ a { color: inherit; }
    looking at, so it has to answer the press itself rather than let the whole
    page repainting be the answer. 0.96 on a 12px control is about a pixel —
    felt, not seen. */
-.press-switch { transition: transform 120ms cubic-bezier(.16,1,.3,1),
-                            color 180ms ease; }
+.press-switch { transition: transform var(--t-press) var(--ease),
+                            color var(--t-hover) var(--ease); }
 .press-switch:active { transform: scale(0.96); }
-@media (prefers-reduced-motion: reduce) { .press-switch { transition: color 180ms ease; }
+@media (prefers-reduced-motion: reduce) { .press-switch { transition: color var(--t-hover) var(--ease); }
                                           .press-switch:active { transform: none; } }
 @media (hover: hover) and (pointer: fine) {
   .press-switch:hover { color: var(--ink); }
@@ -372,7 +408,7 @@ a { color: inherit; }
   /* An element arriving on screen gets the decelerating curve, like everything
      else that arrives here. `ease` holds the first third back, which is the
      third the reader is looking at. */
-  transition: opacity 200ms cubic-bezier(.16,1,.3,1), visibility 200ms;
+  transition: opacity var(--t-hover) var(--ease), visibility var(--t-hover);
 }
 @supports (backdrop-filter: blur(2px)) {
   /* The only filter in the edition, on a strip that never moves relative to
@@ -399,6 +435,31 @@ a { color: inherit; }
    only things in it a reader can act on. */
 @media (max-width: 46rem) { .runner .brand { display: none; } }
 @media (max-width: 34rem) { .runner .here { display: none; } }
+/* --- the rail -------------------------------------------------------------
+   How far down the issue the reader is: a 2px hairline in the left margin that
+   fills with ink, and the percentage under it in the programmatic face. The
+   running head says WHERE; this says HOW FAR, which on a page seven screens
+   long is the other half of not being lost.
+
+   Only where the margin is wide enough to hold it clear of the text — 83rem is
+   the width at which the page measure leaves 56px beside it. Below that it
+   would sit on the copy, and a narrow screen has a scrollbar for this job.
+   Not motion: it tracks the scroll position directly, with no transition, so
+   it stays under `prefers-reduced-motion` too. */
+.rail { display: none; }
+@media (min-width: 83rem) {
+  .rail {
+    display: block; position: fixed; z-index: 30;
+    top: 50%; left: calc((100% - var(--page)) / 2 - 2.75rem);
+    width: 2px; height: 7.5rem; margin-top: -3.75rem;
+    background: var(--rule2); pointer-events: none;
+  }
+  .rail i { position: absolute; inset: 0; background: var(--ink);
+            transform: scaleY(0); transform-origin: center top; }
+  .rail span { position: absolute; top: 100%; left: 0; margin-top: 0.6rem;
+               font-family: var(--mono); font-size: 0.625rem; letter-spacing: 0.08em;
+               color: var(--ink3); font-variant-numeric: tabular-nums; }
+}
 /* Anchors land below the strip rather than under it. */
 .sec, .toc, #lead { scroll-margin-top: 3.2rem; }
 
@@ -467,7 +528,7 @@ a { color: inherit; }
   padding-bottom: 1px;
 }
 @media (hover: hover) and (pointer: fine) {
-  .notice-t, .notice-more { transition: color 180ms ease, border-color 180ms ease; }
+  .notice-t, .notice-more { transition: color var(--t-hover) var(--ease), border-color var(--t-hover) var(--ease); }
   .notice:hover .notice-t { color: var(--sig-t); }
   .notice:hover .notice-more { color: var(--sig-t); border-bottom-color: currentColor; }
 }
@@ -536,8 +597,8 @@ a { color: inherit; }
   padding-block: 0.42rem; border-bottom: 1px solid var(--rule2);
   text-decoration: none;
 }
-.toc .folio { font-family: var(--mono); font-size: 0.75rem; color: var(--ink3);
-              min-width: 2.2em; }
+.toc .folio, .rows .folio { font-family: var(--mono); font-size: 0.75rem;
+                             color: var(--ink3); min-width: 2.2em; }
 .toc .t { font-size: 1.0625rem; white-space: nowrap; }
 .toc .lead-rule { flex: 1 1 auto; border-bottom: 1px dotted var(--rule);
                   transform: translateY(-0.28em); }
@@ -550,7 +611,25 @@ a { color: inherit; }
 .sec-head {
   display: grid; grid-template-columns: auto 1fr; align-items: end;
   gap: 0 1rem; margin-bottom: clamp(1.4rem, 3vw, 2.2rem);
+  position: relative; isolation: isolate;
 }
+/* The folio again, very large and only as an outline, behind the head at the
+   right. It is the same number the contents page gives this section (01–04),
+   so the two ends of the link agree; the Roman numeral beside the title is the
+   department, this is where it sits in the issue. Outline in the hairline ink,
+   no fill: a numeral this size in solid ink would be the loudest thing on the
+   page, and it is decoration, so it is the quietest. */
+.sec-wm {
+  position: absolute; right: 0; bottom: -0.12em; z-index: -1;
+  font-family: var(--serif); font-weight: 600; line-height: 0.8;
+  font-size: clamp(4.5rem, 13vw, 10rem); letter-spacing: -0.04em;
+  font-variant-numeric: lining-nums tabular-nums;
+  color: transparent; -webkit-text-stroke: 1px var(--rule);
+  pointer-events: none; user-select: none;
+}
+/* Narrow: the head is one column and the note runs the full width, so the
+   numeral would sit on the words. It goes; the Roman numeral stays. */
+@media (max-width: 46rem) { .sec-wm { display: none; } }
 .sec-no {
   font-family: var(--serif); font-size: clamp(2.2rem, 6vw, 3.6rem);
   line-height: 0.8; font-weight: 600; letter-spacing: -0.03em;
@@ -719,8 +798,13 @@ a { color: inherit; }
    《搞到钱再说》row, which is the longest one there is. */
 @media (max-width: 34rem) {
   .rows a { flex-wrap: wrap; gap: 0.15rem 0.9rem; }
+  /* a long title wraps inside its own column, beside the folio, instead of
+     dropping the whole title onto a line of its own under it */
+  .rows .t { flex: 1 1 0; min-width: 0; }
   .rows .lead-rule { display: none; }
-  .rows .w { width: 100%; text-align: left; }
+  /* under the title, not under the folio: 2.2em of the folio's 0.75rem plus
+     the row's gap */
+  .rows .w { width: 100%; text-align: left; padding-left: calc(1.65rem + 0.9rem); }
 }
 
 /* --- 版权页 · the colophon --------------------------------------------
@@ -759,16 +843,18 @@ a { color: inherit; }
 
 /* --- motion -------------------------------------------------------------
    A printed sheet does not fidget. Four things move on this page and nothing
-   else does:
+   else does (the rail in the margin tracks the scroll, it does not animate):
 
-     1. the nameplate settles once, on load
+     1. the nameplate settles once, on load — its two words lift out of their
+        lines, the facts around them fade up behind
      2. the terracotta rule draws from the left, once
      3. each section rises a few pixels the first time it is reached
      4. a product plate leans forward a hair under the pointer
 
    All four are opacity and transform only — no layout property is animated,
-   so none of them can cost a reflow. Durations are 500–900ms on a decelerating
-   curve: slow enough to read as paper settling, not as a UI acknowledging you.
+   so none of them can cost a reflow. Every duration and the one curve are
+   the tokens at the top of :root — --t-press to --t-settle on --ease — on a
+   decelerating curve: slow enough to read as paper settling, not as a UI acknowledging you.
 
    EVERY hidden state is behind `.motion`, which script adds to <html>. With no
    script, or with the script broken, nothing is ever hidden — a design whose
@@ -784,8 +870,8 @@ a { color: inherit; }
      as the page settling. There is no stagger here on purpose: scroll position
      already staggers six blocks better than any delay ladder would. */
   .motion .rise { opacity: 0; transform: translateY(9px);
-                  transition: opacity 420ms cubic-bezier(.16,1,.3,1),
-                              transform 420ms cubic-bezier(.16,1,.3,1); }
+                  transition: opacity var(--t-rise) var(--ease),
+                              transform var(--t-rise) var(--ease); }
   .motion .rise.seen { opacity: 1; transform: none; }
 
   /* The masthead is seen once per visit and is the page's one first
@@ -797,15 +883,20 @@ a { color: inherit; }
      The delays are a proper ladder now — kick, name, alias, dateline, in
      reading order, 60ms apart. The kick and the name used to fire together,
      which is the one place the eye could tell the sequence was approximate. */
-  .motion .mast-name, .motion .mast-cn, .motion .mast-kick, .motion .dateline {
-    animation: settle 560ms cubic-bezier(.16,1,.3,1) both;
+  .motion .mast-cn, .motion .mast-kick, .motion .dateline {
+    animation: settle var(--t-settle) var(--ease) both;
   }
+  /* The name does not fade: each word rises out of its own clipped line, so it
+     is fully inked the whole way and simply arrives. James first, then AI. */
+  .motion .mast-name .ln > * { animation: lift var(--t-settle) var(--ease) both; }
   .motion .mast-kick { animation-delay: 0ms; }
-  .motion .mast-name { animation-delay: 60ms; }
-  .motion .mast-cn   { animation-delay: 120ms; }
-  .motion .dateline  { animation-delay: 180ms; }
+  .motion .mast-name .ln:nth-child(1) > * { animation-delay: 60ms; }
+  .motion .mast-name .ln:nth-child(2) > * { animation-delay: 120ms; }
+  .motion .mast-cn   { animation-delay: 180ms; }
+  .motion .dateline  { animation-delay: 240ms; }
   .motion .mast-rule { transform-origin: left center;
-                       animation: draw 620ms cubic-bezier(.16,1,.3,1) 120ms both; }
+                       animation: draw var(--t-settle) var(--ease) 120ms both; }
+  @keyframes lift   { from { transform: translateY(105%); } to { transform: none; } }
   @keyframes settle { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: none; } }
   @keyframes draw   { from { transform: scaleX(0); } to { transform: scaleX(1); } }
 
@@ -819,12 +910,12 @@ a { color: inherit; }
        was still growing half a second after they arrived, which reads as lag,
        not as weight. Same curve, so it still decelerates like the rest of the
        page; it just gets there. */
-    .fig img, .fig video { transition: transform 200ms cubic-bezier(.16,1,.3,1); }
+    .fig img, .fig video { transition: transform var(--t-hover) var(--ease); }
     a.fig:hover img, a.fig:hover video { transform: scale(1.015); }
     /* Pressing a plate is a press. Without this the picture is the one thing on
        the page that does not answer a click until the next page loads. */
     a.fig:active img, a.fig:active video { transform: scale(0.995);
-                                           transition-duration: 110ms; }
+                                           transition-duration: var(--t-press); }
   }
 }
 /* Colour is allowed to move, but only where there is a pointer to move it.
@@ -833,7 +924,7 @@ a { color: inherit; }
 @media (hover: hover) and (pointer: fine) {
   .toc a .t, .rows a .t, .idx-item h4, .spec dd a, .runner .back,
   .colophon a, .imprint a {
-    transition: color 180ms ease, border-color 180ms ease;
+    transition: color var(--t-hover) var(--ease), border-color var(--t-hover) var(--ease);
   }
 }
 .spec dd a { text-decoration: none; border-bottom: 1px solid var(--rule); }
@@ -873,12 +964,14 @@ a { color: inherit; }
   <a class="back label" href="#contents">目录 ↑</a>
 </nav>
 
+<div class="rail" aria-hidden="true"><i id="railFill"></i><span id="railN">00</span></div>
+
 <header class="mast wrap" id="top">
   <div class="mast-kick">
     <span class="label" id="mastIssue">第 01 号</span>
     <span class="label" id="mastCity">悉尼</span>
   </div>
-  <h1 class="mast-name">James <em>AI</em></h1>
+  <h1 class="mast-name"><span class="ln"><span>James</span></span> <span class="ln"><em>AI</em></span></h1>
   <div class="mast-sub">
     <span class="mast-cn" id="mastAlias">在悉尼和稀泥</span>
     <span class="label" id="mastPress">一人公司</span>
@@ -1077,8 +1170,9 @@ a { color: inherit; }
     }).join('') + '</dl>';
   }
   function rows(list) {
-    return '<div class="rows">' + list.map(function (it) {
-      return '<a href="' + it.url + '"><span class="t">' + esc(t(it.name)) + '</span>'
+    return '<div class="rows">' + list.map(function (it, i) {
+      return '<a href="' + it.url + '"><span class="folio">' + pn(i + 1) + '</span>'
+           + '<span class="t">' + esc(t(it.name)) + '</span>'
            + '<span class="lead-rule"></span>'
            + '<span class="w">' + esc(t(it.where)) + '</span></a>';
     }).join('') + '</div>';
@@ -1173,7 +1267,8 @@ a { color: inherit; }
     if (apps) {
       var kind = t(apps.title), items = apps.items;
       var body = ['<section class="sec rise" id="tools">'
-        + '<div class="sec-head"><span class="sec-no">' + CN[1] + '</span>'
+        + '<div class="sec-head"><span class="sec-wm" aria-hidden="true">' + pn(1) + '</span>'
+        + '<span class="sec-no">' + CN[1] + '</span>'
         + '<h2 class="sec-t">' + esc(T('dept.work.title')) + '</h2>'
         + '<p class="sec-note">' + esc(T('dept.work.note')) + '</p></div>'];
 
@@ -1208,7 +1303,8 @@ a { color: inherit; }
        and trading content for a screen count is optimising the wrong number.
        The half screen came from cropping the two plates to bands instead. */
     out.push('<section class="sec rise" id="index">'
-      + '<div class="sec-head"><span class="sec-no">' + CN[2] + '</span>'
+      + '<div class="sec-head"><span class="sec-wm" aria-hidden="true">' + pn(2) + '</span>'
+        + '<span class="sec-no">' + CN[2] + '</span>'
       + '<h2 class="sec-t">' + esc(T('p.systems')) + '</h2></div>'
       + rest.map(function (c) {
           return '<p class="label idx-head">' + esc(t(c.title)) + ' · '
@@ -1224,13 +1320,15 @@ a { color: inherit; }
         }).join('') + '</section>');
 
     out.push('<section class="sec rise" id="writing">'
-      + '<div class="sec-head"><span class="sec-no">' + CN[3] + '</span>'
+      + '<div class="sec-head"><span class="sec-wm" aria-hidden="true">' + pn(3) + '</span>'
+        + '<span class="sec-no">' + CN[3] + '</span>'
       + '<h2 class="sec-t">' + esc(T('dept.writing.title')) + '</h2>'
       + '<p class="sec-note">' + esc(T('dept.writing.note')) + '</p></div>'
       + rows(WRITING.items) + '</section>');
 
     out.push('<section class="sec rise" id="elsewhere">'
-      + '<div class="sec-head"><span class="sec-no">' + CN[4] + '</span>'
+      + '<div class="sec-head"><span class="sec-wm" aria-hidden="true">' + pn(4) + '</span>'
+        + '<span class="sec-no">' + CN[4] + '</span>'
       + '<h2 class="sec-t">' + esc(T('dept.links.title')) + '</h2>'
       + '<p class="sec-note">' + esc(T('dept.links.note')) + '</p></div>'
       + rows(ELSEWHERE.items)
@@ -1543,6 +1641,35 @@ a { color: inherit; }
   }
 
   applyLang(langChoice);
+
+  /* --- the rail ------------------------------------------------------------
+     Scroll fraction into the margin hairline and its number. Wired once, not
+     per render: it reads only the document's height, which a language switch
+     changes and the next scroll event picks up. Skipped while the rail is not
+     displayed (below 83rem), so a phone does no work for it. */
+  (function () {
+    var rail = document.querySelector('.rail');
+    var fill = document.getElementById('railFill');
+    var num = document.getElementById('railN');
+    if (!rail || !fill || !num) return;
+    var queued = false, lastPct = -1;
+    /* the same breakpoint as the `.rail` rule; asked once, not read per frame */
+    var wide = window.matchMedia ? matchMedia('(min-width: 83rem)') : { matches: true };
+    function draw() {
+      queued = false;
+      if (!wide.matches) return;
+      var el = document.documentElement;
+      var max = el.scrollHeight - el.clientHeight;
+      var f = max > 0 ? Math.min(1, Math.max(0, (window.scrollY || el.scrollTop) / max)) : 0;
+      fill.style.transform = 'scaleY(' + f.toFixed(4) + ')';
+      var pct = Math.round(f * 100);
+      if (pct !== lastPct) { lastPct = pct; num.textContent = pct < 10 ? '0' + pct : String(pct); }
+    }
+    function queue() { if (!queued) { queued = true; requestAnimationFrame(draw); } }
+    window.addEventListener('scroll', queue, { passive: true });
+    window.addEventListener('resize', queue, { passive: true });
+    draw();
+  })();
 
   /* Live star counts: one request for the whole account, after paint, and the
      numbers in data.js stand if it fails or the reader is offline.

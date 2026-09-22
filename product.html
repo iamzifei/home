@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>James AI</title>
 <!-- Shared with the homepage-era stylesheet. See the note at the top of site.css. -->
-<link rel="stylesheet" href="site.css?v=3">
+<link rel="stylesheet" href="site.css?v=4">
 <script>
 /* Day / night / follow-the-system, resolved BEFORE the first paint. It used to
    run at the foot of the body, which meant a reader in night mode watched the
@@ -180,10 +180,10 @@
 /* The same press feedback the front page's copy of this control has: it
    changes something the reader is looking at, so it answers the press
    itself rather than letting the repaint be the only answer. */
-.press-switch { transition: transform 120ms cubic-bezier(.16,1,.3,1), color 180ms ease; }
+.press-switch { transition: transform var(--t-press) var(--ease), color var(--t-hover) var(--ease); }
 .press-switch:active { transform: scale(0.96); }
 @media (prefers-reduced-motion: reduce) {
-  .press-switch { transition: color 180ms ease; }
+  .press-switch { transition: color var(--t-hover) var(--ease); }
   .press-switch:active { transform: none; }
 }
 @media (hover: hover) and (pointer: fine) { .press-switch:hover, .press-lang:hover { color: var(--ink); } }
