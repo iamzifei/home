@@ -182,6 +182,18 @@ const CATEGORIES = [
         repo: "aikey",
         name: { zh: "AI KEY · AI 钥匙", "zh-Hant": "AI KEY · AI 鑰匙", en: "AI KEY" },
         stars: 1,
+        shot: "assets/key-hero.webp",
+        shots: [
+          { src: "assets/key-route.webp",
+            cap: { zh: "它先说挑了哪个技能、凭什么挑它，再把下一步给成编号选项——不是一张你自己去挑的清单。", "zh-Hant": "它先說挑了哪個技能、憑什麼挑它，再把下一步給成編號選項——不是一張你自己去挑的清單。",
+                   en: "It names the skill it picked and why it picked that one, then hands the next step over as numbered options — not a menu to choose from yourself." } },
+          { src: "assets/key-books.webp",
+            cap: { zh: "归因之前先把口径问死：这两成掉在哪条线，掉的是人数还是单价。口径没定死，它不开始拆，也不给建议。", "zh-Hant": "歸因之前先把口徑問死：這兩成掉在哪條線，掉的是人數還是單價。口徑沒定死，它不開始拆，也不給建議。",
+                   en: "Before attributing anything it pins the definitions down: which line lost the money, and whether it lost buyers or price. Until those are settled it will not split the number, and it will not advise." } },
+          { src: "assets/key-phone.webp",
+            cap: { zh: "手机上的豆包也装得上。装完它自己会说：输入 /key，再说一句你卡在哪。", "zh-Hant": "手機上的豆包也裝得上。裝完它自己會說：輸入 /key，再說一句你卡在哪。",
+                   en: "It installs into a phone assistant as well. When it is done it tells you what to type: /key, then one sentence about where you are stuck." } },
+        ],
         tagline: { zh: "25 个技能，一条命令", "zh-Hant": "25 個技能，一條命令", en: "25 skills, one command" },
         desc: {
           zh: "内容操盘手做号，生意操盘手看账，共用一个入口。用人话说你卡在哪，它挑对的那套来处理。只需要记一条命令：/key。", "zh-Hant": "內容操盤手做號，生意操盤手看帳，共用一個入口。用人話說你卡在哪，它挑對的那套來處理。只需要記一條命令：/key。",

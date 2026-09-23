@@ -1370,7 +1370,7 @@ a { color: inherit; }
             return '<p class="label idx-head">' + esc(t(c.title)) + ' · '
                  + esc(T('p.count', c.items.length)) + '</p>'
                  + '<div class="idx">' + c.items.map(function (it) {
-                     return '<div class="idx-item"><a href="' + url(it) + '">'
+                     return '<div class="idx-item"><a href="' + page(it) + '">'
                           + '<h4>' + esc(t(it.name))
                           + (it.stars ? '<span class="star">★ ' + it.stars + '</span>' : '')
                           + '</h4>'

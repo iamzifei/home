@@ -373,11 +373,15 @@
     /* Neighbours inside the same category only. Walking off the end of "macOS
        apps" into a skill repository is a link that looks like a sequence and is
        not one. */
+    /* Walks, rather than steps once: `page()` on the front sends a reader here
+       only for an item that has `shots`, so the neighbour that has none has no
+       page to arrive at. Stops at the category edge, as it always did. */
     function sibling(step) {
-      var j = i + step;
-      if (j < 0 || j >= flat.length) return null;
-      if (flat[j].cat !== flat[i].cat) return null;
-      return flat[j].it;
+      for (var j = i + step; j >= 0 && j < flat.length; j += step) {
+        if (flat[j].cat !== flat[i].cat) return null;
+        if (flat[j].it.shots && flat[j].it.shots.length) return flat[j].it;
+      }
+      return null;
     }
     function sibLink(item, label, side) {
       if (!item) return '<span></span>';
@@ -402,10 +406,10 @@
        `prefers-reduced-motion` is honoured by not asking for autoplay at all
        rather than by pausing afterwards: the poster is frame 0 and a complete
        picture, so nothing is missing. */
-    var still = it.shot.replace(/\.(jpg|webp)$/, '');
     var reduce = false;
     try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
     if (it.shot && it.motion) {
+      var still = it.shot.replace(/\.(jpg|webp)$/, '');
       out.push('<figure class="p-hero">'
         + '<video poster="' + still + '.webp' + V + '" muted loop playsinline'
         + (reduce ? '' : ' autoplay') + ' preload="' + (reduce ? 'none' : 'auto') + '"'

@@ -8,3 +8,4 @@ docs/
 assets/src/shots/
 assets/src/desk.png
 __pycache__/
+.playwright-mcp/
