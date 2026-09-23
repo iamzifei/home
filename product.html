@@ -117,6 +117,44 @@
          color: var(--ink2); }
 
 /* --- where to go next ------------------------------------------------- */
+/* The page used to end in two underlined mono links and the prev/next foot,
+   which told a reader what the thing IS and never once what to do about it.
+   One button, in the signal ink, plus the command itself where a command is
+   what the next step actually is — the reader copies it rather than going to
+   look for it. Everything else on the page stays two-ink. */
+.p-hero figcaption { margin-top: calc(var(--m) * 1.5);
+                     font-family: var(--mono); font-size: 0.6875rem;
+                     letter-spacing: 0.08em; color: var(--ink3); }
+.p-cta { margin-top: calc(var(--m) * 6); padding-top: calc(var(--m) * 4);
+         border-top: 1px solid var(--rule);
+         display: grid; gap: calc(var(--m) * 2); justify-items: start; }
+.cta-go { display: inline-block; text-decoration: none;
+          background: var(--accent-text); color: var(--g0);
+          padding: calc(var(--m) * 1.75) calc(var(--m) * 3.5);
+          border-radius: var(--r-l); font-family: var(--serif);
+          font-size: 1.0625rem; letter-spacing: 0.01em; }
+@media (hover: hover) and (pointer: fine) {
+  .cta-go { transition: transform var(--t-hover, 180ms) ease, filter 180ms ease; }
+  .cta-go:hover { filter: brightness(1.08); transform: translateY(-1px); }
+  .cta-go:active { transform: translateY(0); }
+}
+/* The command is a <button>, not a <code>: its job is to end up on the
+   clipboard, and a thing you click has to be a thing the keyboard can reach. */
+.cta-cmd { display: inline-flex; align-items: center; gap: calc(var(--m) * 2);
+           max-width: 100%; cursor: pointer; text-align: left;
+           font-family: var(--mono); font-size: 0.8125rem; color: var(--ink);
+           background: transparent; border: 1px solid var(--rule);
+           border-radius: var(--r-l);
+           padding: calc(var(--m) * 1.25) calc(var(--m) * 2); }
+.cta-cmd code { font: inherit; overflow-wrap: anywhere; }
+.cta-cmd b { font-family: var(--mono); font-size: 0.6875rem; font-weight: 400;
+             letter-spacing: 0.12em; text-transform: uppercase;
+             color: var(--ink3); white-space: nowrap; }
+.cta-cmd[data-done="1"] b { color: var(--accent-text); }
+@media (hover: hover) and (pointer: fine) { .cta-cmd:hover { border-color: var(--ink3); } }
+.cta-note { margin: 0; max-width: 52ch; color: var(--ink2);
+            font-size: 0.9375rem; line-height: 1.55; }
+.p-cta-foot { border-top: 0; padding-top: 0; margin-top: calc(var(--m) * 5); }
 .p-out { display: flex; flex-wrap: wrap; gap: calc(var(--m) * 3);
          margin-top: calc(var(--m) * 6); padding-top: calc(var(--m) * 3);
          border-top: 1px solid var(--rule); }
@@ -255,6 +293,8 @@
       press: 'SZX–SYD · 一人公司',
       kind: '类型', stars: '星标', src: '源码', web: '官网',
       prev: '← 上一项', next: '下一项 →',
+      ctaSite: '打开 %s', ctaRepo: '在 GitHub 上打开',
+      copy: '复制', copied: '已复制',
       lost: '没有这一项', lostBody: '目录里找不到 %s。', unnamed: '（未指定）',
       auto: '自动', day: '日间版', night: '夜间版', mode: '显示模式',
       sys: '跟随系统'
@@ -264,6 +304,8 @@
       press: 'SZX–SYD · 一人公司',
       kind: '類型', stars: '星標', src: '原始碼', web: '官網',
       prev: '← 上一項', next: '下一項 →',
+      ctaSite: '開啟 %s', ctaRepo: '在 GitHub 上開啟',
+      copy: '複製', copied: '已複製',
       lost: '沒有這一項', lostBody: '目錄裡找不到 %s。', unnamed: '（未指定）',
       auto: '自動', day: '日間版', night: '夜間版', mode: '顯示模式',
       sys: '跟隨系統'
@@ -273,6 +315,8 @@
       press: 'SZX–SYD · a one-person press',
       kind: 'Kind', stars: 'Stars', src: 'Source', web: 'Site',
       prev: '← Previous', next: 'Next →',
+      ctaSite: 'Open %s', ctaRepo: 'Open it on GitHub',
+      copy: 'Copy', copied: 'Copied',
       lost: 'No such entry', lostBody: 'Nothing in the catalogue answers to %s.',
       unnamed: '(none given)',
       auto: 'Auto', day: 'Day', night: 'Night', mode: 'Appearance',
@@ -408,6 +452,11 @@
        picture, so nothing is missing. */
     var reduce = false;
     try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+    /* `heroCap` says what the reader is looking at when that is not obvious
+       from looking. The AI KEY clip is a real session with the waiting cut out
+       of it, and a reader who is not told that will read ten seconds off it and
+       be wrong by two minutes. */
+    var heroCap = it.heroCap ? '<figcaption>' + esc(t(it.heroCap)) + '</figcaption>' : '';
     if (it.shot && it.motion) {
       var still = it.shot.replace(/\.(jpg|webp)$/, '');
       out.push('<figure class="p-hero">'
@@ -416,11 +465,33 @@
         + ' aria-label="' + esc(t(it.name)) + '">'
         + '<source src="' + still + '.webm' + V + '" type="video/webm">'
         + '<source src="' + still + '.mp4' + V + '" type="video/mp4">'
-        + '</video></figure>');
+        + '</video>' + heroCap + '</figure>');
     } else if (it.shot) {
       out.push('<figure class="p-hero"><img src="' + it.shot + V
-        + '" alt="' + esc(t(it.name)) + '"></figure>');
+        + '" alt="' + esc(t(it.name)) + '">' + heroCap + '</figure>');
     }
+
+    var cta = it.cta || {};
+    var ctaHref = cta.href || it.site || repoUrl;
+    var ctaLabel = cta.label ? t(cta.label)
+                 : (it.site ? L('ctaSite', siteHost(it.site)) : L('ctaRepo'));
+    /* Twice, and it is not padding: the page runs to three thousand pixels, so
+       a reader who came to look at the pictures and a reader who came to decide
+       are at different places when they are ready to act. The first one is under
+       the hero and carries the command; the last one is the button alone, so the
+       foot does not repeat a paragraph nobody reads twice. */
+    function ctaBlock(withCmd) {
+      return '<section class="p-cta' + (withCmd ? '' : ' p-cta-foot') + '">'
+        + '<a class="cta-go" href="' + esc(ctaHref) + '">' + esc(ctaLabel) + '</a>'
+        + (withCmd && cta.cmd
+            ? '<button class="cta-cmd" type="button" data-cmd="' + esc(cta.cmd) + '">'
+              + '<code>' + esc(cta.cmd) + '</code><b>' + esc(L('copy')) + '</b></button>'
+            : '')
+        + (withCmd && cta.note ? '<p class="cta-note">' + esc(t(cta.note)) + '</p>' : '')
+        + '</section>';
+    }
+
+    out.push(ctaBlock(true));
 
     if (shots.length) {
       out.push('<section class="p-gal">' + shots.map(function (s, n) {
@@ -431,8 +502,13 @@
       }).join('') + '</section>');
     }
 
+    /* The call to action. An item may state its own (AI KEY's next step is a
+       command, not a web page); otherwise it is the product's own site, or
+       failing that the repository — every entry has at least one of those, so
+       every page gets a button. */
     var links = ['<a href="' + repoUrl + '">iamzifei/' + esc(it.repo) + '</a>'];
     if (it.site) links.unshift('<a href="' + it.site + '">' + esc(siteHost(it.site)) + '</a>');
+    out.push(ctaBlock(false));
     out.push('<p class="p-out">' + links.join('') + '</p>');
 
     out.push('<nav class="p-sib">'
@@ -476,6 +552,42 @@
     [].forEach.call(host.querySelectorAll('.p-fig img'), function (img) {
       measure(img, img.closest('.shot'));
     });
+
+    /* Copy the command. `navigator.clipboard` is not there over plain http and
+       not there in older Safari, so the button falls back to selecting the
+       text — which is what the reader would have had to do by hand anyway, and
+       leaves them one keystroke from the same result. The label says which of
+       the two happened rather than claiming success either way. */
+    var cmdBtn = host.querySelector('.cta-cmd');
+    if (cmdBtn) {
+      cmdBtn.addEventListener('click', function () {
+        var text = cmdBtn.getAttribute('data-cmd');
+        var label = cmdBtn.querySelector('b');
+        function done() {
+          cmdBtn.setAttribute('data-done', '1');
+          label.textContent = L('copied');
+          setTimeout(function () {
+            cmdBtn.removeAttribute('data-done');
+            label.textContent = L('copy');
+          }, 1600);
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(done, select);
+        } else {
+          select();
+        }
+        function select() {
+          var code = cmdBtn.querySelector('code');
+          try {
+            var r = document.createRange();
+            r.selectNodeContents(code);
+            var sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(r);
+          } catch (e) {}
+        }
+      });
+    }
     /* The hero may be a video, which has no naturalWidth. Its poster does, and
        the poster is frame 0 of that video — same pixels, same width — so the cap
        is measured off an Image that is never inserted into the page. */
