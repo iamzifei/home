@@ -179,13 +179,13 @@ const CATEGORIES = [
         },
       },
       {
-        repo: "zmm",
-        name: "zmm",
+        repo: "aikey",
+        name: { zh: "AI KEY · AI 钥匙", "zh-Hant": "AI KEY · AI 鑰匙", en: "AI KEY" },
         stars: 1,
-        tagline: { zh: "做内容 + 看生意", "zh-Hant": "做內容 + 看生意", en: "Make content, read the business" },
+        tagline: { zh: "25 个技能，一条命令", "zh-Hant": "25 個技能，一條命令", en: "25 skills, one command" },
         desc: {
-          zh: "两套 AI 技能共用一个入口。用人话说你卡在哪，它挑对的那套来处理。只需要记一条命令：/zmm。", "zh-Hant": "兩套 AI 技能共用一個入口。用人話說你卡在哪，它挑對的那套來處理。只需要記一條命令：/zmm。",
-          en: "Two skill sets behind one command. Say where you are stuck in plain language and it picks the right one. You only remember /zmm.",
+          zh: "内容操盘手做号，生意操盘手看账，共用一个入口。用人话说你卡在哪，它挑对的那套来处理。只需要记一条命令：/key。", "zh-Hant": "內容操盤手做號，生意操盤手看帳，共用一個入口。用人話說你卡在哪，它挑對的那套來處理。只需要記一條命令：/key。",
+          en: "One suite runs the content account, the other reads the books, both behind one door. Say where you are stuck in plain language and it picks the right one. You only remember /key.",
         },
       },
     ],
