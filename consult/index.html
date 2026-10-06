@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>和我合作 · AI 咨询与落地 · James AI</title>
+<meta name="description" content="给想用 AI 解决具体问题的老板和个人：60 分钟一对一，线上或悉尼面谈，会后给你一页行动清单。$380，咨询费可抵扣项目费用。">
+<!-- Not linked from the front page yet; handed out as a link. -->
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#F5F1E8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14161C" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="../assets/favicon.png" sizes="48x48">
+<link rel="icon" href="../assets/favicon-32.png" sizes="32x32">
+<link rel="icon" href="../assets/favicon-16.png" sizes="16x16">
+<link rel="apple-touch-icon" href="../assets/favicon-180.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="和我合作 · AI 咨询与落地">
+<meta property="og:description" content="60 分钟一对一，线上或悉尼面谈，会后给你一页行动清单。">
+
+<script>
+/* Day / night / follow-the-system, resolved before the first paint, from the
+   same `jamesai.press` key the rest of the site uses: a reader who set the
+   front page to night does not get flashed white here.
+
+   Copied rather than imported. This page is one file with no build step and
+   is handed to people as a link; a shared script would be one more thing that
+   has to be on the server for the page to be right. */
+(function () {
+  var K = 'jamesai.press', r = document.documentElement, m;
+  try { m = window.matchMedia('(prefers-color-scheme: dark)'); } catch (e) {}
+  window.__pressSaved = function () {
+    try { return localStorage.getItem(K) || 'system'; } catch (e) { return 'system'; }
+  };
+  window.__pressApply = function (choice) {
+    var night = choice === 'night' || (choice === 'system' && m && m.matches);
+    r.setAttribute('data-press', night ? 'night' : 'day');
+    /* Swapping the src rather than shipping both means only the stock in use
+       is ever fetched. The element does not exist yet on the first call — this
+       script runs in <head>, before the body — and that is fine: the markup
+       ships with the day sheet, and the first call after DOMContentLoaded
+       below corrects it. */
+    var plate = document.getElementById('poster');
+    if (plate) {
+      var want = plate.getAttribute(night ? 'data-night' : 'data-day');
+      if (plate.getAttribute('src') !== want) plate.setAttribute('src', want);
+    }
+  };
+  __pressApply(__pressSaved());
+  document.addEventListener('DOMContentLoaded', function () {
+    __pressApply(__pressSaved());
+  });
+  if (m && m.addEventListener) {
+    m.addEventListener('change', function () {
+      if (__pressSaved() === 'system') __pressApply('system');
+    });
+  }
+})();
+</script>
+
+<style>
+/* ---------------------------------------------------------------------------
+   One-day class, 19 Sep.
+
+   Hierarchy here is built the way Chinese type actually works. Latin has a
+   nine-step weight ladder; Chinese does not — Songti has no real bold, so the
+   browser fakes one and it reads as mush. So weight carries almost nothing on
+   this page. Four other things carry it instead:
+
+     1. size jumps, not gradients — each section opens on a line ~1.4x the body
+     2. face switching — serif is the reading voice, sans is the emphasis voice,
+        mono is for anything countable (times, numerals, price)
+     3. one reversed block, used exactly once, on the promise that sells the day
+     4. an information band — the schedule set tight, because a Chinese reader
+        looking at an airy page reads "nothing here", not "elegant"
+
+   Paper, ink and seal red come from the homepage so the two read as one press.
+   Every face is a system face: no webfont request, and a Chinese reader never
+   downloads a Latin font to read Chinese.
+   --------------------------------------------------------------------------- */
+
+:root {
+  color-scheme: light;
+
+  /* The press palette, the same two inks the rest of the site is printed in.
+     This page used to run on the OLD homepage's warm paper and seal red; the
+     two now read as one press, which is the whole point of a house style.
+
+     Every grey below is cobalt thinned over the paper, not a neutral. A warm
+     grey here would be a third ink and the system rests on there not being
+     one. */
+  --paper:       #F5F1E8;   /* the substrate */
+  --paper-deep:  #EDE8DC;
+  --ink:         #12255E;   /* cobalt at full coverage */
+  --ink-soft:    #3D4C7B;
+  --ink-faint:   #616C8E;   /* the lightest that still clears 4.5:1 on paper */
+  --rule:        #DCDFE7;
+  --rule-strong: #C6CBD9;
+
+  /* Terracotta is SIGNAL ONLY, and on this page it is spent in exactly three
+     places, listed because a list is the only thing that keeps an accent ink
+     honest: the heavy rule under the nameplate, the price, and a link on
+     hover — the last to agree with the front page, which does the same. A
+     fourth would mean the discipline had quietly turned into decoration. */
+  --accent:      #C65F38;
+  --accent-text: #A94A26;   /* the same ink, denser, for text on paper */
+
+  /* One serif stack, Latin first. The CJK alias below scopes 宋体 to the
+     ideographs (and to the em dash and ellipsis, which Iowan sets too short
+     for a Chinese line) at no download cost — every face here is one the
+     system already has. */
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua",
+           Georgia, "PressSong", "Songti SC", "STSong", "Source Han Serif SC",
+           "Noto Serif SC", ui-serif, serif;
+  --sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue",
+          "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+  --gutter: clamp(1.1rem, 4vw, 2.5rem);
+}
+
+/* Three states — system, forced day, forced night — resolved once by the
+   script in <head>, so there is one night block here and no second copy under
+   `prefers-color-scheme` to drift out of step with it. */
+:root[data-press="night"] {
+  color-scheme: dark;
+  --paper:       #14161C;
+  --paper-deep:  #1B1E27;
+  --ink:         #ECE8DF;
+  --ink-soft:    #AEB6CC;
+  --ink-faint:   #8B93A8;
+  --rule:        #262B39;
+  --rule-strong: #333849;
+  --accent:      #E0784B;
+  --accent-text: #E89468;
+}
+
+@font-face {
+  font-family: "PressSong";
+  src: local("Songti SC"), local("STSong"), local("Source Han Serif SC"),
+       local("Noto Serif SC"), local("SimSun");
+  unicode-range: U+2014, U+2026, U+3000-303F, U+3400-4DBF, U+4E00-9FFF,
+                 U+F900-FAFF, U+FE30-FE4F, U+FF00-FFEF;
+  font-display: swap;
+}
+@font-face {
+  font-family: "PressSong";
+  font-weight: 600 900;
+  src: local("Songti SC Bold"), local("STSong"), local("Songti SC"),
+       local("Source Han Serif SC"), local("SimSun");
+  unicode-range: U+2014, U+2026, U+3000-303F, U+3400-4DBF, U+4E00-9FFF,
+                 U+F900-FAFF, U+FE30-FE4F, U+FF00-FFEF;
+  font-display: swap;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.09rem);
+  line-height: 1.78;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap {
+  max-width: 34rem;
+  margin: 0 auto;
+  padding: clamp(1.25rem, 4vw, 3rem) var(--gutter) clamp(3rem, 8vw, 5rem);
+}
+
+/* --- the nameplate strip -------------------------------------------------
+   Not a masthead. The poster below is already the page's large object and a
+   second big title would fight it; this is the thin line a magazine prints
+   above a feature so you know whose magazine it is — the name, the section,
+   and the two controls, over the heavy terracotta rule the front page uses.
+
+   It is the ONLY chrome added in the restyle. The page is handed to people as
+   a link and read once; a nav bar on a page with one destination is furniture
+   for its own sake. */
+.plate {
+  display: flex; align-items: baseline; flex-wrap: wrap;
+  gap: 0.45rem 1.1rem;
+  margin: 0 0 0.7rem;
+}
+.plate-name {
+  font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.14em;
+  text-transform: uppercase; text-decoration: none; color: var(--ink);
+}
+.plate-of {
+  font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--ink-faint);
+}
+.plate-rule {
+  border-top: 4px solid var(--accent);
+  margin: 0 0 0.55rem;
+}
+.plate-date {
+  display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.4rem 1.1rem;
+  font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--ink-faint);
+  margin: 0 0 clamp(1.6rem, 5vw, 2.6rem);
+}
+
+/* The two controls, matching the front page: same mono family so they belong
+   to the line, one step up and not uppercased so they read as the things you
+   can operate, and an icon each because that is what the eye scans for. */
+.press-tools {
+  margin-left: auto; display: inline-flex; align-items: center; gap: 1rem;
+  color: var(--ink-soft);
+  font-family: var(--mono); font-size: 0.75rem; font-weight: 500;
+  letter-spacing: 0.02em; text-transform: none;
+}
+.press-tools .ico { width: 12px; height: 12px; flex: none; fill: none;
+                    stroke: currentColor; stroke-width: 1.2; }
+.press-switch { display: inline-flex; align-items: center; gap: 0.45em; }
+.press-switch {
+  font: inherit; letter-spacing: inherit; text-transform: none;
+  background: none; border: 0; padding: 0; cursor: pointer; color: inherit;
+}
+.press-switch .js-mode-label { border-bottom: 1px solid var(--rule-strong); }
+/* No language menu here. The class is taught in Chinese to a Chinese-speaking
+   room; a switch with nothing behind it is worse than no switch. */
+.press-switch { transition: transform 120ms cubic-bezier(.16,1,.3,1), color 180ms ease; }
+.press-switch:active { transform: scale(0.96); }
+@media (prefers-reduced-motion: reduce) {
+  .press-switch { transition: color 180ms ease; }
+  .press-switch:active { transform: none; }
+}
+/* Gated: a tap on a phone leaves an ungated :hover lit until the next tap
+   lands somewhere else. */
+@media (hover: hover) and (pointer: fine) { .press-switch:hover { color: var(--ink); } }
+/* On a phone the strip has to hold the name and the control on one line, so
+   the section word goes; the poster underneath says what the page is. */
+@media (max-width: 26rem) {
+  .plate-of { display: none; }
+  .press-tools { gap: 0.8rem; }
+}
+
+/* --- poster -------------------------------------------------------------- */
+
+.poster-link { display: block; }
+.poster {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--rule);
+  margin: 0 0 clamp(2.25rem, 6vw, 3.5rem);
+}
+
+/* --- section frame ------------------------------------------------------- */
+
+section {
+  border-top: 2px solid var(--ink);
+  padding-top: 0.9rem;
+  margin: 0 0 clamp(2.25rem, 6vw, 3.25rem);
+}
+
+h2 {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--ink-faint);
+  font-weight: 500;
+  text-transform: uppercase;
+  margin: 0 0 1.1rem;
+}
+
+/* The size jump. Every section opens on this, ~1.4x the body, and it is the
+   only place a whole line is allowed to be large. */
+.lead {
+  font-size: 1.42em;
+  line-height: 1.5;
+  margin: 0 0 1.1rem;
+  text-wrap: balance;
+}
+
+p { margin: 0 0 0.9rem; text-wrap: pretty; }
+p:last-child { margin-bottom: 0; }
+
+/* Emphasis switches face rather than weight. On Songti a synthetic bold turns
+   to mush; a sans run at the same size reads as emphasis instantly. */
+.k {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 0.96em;
+  letter-spacing: 0.01em;
+  margin: 0 0.15em;   /* the CJK / Latin optical gap, applied at the seam */
+}
+.k:first-child { margin-left: 0; }
+
+.n { font-family: var(--mono); font-size: 0.94em; letter-spacing: -0.01em; margin: 0 0.15em; }
+
+.soft { color: var(--ink-soft); font-size: 0.94em; line-height: 1.7; }
+
+/* The one inline link in the body: the free Thursday meetup. It keeps the
+   running text's colour and takes the same hairline the footer links use, so
+   it reads as a place to go rather than as a highlight. */
+.body-link { color: inherit; text-decoration: none; border-bottom: 1px solid var(--rule-strong); }
+@media (hover: hover) and (pointer: fine) { .body-link:hover { color: var(--accent-text); border-color: currentColor; } }
+
+/* --- the schedule, set as an information band ---------------------------- */
+
+.clock { margin: 0 0 1.2rem; border-top: 1px solid var(--rule); }
+.clock div {
+  display: grid;
+  grid-template-columns: 4.6rem 1fr;
+  gap: 0 0.9rem;
+  padding: 0.38rem 0;
+  border-bottom: 1px solid var(--rule);
+}
+.clock dt {
+  font-family: var(--mono);
+  font-size: 0.86rem;
+  letter-spacing: -0.02em;
+  color: var(--ink-faint);
+  padding-top: 0.12rem;
+}
+.clock dd { margin: 0; font-size: 0.95em; }
+
+/* --- the run of six ------------------------------------------------------ */
+
+.run { list-style: none; counter-reset: step; margin: 0 0 1.1rem; padding: 0; }
+.run li {
+  counter-increment: step;
+  position: relative;
+  padding: 1rem 0 1rem 2.4rem;
+  border-top: 1px solid var(--rule);
+}
+.run li:last-child { border-bottom: 1px solid var(--rule); }
+.run li::before {
+  content: counter(step, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 1.28rem;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  letter-spacing: -0.02em;
+  color: var(--ink-faint);
+}
+/* Step names are sans and a size up; their explanations stay serif and small.
+   The face change alone separates them, so neither needs to shout. */
+.run b {
+  display: block;
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 1.06em;
+  line-height: 1.45;
+  letter-spacing: 0.005em;
+}
+.run span {
+  display: block;
+  color: var(--ink-soft);
+  font-size: 0.95em;
+  line-height: 1.72;
+  margin-top: 0.3rem;
+}
+
+/* --- the one reversed block --------------------------------------------- */
+
+.takeaway {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 1.4rem 1.3rem 1.5rem;
+  margin: 0;
+}
+.takeaway h3 {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  font-weight: 500;
+  text-transform: uppercase;
+  color: var(--paper);
+  opacity: 0.62;
+  margin: 0 0 1rem;
+}
+.takeaway ol { list-style: none; counter-reset: t; margin: 0; padding: 0; }
+.takeaway li {
+  counter-increment: t;
+  position: relative;
+  padding: 0 0 0.85rem 2.2rem;
+  line-height: 1.6;
+}
+.takeaway li:last-child { padding-bottom: 0; }
+.takeaway li::before {
+  content: counter(t, decimal-leading-zero);
+  position: absolute; left: 0; top: 0.28rem;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: -0.02em;
+  opacity: 0.55;
+}
+.takeaway .t { font-family: var(--sans); font-weight: 600; font-size: 1.02em; margin-right: 0.15em; }
+.takeaway .after { display: block; margin-top: 1.1rem; padding-top: 1rem; border-top: 1px solid color-mix(in srgb, currentColor 20%, transparent); font-size: 0.95em; opacity: 0.86; }
+
+/* --- who it is for ------------------------------------------------------- */
+
+.who { margin: 0 0 1rem; }
+.who div { padding: 0.75rem 0; border-top: 1px solid var(--rule); }
+.who div:last-of-type { border-bottom: 1px solid var(--rule); }
+.who b {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 1.02em;
+  display: block;
+  margin-bottom: 0.15rem;
+}
+
+/* --- price + QR ---------------------------------------------------------- */
+
+.price {
+  color: var(--accent-text);
+  font-family: var(--mono);
+  font-size: clamp(1.6rem, 1.3rem + 1.4vw, 2.1rem);
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+  margin: 0 0 0.3rem;
+}
+.price .unit { font-size: 0.44em; letter-spacing: 0.02em; color: var(--ink-soft); margin-left: 0.4em; }
+
+.qr { margin: 1.2rem 0 0.9rem; }
+.qr img {
+  display: block;
+  width: 10.5rem;
+  height: auto;
+  /* The quiet zone stays light in BOTH stocks — a QR wants a pale ground
+     to scan, so this is the one plate that does not invert. Pure #fff
+     was a fourth colour on a page with two inks and a substrate; the
+     substrate itself is well inside what a scanner will read. */
+  background: #F5F1E8;
+  padding: 0.6rem;
+  border: 1px solid var(--rule-strong);
+}
+.qr p { margin: 0.55rem 0 0; font-family: var(--mono); font-size: 0.86rem; letter-spacing: -0.01em; }
+
+footer {
+  border-top: 1px solid var(--rule-strong);
+  padding-top: 1.2rem;
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: var(--ink-faint);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.3rem;
+}
+footer a { color: var(--ink-soft); text-decoration: none; border-bottom: 1px solid var(--rule-strong); }
+@media (hover: hover) and (pointer: fine) { footer a:hover { color: var(--accent-text); border-color: currentColor; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="plate">
+    <a class="plate-name" href="https://jamesai.dev/">James AI</a>
+    <span class="plate-of">合作</span>
+    <span class="press-tools">
+      <button class="press-switch js-mode" type="button">
+        <svg class="ico" viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="3.6"/><path d="M8 .9v2M8 13.1v2M.9 8h2M13.1 8h2M3 3l1.4 1.4M11.6 11.6L13 13M13 3l-1.4 1.4M4.4 11.6L3 13"/></svg>
+        <span class="js-mode-label">自动</span>
+      </button>
+    </span>
+  </div>
+  <div class="plate-rule"></div>
+  <div class="plate-date">
+    <span>诊断 · 咨询 · 小班 · 项目</span>
+    <span>线上或悉尼面谈</span>
+    <span>中文</span>
+  </div>
+
+  <!-- Value ladder (2026-10-07): each step says who it is for, what you
+       leave with, and what it costs — light to heavy. Prices shown, unlike
+       most consulting pages, because a business owner should know what the
+       money buys before the first message. -->
+  <section>
+    <h2>和我合作</h2>
+    <p class="lead">你手上有一件具体的事，想知道 AI 能不能做、怎么做、值不值。</p>
+    <p class="soft">
+      客户询价回不过来、内容做不出来、客服和内部流程太耗人，或者想做一个 AI 产品却不知道从哪下手。
+      <span class="k">不讲通识，只围着你这件事。</span>下面四种方式，从轻到重，按你现在需要的选。
+    </p>
+  </section>
+
+  <section>
+    <h2>① 免费 30 分钟诊断</h2>
+    <p class="lead">给有具体业务问题、能拍板的老板。</p>
+    <p class="soft">
+      <span class="k">你带走：</span>一个直接的结论——这件事值不值得用 AI 做、先做哪一步、大概要花多少。
+      预约时要先填三个问题（做什么生意、想解决什么、能不能拍板），我看过再约，名额有限。
+    </p>
+    <p class="lead"><a class="body-link" href="https://cal.com/jamesgong/vibe-thursday-chat">预约免费诊断 →</a></p>
+  </section>
+
+  <section>
+    <h2>② 一对一咨询</h2>
+    <p class="price">$380<span class="unit">· 60 分钟 · 含 GST</span></p>
+    <p class="lead">给想要一份完整建议的老板和个人。线上或悉尼面谈。</p>
+    <p class="soft"><span class="k">之前：</span>你写几句现状，我提前看，见面直接进正题。</p>
+    <p class="soft"><span class="k">当中：</span>拆你的问题，能当场演示的就当场做给你看。</p>
+    <p class="soft"><span class="k">你带走：</span>一页行动清单——先做的三件事和顺序、用什么工具和大概月费、哪些事不能交给 AI。</p>
+    <p class="soft"><span class="k">之后：</span>咨询费可以抵扣项目费用。之后把项目交给我做，这次付的钱从项目款里扣掉。</p>
+    <p class="lead"><a class="body-link" href="https://cal.com/jamesgong/ai-business-consultation">选时间预约 →</a></p>
+  </section>
+
+  <section>
+    <h2>③ 收费小班</h2>
+    <p class="lead">给想有人带着一步步学的人。</p>
+    <p class="soft">
+      <span class="k">你带走：</span>在自己的生意里真用起来的一件事，而不是一堆听过就忘的工具名。
+      人少、投屏、跟着做。价格和首期日期还在定：<a class="body-link" href="https://jamesai.dev/class/">先登记 →</a>
+    </p>
+  </section>
+
+  <section>
+    <h2>④ 落地项目</h2>
+    <p class="lead">给想直接把 AI 用进业务的公司。</p>
+    <p class="soft">
+      <span class="k">你带走：</span>一个在你公司里跑起来的东西——我上门看你的流程、定先做哪一块、搭好、交付，再带你的人用起来。
+      按项目报价；做过一对一咨询的，咨询费从项目款里扣。先从 ① 或 ② 开始聊。
+    </p>
+  </section>
+
+  <section>
+    <h2>怎么开始</h2>
+    <p class="lead">不确定选哪个，加我微信，备注「合作」，说一句你想解决的问题，我告诉你从哪一步开始。</p>
+    <p class="soft">需要 tax invoice 的，告诉我抬头和邮箱。</p>
+    <div class="qr">
+      <img src="wechat.png" width="720" height="720" loading="lazy" decoding="async" alt="James 的微信二维码，微信号 jamesgong01">
+      <p>微信号 jamesgong01</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>我是谁</h2>
+    <p class="lead">前 NICTA / CSIRO 研究员。没有员工，一个人做产品、上线、找用户，运营数十款面向海外市场的软件产品。</p>
+    <p class="soft">每周在悉尼组织免费的 AI 聚会 <a class="body-link" href="https://vibethursday.com">Vibe Thursday</a>，听过几百个老板和开发者在 AI 上卡在哪。</p>
+  </section>
+
+  <footer>
+    <span>James AI</span>
+    <a href="https://jamesai.dev/">jamesai.dev</a>
+    <span>悉尼</span>
+  </footer>
+
+</div>
+<script>
+/* The one control on the page. Three states, cycled, stored under the same key
+   the rest of the site reads, so the choice travels with the reader. */
+(function () {
+  var NEXT = { system: 'day', day: 'night', night: 'system' };
+  var NAME = { system: '自动', day: '日间版', night: '夜间版' };
+  var btn = document.querySelector('.js-mode');
+  var label = btn && btn.querySelector('.js-mode-label');
+  if (!btn) return;
+  function paint() {
+    var v = __pressSaved();
+    if (label) label.textContent = NAME[v] || NAME.system;
+    btn.setAttribute('aria-label', '显示模式 · ' + (NAME[v] || NAME.system));
+  }
+  btn.addEventListener('click', function () {
+    var v = NEXT[__pressSaved()] || 'system';
+    try { localStorage.setItem('jamesai.press', v); } catch (e) {}
+    __pressApply(v);
+    paint();
+  });
+  paint();
+})();
+</script>
+</body>
+</html>
