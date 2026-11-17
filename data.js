@@ -26,36 +26,33 @@ const CATEGORIES = [
     featured: true,
     items: [
       {
-        repo: "inkstone",
-        site: "https://inkslab.app",
-        name: "Inkstone",
-        stars: 4,
-        shot: "assets/shot-inkstone.webp",
+        repo: "clipstack",
+        site: "https://getclipstack.app",
+        name: "ClipStack",
+        stars: 5,
+        shot: "assets/shot-clipstack.webp",
         /* There are .mp4 and .webm siblings of `shot`, and its .webp is
            frame 0 of them — see tools/app-motion.py. */
         motion: true,
         /* The homepage row gets ONE picture; the rest are the detail page. */
         shots: [
-          { src: "assets/ink-editor.webp",
-            cap: { zh: "一篇笔记就是一个 .md 文件。中英混排按 W3C《中文排版需求》排，表格、行内链接、frontmatter 全是纯文本。", "zh-Hant": "一篇筆記就是一個 .md 檔案。中英混排按 W3C《中文排版需求》排，表格、行內連結、frontmatter 全是純文字。",
-                   en: "One note is one .md file. Mixed CJK-Latin text is set the way the W3C layout requirements ask for; the table, the links and the frontmatter are all just text." } },
-          { src: "assets/ink-graph.webp",
-            cap: { zh: "关系图谱是确定性的：节点是文件，边是双链。同一批文件，永远算出同一张图。", "zh-Hant": "關係圖譜是確定性的：節點是檔案，邊是雙鏈。同一批檔案，永遠算出同一張圖。",
-                   en: "The graph is deterministic: nodes are files, edges are wikilinks. The same folder always produces the same graph." } },
-          { src: "assets/ink-daily.webp",
-            cap: { zh: "日记、待办、双链在同一个文件里。右栏实时给出大纲、反向链接和局部图谱。", "zh-Hant": "日記、待辦、雙鏈在同一個檔案裡。右欄即時給出大綱、反向連結和局部圖譜。",
-                   en: "Daily note, tasks and links in one file, with the outline, backlinks and local graph kept live beside it." } },
-          { src: "assets/ink-inspector.webp",
-            cap: { zh: "右栏：属性、标签、大纲、反向链接、出链、局部图谱——不用离开正文。", "zh-Hant": "右欄：屬性、標籤、大綱、反向連結、出鏈、局部圖譜——不用離開正文。",
-                   en: "The inspector: properties, tags, outline, backlinks, outgoing links and a local graph, without leaving the text." } },
+          { src: "assets/clip-panel.webp",
+            cap: { zh: "⇧⌘V 呼出：左边是可搜索的历史，右边是完整预览。文本、图片、文件都留得住。", "zh-Hant": "⇧⌘V 呼出：左邊是可搜尋的歷史，右邊是完整預覽。文字、圖片、檔案都留得住。",
+                   en: "Shift-Cmd-V brings it up: searchable history on the left, a full preview on the right. Text, images and files all persist." } },
+          { src: "assets/clip-preview.webp",
+            cap: { zh: "预览带类型、大小、时间和来源应用；文本原样显示，不做截断。", "zh-Hant": "預覽帶類型、大小、時間和來源應用；文字原樣顯示，不做截斷。",
+                   en: "The preview carries type, size, time and source app, and shows text verbatim rather than truncated." } },
+          { src: "assets/clip-keys.webp",
+            cap: { zh: "⌘1–9 直接粘第 N 条，⌘P 置顶，⌘T 常驻，esc 关掉。手不用离开键盘。", "zh-Hant": "⌘1–9 直接貼第 N 條，⌘P 置頂，⌘T 常駐，esc 關掉。手不用離開鍵盤。",
+                   en: "Cmd-1 to 9 pastes the Nth entry, Cmd-P pins, Cmd-T keeps it on top, esc closes. Hands never leave the keyboard." } },
         ],
         tagline: {
-          zh: "笔记就是你自己的文件", "zh-Hant": "筆記就是你自己的檔案",
-          en: "Notes that stay your own files",
+          zh: "菜单栏剪贴板历史", "zh-Hant": "選單欄剪貼簿歷史",
+          en: "Clipboard history in the menu bar",
         },
         desc: {
-          zh: "纯 Markdown，存在你自己选的文件夹里，没有数据库也没有导入。双链、反向链接、关系图谱、白板、日记，中英文混排按标准排版。可走 iCloud 或 GitHub 同步。macOS 与 iOS，原生 SwiftUI。", "zh-Hant": "純 Markdown，存在你自己選的資料夾裡，沒有資料庫也沒有匯入。雙鏈、反向連結、關係圖譜、白板、日記，中英文混排按標準排版。可走 iCloud 或 GitHub 同步。macOS 與 iOS，原生 SwiftUI。",
-          en: "Plain Markdown in a folder you choose, with no database and no import step. Wikilinks, backlinks, a deterministic graph, a JSON Canvas board, daily notes, and mixed CJK-Latin typography set the way the standard asks for. Syncs through iCloud or a GitHub repository. macOS and iOS, native SwiftUI.",
+          zh: "⇧⌘V 呼出可搜索的历史面板，文本、图片、文件都留得住，右侧带完整预览，回车即粘回。连续复制多段内容时，你需要的是全部，不只是最后一段。", "zh-Hant": "⇧⌘V 呼出可搜尋的歷史面板，文字、圖片、檔案都留得住，右側帶完整預覽，按 Enter 即貼回。連續複製多段內容時，你需要的是全部，不只是最後一段。",
+          en: "⇧⌘V brings up a searchable panel of everything you have copied — text, images, files — with a full preview pane. Return pastes it back. When several snippets get copied in a row, you need all of them, not just the last.",
         },
       },
       {
@@ -86,36 +83,6 @@ const CATEGORIES = [
         desc: {
           zh: "外接显示器的真实亮度（走 DDC，和显示器自己的按键同一条通道）、macOS 对第三方屏藏起来的清晰 HiDPI 档位、在每块屏幕上都好使的亮度键，以及一根滑条调完整张桌子。免费开源，没有 Pro 版。", "zh-Hant": "外接顯示器的真實亮度（走 DDC，和顯示器自己的按鍵同一條通道）、macOS 對第三方螢幕藏起來的清晰 HiDPI 檔位、在每塊螢幕上都好使的亮度鍵，以及一根滑桿調完整張桌子。免費開源，沒有 Pro 版。",
           en: "Real brightness on external monitors over DDC — the same channel the monitor's own buttons use — the sharp HiDPI modes macOS hides from third-party displays, brightness keys that work on every screen, and one slider for the whole desk. Free and open source, with no Pro tier.",
-        },
-      },
-      {
-        repo: "clipstack",
-        site: "https://getclipstack.app",
-        name: "ClipStack",
-        stars: 5,
-        shot: "assets/shot-clipstack.webp",
-        /* There are .mp4 and .webm siblings of `shot`, and its .webp is
-           frame 0 of them — see tools/app-motion.py. */
-        motion: true,
-        /* The homepage row gets ONE picture; the rest are the detail page. */
-        shots: [
-          { src: "assets/clip-panel.webp",
-            cap: { zh: "⇧⌘V 呼出：左边是可搜索的历史，右边是完整预览。文本、图片、文件都留得住。", "zh-Hant": "⇧⌘V 呼出：左邊是可搜尋的歷史，右邊是完整預覽。文字、圖片、檔案都留得住。",
-                   en: "Shift-Cmd-V brings it up: searchable history on the left, a full preview on the right. Text, images and files all persist." } },
-          { src: "assets/clip-preview.webp",
-            cap: { zh: "预览带类型、大小、时间和来源应用；文本原样显示，不做截断。", "zh-Hant": "預覽帶類型、大小、時間和來源應用；文字原樣顯示，不做截斷。",
-                   en: "The preview carries type, size, time and source app, and shows text verbatim rather than truncated." } },
-          { src: "assets/clip-keys.webp",
-            cap: { zh: "⌘1–9 直接粘第 N 条，⌘P 置顶，⌘T 常驻，esc 关掉。手不用离开键盘。", "zh-Hant": "⌘1–9 直接貼第 N 條，⌘P 置頂，⌘T 常駐，esc 關掉。手不用離開鍵盤。",
-                   en: "Cmd-1 to 9 pastes the Nth entry, Cmd-P pins, Cmd-T keeps it on top, esc closes. Hands never leave the keyboard." } },
-        ],
-        tagline: {
-          zh: "菜单栏剪贴板历史", "zh-Hant": "選單欄剪貼簿歷史",
-          en: "Clipboard history in the menu bar",
-        },
-        desc: {
-          zh: "⇧⌘V 呼出可搜索的历史面板，文本、图片、文件都留得住，右侧带完整预览，回车即粘回。连续复制多段内容时，你需要的是全部，不只是最后一段。", "zh-Hant": "⇧⌘V 呼出可搜尋的歷史面板，文字、圖片、檔案都留得住，右側帶完整預覽，按 Enter 即貼回。連續複製多段內容時，你需要的是全部，不只是最後一段。",
-          en: "⇧⌘V brings up a searchable panel of everything you have copied — text, images, files — with a full preview pane. Return pastes it back. When several snippets get copied in a row, you need all of them, not just the last.",
         },
       },
       {
@@ -203,6 +170,39 @@ const CATEGORIES = [
         desc: {
           zh: "把系统箭头换成一只插在长杆上的卡通白手套，演示、共享屏幕、录教程时谁都看得见你在指哪儿。点击会戳一下并爆出漫画放射线；三种手型、五档力度；演示模式下点击只戳不点穿。免费开源，官网可以直接在浏览器里试。", "zh-Hant": "把系統箭頭換成一隻插在長杆上的卡通白手套，演示、共享螢幕、錄教程時誰都看得見你在指哪兒。點選會戳一下並爆出漫畫放射線；三種手型、五檔力度；演示模式下點選只戳不點穿。免費開源，官網可以直接在瀏覽器裡試。",
           en: "Swaps the system arrow for a cartoon white glove on a long stick, so in demos, screen shares and tutorials everyone can see where you're pointing. Clicks poke with comic impact lines; three hands, five moods; in presentation mode clicks poke without clicking through. Free and open source, and you can try it in your browser on the website.",
+        },
+      },
+      {
+        repo: "inkstone",
+        site: "https://inkslab.app",
+        name: "Inkstone",
+        stars: 4,
+        shot: "assets/shot-inkstone.webp",
+        /* There are .mp4 and .webm siblings of `shot`, and its .webp is
+           frame 0 of them — see tools/app-motion.py. */
+        motion: true,
+        /* The homepage row gets ONE picture; the rest are the detail page. */
+        shots: [
+          { src: "assets/ink-editor.webp",
+            cap: { zh: "一篇笔记就是一个 .md 文件。中英混排按 W3C《中文排版需求》排，表格、行内链接、frontmatter 全是纯文本。", "zh-Hant": "一篇筆記就是一個 .md 檔案。中英混排按 W3C《中文排版需求》排，表格、行內連結、frontmatter 全是純文字。",
+                   en: "One note is one .md file. Mixed CJK-Latin text is set the way the W3C layout requirements ask for; the table, the links and the frontmatter are all just text." } },
+          { src: "assets/ink-graph.webp",
+            cap: { zh: "关系图谱是确定性的：节点是文件，边是双链。同一批文件，永远算出同一张图。", "zh-Hant": "關係圖譜是確定性的：節點是檔案，邊是雙鏈。同一批檔案，永遠算出同一張圖。",
+                   en: "The graph is deterministic: nodes are files, edges are wikilinks. The same folder always produces the same graph." } },
+          { src: "assets/ink-daily.webp",
+            cap: { zh: "日记、待办、双链在同一个文件里。右栏实时给出大纲、反向链接和局部图谱。", "zh-Hant": "日記、待辦、雙鏈在同一個檔案裡。右欄即時給出大綱、反向連結和局部圖譜。",
+                   en: "Daily note, tasks and links in one file, with the outline, backlinks and local graph kept live beside it." } },
+          { src: "assets/ink-inspector.webp",
+            cap: { zh: "右栏：属性、标签、大纲、反向链接、出链、局部图谱——不用离开正文。", "zh-Hant": "右欄：屬性、標籤、大綱、反向連結、出鏈、局部圖譜——不用離開正文。",
+                   en: "The inspector: properties, tags, outline, backlinks, outgoing links and a local graph, without leaving the text." } },
+        ],
+        tagline: {
+          zh: "笔记就是你自己的文件", "zh-Hant": "筆記就是你自己的檔案",
+          en: "Notes that stay your own files",
+        },
+        desc: {
+          zh: "纯 Markdown，存在你自己选的文件夹里，没有数据库也没有导入。双链、反向链接、关系图谱、白板、日记，中英文混排按标准排版。可走 iCloud 或 GitHub 同步。macOS 与 iOS，原生 SwiftUI。", "zh-Hant": "純 Markdown，存在你自己選的資料夾裡，沒有資料庫也沒有匯入。雙鏈、反向連結、關係圖譜、白板、日記，中英文混排按標準排版。可走 iCloud 或 GitHub 同步。macOS 與 iOS，原生 SwiftUI。",
+          en: "Plain Markdown in a folder you choose, with no database and no import step. Wikilinks, backlinks, a deterministic graph, a JSON Canvas board, daily notes, and mixed CJK-Latin typography set the way the standard asks for. Syncs through iCloud or a GitHub repository. macOS and iOS, native SwiftUI.",
         },
       },
     ],

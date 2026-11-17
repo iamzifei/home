@@ -313,6 +313,18 @@ summary::after { content: ""; position: absolute; right: 6px; top: 50%; width: 8
 details[open] summary::after { transform: translateY(-30%) rotate(225deg); }
 details p { padding: 0 0 24px; color: var(--muted); max-width: 640px; }
 
+.sibs { padding: 88px 0 104px; border-top: 1px solid var(--line); }
+.sibs h2 { text-align: center; margin-bottom: 36px; font-size: clamp(24px, 3.4vw, 34px); }
+.sib-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+@media (max-width: 900px) { .sib-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 560px) { .sib-grid { grid-template-columns: 1fr; } }
+.sib { display: flex; gap: 16px; align-items: flex-start; padding: 20px; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--line); text-decoration: none; transition: border-color .25s, background .25s, transform .25s; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
+.sib:hover, .sib:focus-visible { border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); background: var(--surface-2); transform: translateY(-2px); }
+.sib img { flex: none; width: 48px; height: 48px; border-radius: 11px; }
+.sib-text { display: grid; gap: 4px; min-width: 0; }
+.sib-name { font-weight: 600; font-size: 16px; }
+.sib-desc { color: var(--muted); font-size: 14px; line-height: 1.5; }
+.foot-sib { flex-basis: 100%; display: flex; flex-wrap: wrap; gap: 8px 22px; order: 5; padding-top: 18px; border-top: 1px solid var(--line); }
 .site-footer { border-top: 1px solid var(--line); padding: 36px 0; color: var(--muted); font-size: 14px; }
 .foot { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 32px; }
 .foot-brand { display: flex; align-items: center; gap: 8px; color: var(--text); font-weight: 600; }
@@ -335,6 +347,7 @@ details p { padding: 0 0 24px; color: var(--muted); max-width: 640px; }
   .two-col { grid-template-columns: 1fr; }
   .grid { grid-template-columns: 1fr; margin-top: 36px; }
   .foot .links { margin-left: 0; }
+  .sibs { padding: 56px 0 68px; }
   .btn.ghost.sm { display: none; }
   .try { padding-bottom: 64px; }
 }

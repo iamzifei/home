@@ -158,6 +158,13 @@
       'foot.aria': 'Footer',
       'foot.license': 'MIT License',
       'foot.github': 'GitHub',
+      'sib.h2': 'More Mac apps by James',
+      'sib.candela.d': 'Every display control macOS hides',
+      'sib.clipstack.d': 'Clipboard history in the menu bar',
+      'sib.audioswitch.d': 'Audio device switching from the menu bar',
+      'sib.inkstone.d': 'Notes that stay your own files',
+      'sib.veil.d': 'Keeps the window you\'re working in sharp and softly blurs everything behind it. Free, MIT.',
+      'foot.sib': 'More Mac apps by James',
     },
 
     /* ------------------------------------------------------------ 简体中文 */
@@ -297,6 +304,13 @@
       'foot.aria': '页脚',
       'foot.license': 'MIT 协议',
       'foot.github': 'GitHub',
+      'sib.h2': 'James 的其他 Mac 应用',
+      'sib.candela.d': 'macOS 藏起来的显示器控制',
+      'sib.clipstack.d': '菜单栏剪贴板历史',
+      'sib.audioswitch.d': '菜单栏音频设备切换',
+      'sib.inkstone.d': '笔记就是你自己的文件',
+      'sib.veil.d': '正在用的窗口保持清晰，后面的一切柔和地模糊掉。免费，MIT 开源。',
+      'foot.sib': 'James 的其他 Mac 应用',
     },
 
     /* ------------------------------------------------------------ 繁體中文（台灣） */
@@ -436,6 +450,13 @@
       'foot.aria': '頁尾',
       'foot.license': 'MIT 授權',
       'foot.github': 'GitHub',
+      'sib.h2': 'James 的其他 Mac 應用',
+      'sib.candela.d': 'macOS 藏起來的顯示器控制',
+      'sib.clipstack.d': '選單欄剪貼簿歷史',
+      'sib.audioswitch.d': '選單欄音訊裝置切換',
+      'sib.inkstone.d': '筆記就是你自己的檔案',
+      'sib.veil.d': '正在用的視窗保持清晰，後面的一切柔和地模糊掉。免費，MIT 開源。',
+      'foot.sib': 'James 的其他 Mac 應用',
     },
   };
 
