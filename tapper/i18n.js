@@ -134,7 +134,7 @@
       'inst.h2': 'Install in a minute.',
       'inst.lede': 'Needs macOS 14 (Sonoma) or later. Works on Apple silicon and Intel.',
       'inst.1': `<strong>Download</strong> <a href="${DL}">Tapper.dmg</a> and drag Tapper into Applications.`,
-      'inst.2': '<strong>Open it.</strong> Tapper lives in the menu bar. <span class="muted">First launch: if macOS says it can’t verify the developer, right-click → Open.</span>',
+      'inst.2': '<strong>Open it.</strong> Tapper lives in the menu bar. <span class="muted">Signed with a Developer ID and notarized by Apple.</span>',
       'inst.3': `<strong>Turn the glove on.</strong> On first launch the glove is off. Choose “Show pointer” from the menu-bar icon, or press ${KBD_P}.`,
       'inst.source': 'Source on GitHub',
 
@@ -273,7 +273,7 @@
       'inst.h2': '一分钟装好。',
       'inst.lede': '需要 macOS 14（Sonoma）或更高版本，Apple 芯片和 Intel 都能用。',
       'inst.1': `<strong>下载</strong> <a href="${DL}">Tapper.dmg</a>，把 Tapper 拖进「应用程序」。`,
-      'inst.2': '<strong>打开它。</strong>Tapper 在菜单栏里运行。 <span class="muted">第一次打开时，如果 macOS 提示无法验证开发者，在「应用程序」里右键 Tapper → 打开。</span>',
+      'inst.2': '<strong>打开它。</strong>Tapper 在菜单栏里运行。 <span class="muted">已用 Developer ID 签名，并通过 Apple 公证。</span>',
       'inst.3': `<strong>把手套打开。</strong>首次启动时手套是关着的。在菜单栏图标里选「Show pointer」，或按 ${KBD_P}。`,
       'inst.source': 'GitHub 源码',
 
@@ -412,7 +412,7 @@
       'inst.h2': '一分鐘裝好。',
       'inst.lede': '需要 macOS 14（Sonoma）或更新版本，Apple 晶片和 Intel 都能用。',
       'inst.1': `<strong>下載</strong> <a href="${DL}">Tapper.dmg</a>，把 Tapper 拖進「應用程式」。`,
-      'inst.2': '<strong>打開它。</strong>Tapper 在選單列裡執行。 <span class="muted">第一次開啟時，如果 macOS 提示無法驗證開發者，在「應用程式」裡按右鍵 Tapper → 打開。</span>',
+      'inst.2': '<strong>打開它。</strong>Tapper 在選單列裡執行。 <span class="muted">已用 Developer ID 簽署，並通過 Apple 公證。</span>',
       'inst.3': `<strong>把手套打開。</strong>首次啟動時手套是關著的。在選單列圖示裡選「Show pointer」，或按 ${KBD_P}。`,
       'inst.source': 'GitHub 原始碼',
 
