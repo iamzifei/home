@@ -367,3 +367,6 @@ html:lang(zh-Hans) .card h3, html:lang(zh-Hant) .card h3 { letter-spacing: 0; }
 html:lang(zh-Hans) .lede, html:lang(zh-Hant) .lede { max-width: 30em; }
 html:lang(zh-Hans) summary, html:lang(zh-Hant) summary { line-height: 1.5; }
 @media (max-width: 760px) { .lang button { padding: 7px 9px; } }
+
+/* Chinese: no uppercase transform (it turned "macOS" into "MACOS"). */
+html[lang^="zh"] .eyebrow, html[lang^="zh"] caption { text-transform: none; letter-spacing: .04em; }
