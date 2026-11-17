@@ -148,6 +148,63 @@ const CATEGORIES = [
           en: "Every input and output device in one panel, with volume sliders, a live microphone level meter, a hard mic-off switch, and device locking against apps that grab them. The list matches System Settings exactly.",
         },
       },
+      {
+        repo: "veil",
+        site: "https://jamesai.dev/veil/",
+        name: "Veil",
+        stars: 0,
+        shot: "assets/shot-veil.webp",
+        /* Cut from the README demo video (real app, staged scene), not app-motion.py. */
+        motion: true,
+        shots: [
+          { src: "assets/veil-tint.webp",
+            cap: { zh: "色调可以选预设色、跟随系统强调色，或者任意颜色，强度可调。", "zh-Hant": "色調可以選預設色、跟隨系統強調色，或者任意顏色，強度可調。",
+                   en: "Tint the background with a preset, your system accent, or any colour, at any strength." } },
+          { src: "assets/veil-deep.webp",
+            cap: { zh: "Deep 模式：更重的模糊、更暗的背景，专心干活的时候用。", "zh-Hant": "Deep 模式：更重的模糊、更暗的背景，專心幹活的時候用。",
+                   en: "Deep mode: a heavier blur and a darker background for when you really need to focus." } },
+          { src: "assets/veil-mono.webp",
+            cap: { zh: "模糊调到 0 就是无模糊模式，只调暗或去色，背景照样看得清。", "zh-Hant": "模糊調到 0 就是無模糊模式，只調暗或去色，背景照樣看得清。",
+                   en: "Turn the blur to 0 for a blur-free mode that only dims or desaturates, so the background stays readable." } },
+        ],
+        tagline: {
+          zh: "只让手上这个窗口清晰", "zh-Hant": "只讓手上這個視窗清晰",
+          en: "Only the window you're using stays sharp",
+        },
+        desc: {
+          zh: "正在用的窗口保持清晰，后面的一切柔和地模糊掉。Ambient / Deep 两种模式，模糊、色调、颗粒、黑白都能调；App 分组、多显示器、晃鼠标临时看一眼、自动隐藏菜单栏和 Dock，还有 veil:// 自动化地址。免费开源，官网可以直接在浏览器里试。", "zh-Hant": "正在用的視窗保持清晰，後面的一切柔和地模糊掉。Ambient / Deep 兩種模式，模糊、色調、顆粒、黑白都能調；App 分組、多顯示器、晃滑鼠臨時看一眼、自動隱藏選單欄和 Dock，還有 veil:// 自動化地址。免費開源，官網可以直接在瀏覽器裡試。",
+          en: "The window you're using stays sharp and everything behind it softly blurs. Ambient and Deep modes; blur, tint, grain and monochrome are all adjustable. App Groups, multiple displays, shake-to-peek, auto-hiding menu bar and Dock, and a veil:// URL scheme. Free and open source, and you can try it in your browser on the website.",
+        },
+      },
+      {
+        repo: "tapper",
+        site: "https://jamesai.dev/tapper/",
+        /* Chinese name 敲黑板 set by James 2026-11-18; the app itself is still called Tapper. */
+        name: { zh: "敲黑板 Tapper", "zh-Hant": "敲黑板 Tapper", en: "Tapper" },
+        stars: 0,
+        shot: "assets/shot-tapper.webp",
+        /* Cut from the README demo video (real app, staged scene), not app-motion.py. */
+        motion: true,
+        shots: [
+          { src: "assets/tapper-paw.webp",
+            cap: { zh: "三种手型：食指、猫爪、中指。", "zh-Hant": "三種手型：食指、貓爪、中指。",
+                   en: "Three hands: a pointing finger, a cat paw and a cheeky middle finger." } },
+          { src: "assets/tapper-middle.webp",
+            cap: { zh: "长杆从右下方伸进来，末端渐隐，移动时像弹簧一样晃。", "zh-Hant": "長杆從右下方伸進來，末端漸隱，移動時像彈簧一樣晃。",
+                   en: "The stick reaches in from the bottom-right, fades at its far end and swings on a spring as you move." } },
+          { src: "assets/tapper-hit.webp",
+            cap: { zh: "点击就戳一下，点得越快越夸张。", "zh-Hant": "點選就戳一下，點得越快越誇張。",
+                   en: "Click to poke, and the faster you click, the bigger the hit." } },
+        ],
+        tagline: {
+          zh: "把鼠标指针变成长杆上的手套", "zh-Hant": "把滑鼠指標變成長杆上的手套",
+          en: "Your pointer, as a glove on a stick",
+        },
+        desc: {
+          zh: "把系统箭头换成一只插在长杆上的卡通白手套，演示、共享屏幕、录教程时谁都看得见你在指哪儿。点击会戳一下并爆出漫画放射线；三种手型、五档力度；演示模式下点击只戳不点穿。免费开源，官网可以直接在浏览器里试。", "zh-Hant": "把系統箭頭換成一隻插在長杆上的卡通白手套，演示、共享螢幕、錄教程時誰都看得見你在指哪兒。點選會戳一下並爆出漫畫放射線；三種手型、五檔力度；演示模式下點選只戳不點穿。免費開源，官網可以直接在瀏覽器裡試。",
+          en: "Swaps the system arrow for a cartoon white glove on a long stick, so in demos, screen shares and tutorials everyone can see where you're pointing. Clicks poke with comic impact lines; three hands, five moods; in presentation mode clicks poke without clicking through. Free and open source, and you can try it in your browser on the website.",
+        },
+      },
     ],
   },
   {
@@ -393,10 +450,10 @@ const ELSEWHERE = {
 };
 
 const SITES = {
-  title: { zh: "四个 Mac 应用", "zh-Hant": "四個 Mac 應用", en: "Four Mac apps" },
+  title: { zh: "六个 Mac 应用", "zh-Hant": "六個 Mac 應用", en: "Six Mac apps" },
   kicker: { zh: "应用站点", "zh-Hant": "應用站點", en: "App sites" },
-  note: { zh: "都免费、源码公开、Apple 芯片原生，自己更新自己。", "zh-Hant": "都免費、原始碼公開、Apple 晶片原生，自己更新自己。",
-          en: "All free, source public, native on Apple silicon, and they update themselves." },
+  note: { zh: "都免费、源码公开、Apple 芯片原生。", "zh-Hant": "都免費、原始碼公開、Apple 晶片原生。",
+          en: "All free, source public, native on Apple silicon." },
   items: [
     { name: { zh: "AudioSwitch", "zh-Hant": "AudioSwitch", en: "AudioSwitch" },
       where: { zh: "音频设备切换 · audioswitch.dev", "zh-Hant": "音訊裝置切換 · audioswitch.dev", en: "Audio device switching · audioswitch.dev" },
@@ -410,6 +467,12 @@ const SITES = {
     { name: { zh: "Inkstone", "zh-Hant": "Inkstone", en: "Inkstone" },
       where: { zh: "Markdown 笔记 · inkslab.app", "zh-Hant": "Markdown 筆記 · inkslab.app", en: "Markdown notes · inkslab.app" },
       url: "https://inkslab.app" },
+    { name: { zh: "敲黑板 Tapper", "zh-Hant": "敲黑板 Tapper", en: "Tapper" },
+      where: { zh: "手套指针 · jamesai.dev/tapper", "zh-Hant": "手套指標 · jamesai.dev/tapper", en: "Glove pointer · jamesai.dev/tapper" },
+      url: "https://jamesai.dev/tapper/" },
+    { name: { zh: "Veil", "zh-Hant": "Veil", en: "Veil" },
+      where: { zh: "专注模糊 · jamesai.dev/veil", "zh-Hant": "專注模糊 · jamesai.dev/veil", en: "Focus blur · jamesai.dev/veil" },
+      url: "https://jamesai.dev/veil/" },
   ],
 };
 
