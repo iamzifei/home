@@ -3,7 +3,13 @@
 
     python3 tools/demo-compose.py <in.mov> <stem> \
         --kf "0:-.12,-.12,1.12,1.12  2.0:.02,.05,.52,.40  5.5:same ..." \
-        [--w 1024] [--trim 1.2] [--secs 12] [--fps 30]
+        [--w 1024] [--trim 1.2] [--secs 12] [--fps 30] [--scene] [--fill .8]
+        [--t0 0] [--xfade 0.6] [--desk assets/src/desk.png]
+
+--scene   the capture is a scene_capture.py rectangle (several windows, their own
+          shadows, transparent elsewhere), so no synthetic window shadow is drawn.
+--t0      start the film this many seconds into the capture.
+--xfade   blend the last N seconds into the first frames, so the loop has no cut.
 
 WHY THERE IS A CAMERA AT ALL
 ----------------------------
@@ -112,6 +118,11 @@ def main():
     OUT_W = int(a[a.index("--w") + 1]) if "--w" in a else 1024
     secs = float(a[a.index("--secs") + 1]) if "--secs" in a else 12.0
     fps = int(a[a.index("--fps") + 1]) if "--fps" in a else 30
+    scene = "--scene" in a
+    fill = float(a[a.index("--fill") + 1]) if "--fill" in a else DESK_FILL
+    t_start = float(a[a.index("--t0") + 1]) if "--t0" in a else 0.0
+    xfade = float(a[a.index("--xfade") + 1]) if "--xfade" in a else 0.0
+    desk_src = a[a.index("--desk") + 1] if "--desk" in a else "assets/src/desk.png"
     OUT_H = round(OUT_W / AR)
 
     idx = read_index(src)
@@ -124,14 +135,15 @@ def main():
     blob = pathlib.Path(src).open("rb")
 
     # The desk: big enough that the window is DESK_FILL of it at full pull-back.
-    pw = max(vw / DESK_FILL, (vh / DESK_FILL) * AR)
+    pw = max(vw / fill, (vh / fill) * AR)
     pw, ph = int(round(pw)), int(round(pw / AR))
     ox, oy = (pw - vw) // 2, (ph - vh) // 2
 
-    desk = Image.open("assets/src/desk.png").convert("RGB").resize((pw, ph), Image.LANCZOS)
+    desk = Image.open(desk_src).convert("RGB").resize((pw, ph), Image.LANCZOS)
 
     # The window's shadow never moves, so it is painted into the desk once.
-    blur, alpha = 34, 120
+    # (A scene carries its windows' real shadows in its alpha instead.)
+    blur, alpha = 34, (0 if scene else 120)
     pad = blur * 3
     sh = Image.new("RGBA", (vw + pad * 2, vh + pad * 2), (0, 0, 0, 0))
     ImageDraw.Draw(sh).rounded_rectangle([pad, pad, pad + vw, pad + vh],
@@ -151,10 +163,37 @@ def main():
          "-crf", "23", "-preset", "slow", "-movflags", "+faststart", "-an",
          str(out_mp4)], stdin=subprocess.PIPE)
 
+    def render(t):
+        """One output frame at capture time t (seconds)."""
+        cur = min(range(len(idx)), key=lambda k: abs(idx[k][0] - t))
+        ft, fw, fh, off = idx[cur]
+        blob.seek(off)
+        shot = Image.frombuffer("RGBA", (fw, fh), blob.read(fw * fh * 4), "raw", "RGBA", 0, 1)
+        plate = desk.copy()
+        plate.paste(shot, (ox, oy), shot)
+        rect = at(kfs, t - t_start)
+        px = [ox + rect[0] * vw, oy + rect[1] * vh, ox + rect[2] * vw, oy + rect[3] * vh]
+        return plate.resize((OUT_W, OUT_H), Image.LANCZOS, box=fit(px, (pw, ph)))
+
+    n_x = int(round(xfade * fps))
+    head = render(t_start) if n_x else None
+
     first = None
     made = 0
     cursor = 0
     for i in range(n_frames):
+        if scene or n_x:
+            frame = render(t_start + i / fps)
+            # The last n_x frames dissolve into frame 0, so the loop point is
+            # a dissolve rather than a cut back to the start.
+            k = i - (n_frames - n_x)
+            if n_x and k >= 0:
+                frame = Image.blend(frame, head, (k + 1) / n_x)
+            if first is None:
+                first = frame.copy()
+            enc.stdin.write(frame.tobytes())
+            made += 1
+            continue
         t = i / fps
         while cursor + 1 < len(idx) and abs(idx[cursor + 1][0] - t) <= abs(idx[cursor][0] - t):
             cursor += 1
