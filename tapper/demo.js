@@ -91,7 +91,14 @@
     const r = stage.getBoundingClientRect();
     if (!parkEl) return { x: r.width * 0.6, y: r.height * 0.6 };
     const b = parkEl.getBoundingClientRect();
-    return { x: b.right - r.left - 22, y: b.bottom - r.top - 12 };
+    // Wide screens: just right of the button, pointing at it. Phones: on the button's right end
+    // (beside it would be off screen, so it points at the button's lower corner). The fine print under the button is kept as narrow as the
+    // button in CSS, so the hanging glove never covers it.
+    const narrow = r.width < 761;
+    const fine = parkEl.parentElement.querySelector('.fine');
+    const clear = fine ? fine.getBoundingClientRect().right + 36 : 0;   // keep the hand off the fine print
+    return narrow ? { x: Math.max(b.right - 18, clear) - r.left, y: b.bottom - r.top - 2 }
+                  : { x: b.right - r.left + 6, y: b.top - r.top + b.height * 0.55 };
   }
 
   // ---- Physics + render loop ---------------------------------------------------------------------
@@ -230,12 +237,12 @@
     const r = stage.getBoundingClientRect();
     st.tip.x = e.clientX - r.left;
     st.tip.y = e.clientY - r.top;
-    if (!st.interacted) { st.interacted = true; hint.classList.add('is-gone'); }
+    if (!st.interacted) { st.interacted = true; hint.classList.add('is-gone'); stage.classList.remove('is-parked'); }
     if (teleport) resetMass();
   }
   stage.addEventListener('pointermove', e => { if (e.pointerType !== 'touch') setTip(e, false); });
   // Mouse leaves the hero: the glove glides back to its resting spot.
-  stage.addEventListener('pointerleave', e => { if (e.pointerType !== 'touch') st.interacted = false; });
+  stage.addEventListener('pointerleave', e => { if (e.pointerType !== 'touch') { st.interacted = false; stage.classList.add('is-parked'); } });
   stage.addEventListener('pointerdown', e => {
     // On touch the glove appears where you tap; there is no hover to follow beforehand.
     setTip(e, e.pointerType === 'touch');
@@ -298,7 +305,10 @@
   // Preload the other sprites so switching styles is instant.
   Object.values(SPRITES).forEach(s => { const i = new Image(); i.src = s; });
 
+  stage.classList.add('is-parked');   // while resting, the stick passes behind the controls (see site.css)
   gloveImg.src = SPRITES[st.style];
+  // Phones start one mood smaller so the resting glove fits beside the button.
+  if (stage.getBoundingClientRect().width < 761) moodInput.value = '2';
   applyMood();
   renderSoundState();
   // Re-render the strings this script owns whenever the language changes.

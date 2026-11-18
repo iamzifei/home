@@ -17,8 +17,8 @@
   const LANGS = ['en', 'zh-Hans', 'zh-Hant'];
   const STORE_KEY = 'tapper-lang';
   const DL = 'https://github.com/iamzifei/tapper/releases/latest/download/Tapper.dmg';
-  const KBD_P = '<kbd>⌃</kbd> <kbd>⌥</kbd> <kbd>P</kbd>';
-  const KBD_T = '<kbd>⌃</kbd> <kbd>⌥</kbd> <kbd>T</kbd>';
+  const KBD_P = '<span class="kg"><kbd>⌃</kbd> <kbd>⌥</kbd> <kbd>P</kbd></span>';
+  const KBD_T = '<span class="kg"><kbd>⌃</kbd> <kbd>⌥</kbd> <kbd>T</kbd></span>';
 
   const DICT = {
     /* ------------------------------------------------------------------ English */
@@ -38,7 +38,7 @@
       'hero.h1': 'Point like <span class="hl">you mean it.</span>',
       'hero.lede': 'Tapper swaps your pointer for a cartoon glove on a long, wobbly stick. Nobody watching your demo, call or recording will ever ask “wait, where are you pointing?” again.',
       'cta.github': 'View on GitHub',
-      'hero.fine': 'Free forever · MIT open source · macOS 14 or later',
+      'hero.fine': '<span class="nw">Free forever</span> · <span class="nw">MIT open source</span> · <span class="nw">macOS 14 or later</span>',
 
       'stage.aria': 'Interactive demo: inside this area your pointer becomes the Tapper glove. Click to poke.',
       'hint.mouse': 'Psst: up here, your pointer is a glove. Click to poke.',
@@ -139,8 +139,7 @@
 
       'nav.what': 'What it is',
       'nav.how': 'How to use',
-      'what.eyebrow': '01 · What it is',
-      'what.h2': 'A glove on a stick, in place of your pointer.',
+      'what.h2': 'What is Tapper?',
       'what.p': 'Tapper is a free menu-bar app for the Mac. Switch it on and your mouse pointer becomes a cartoon glove on a long, springy stick. The fingertip sits exactly where your pointer is, so clicking, dragging and selecting work just like before. Every click makes the glove poke. Switch it off and your normal arrow is back.',
       'what.f1.t': 'Lives in the menu bar',
       'what.f1.p': 'Look for the little hand icon. No Dock icon, no window to manage.',
@@ -148,8 +147,7 @@
       'what.f2.p': 'It starts hidden. One shortcut brings the glove out, the same one puts it away.',
       'what.f3.t': 'Works everywhere',
       'what.f3.p': 'In every app and on every display, because it is drawn on top of the screen.',
-      'why.eyebrow': '02 · Why you’d want it',
-      'why.h2': 'Nobody loses your pointer again.',
+      'why.h2': 'Why you’d want it',
       'why.p': 'On a call or in a recording, the Mac’s arrow is tiny. People lose it, and you end up saying “up here… no, the other one”. A big glove that swings as it moves is easy to follow, and the poke on every click shows exactly when you mean “this one”.',
       'why.u1.t': 'Demos and sales calls',
       'why.u1.p': 'Walk a customer through your product on Zoom, Meet or Teams without anyone asking where your mouse is.',
@@ -159,8 +157,7 @@
       'why.u3.p': 'Viewers can see where you click even on a phone screen, and you don’t need to add highlights in editing.',
       'why.u4.t': 'Presenting slides',
       'why.u4.p': 'Point and poke at a chart in Presentation mode, without accidentally clicking something underneath.',
-      'how.eyebrow': '03 · How to use it',
-      'how.h2': 'Up and running in two minutes.',
+      'how.h2': 'How to use it',
       'how.s1.t': 'Install',
       'how.s1.p': `<a href="${DL}">Download Tapper.dmg</a>, open it and drag Tapper into Applications. Then open Tapper. It needs macOS 14 or later, and it is signed and notarized by Apple.`,
       'how.s2.t': 'First run',
@@ -179,6 +176,9 @@
       'how.k3.k': 'Click',
       'how.k3': 'Poke. Click quickly several times for a bigger hit.',
       'how.more': 'Also in the menu: Launch at login, Language, Welcome Guide… (to see the intro again) and Check for Updates….',
+      'what.sub': 'A glove on a stick, in place of your pointer.',
+      'why.sub': 'Nobody loses your pointer again.',
+      'how.sub': 'Up and running in two minutes.',
     },
 
     /* ------------------------------------------------------------ 简体中文 */
@@ -198,7 +198,7 @@
       'hero.h1': '重点，<span class="hl">敲黑板！</span>',
       'hero.lede': '敲黑板（Tapper）把鼠标指针换成一只挂在长杆上、会晃的卡通手套。看你演示、开会或录屏的人，不会再问「你刚才指的是哪儿？」',
       'cta.github': '在 GitHub 上查看',
-      'hero.fine': '永久免费 · MIT 开源 · 需要 macOS 14 或更高版本',
+      'hero.fine': '<span class="nw">永久免费</span> · <span class="nw">MIT 开源</span> · <span class="nw">需要 macOS 14 或更高版本</span>',
 
       'stage.aria': '互动演示：在这块区域里，你的鼠标指针会变成敲黑板的手套。点一下，手套就戳一下。',
       'hint.mouse': '悄悄说：在这一块，你的指针已经变成手套了。点一下试试。',
@@ -299,8 +299,7 @@
 
       'nav.what': '这是什么',
       'nav.how': '怎么用',
-      'what.eyebrow': '01 · 这是什么',
-      'what.h2': '用一只长杆手套，替代你的鼠标指针。',
+      'what.h2': '敲黑板是什么？',
       'what.p': '敲黑板（Tapper）是一款免费的 Mac 菜单栏小工具。打开它，鼠标指针就变成一只挂在长杆上、会弹会晃的卡通手套。指尖就在原来指针的位置，所以点击、拖动、选中都和平时一样。每点一下，手套就戳一下。关掉它，原来的箭头马上回来。',
       'what.f1.t': '住在菜单栏里',
       'what.f1.p': '找那个小手图标就行。没有 Dock 图标，也没有窗口要管。',
@@ -308,8 +307,7 @@
       'what.f2.p': '默认是隐藏的。按一个快捷键手套就出场，再按一次就收起。',
       'what.f3.t': '哪里都能用',
       'what.f3.p': '它画在屏幕最上层，所以任何应用、任何一块屏幕上都能用。',
-      'why.eyebrow': '02 · 有什么用',
-      'why.h2': '再也没人找不到你的指针。',
+      'why.h2': '它能帮你什么',
       'why.p': '开会共享屏幕或录屏时，Mac 的箭头太小了。别人一下就跟丢，你只好说「这里……不对，是另一个」。一只大手套，动起来还会晃，眼睛很容易跟上；每次点击它都戳一下，「就是这个」的那一刻，大家都看得清清楚楚。',
       'why.u1.t': '产品演示、销售会议',
       'why.u1.p': '在腾讯会议、Zoom 或 Teams 上给客户讲产品，不会再有人问「你鼠标在哪儿」。',
@@ -319,8 +317,7 @@
       'why.u3.p': '观众用手机看也知道你点了哪里，剪辑时也不用再手动加高亮。',
       'why.u4.t': '放幻灯片',
       'why.u4.p': '在演示模式下对着图表指、戳，不会一不小心点到下面的东西。',
-      'how.eyebrow': '03 · 怎么用',
-      'how.h2': '两分钟就能用上。',
+      'how.h2': '怎么用',
       'how.s1.t': '安装',
       'how.s1.p': `<a href="${DL}">下载 Tapper.dmg</a>，打开后把 Tapper 拖进「应用程序」，再打开它。需要 macOS 14 或更高版本，已通过 Apple 签名和公证。`,
       'how.s2.t': '第一次打开',
@@ -339,6 +336,9 @@
       'how.k3.k': '点击',
       'how.k3': '戳一下。连着快点几下，戳得更猛。',
       'how.more': '菜单里还有：「登录时启动」「语言」「新手引导…」（再看一遍引导）和「检查更新…」。',
+      'what.sub': '用一只长杆手套，替代你的鼠标指针。',
+      'why.sub': '再也没人找不到你的指针。',
+      'how.sub': '两分钟就能用上。',
     },
 
     /* ------------------------------------------------------------ 繁體中文（台灣） */
@@ -358,7 +358,7 @@
       'hero.h1': '重點，<span class="hl">敲黑板！</span>',
       'hero.lede': '敲黑板（Tapper）把滑鼠游標換成一隻掛在長桿上、會晃的卡通手套。看你簡報、開會或錄影的人，不會再問「你剛才指的是哪裡？」',
       'cta.github': '在 GitHub 上查看',
-      'hero.fine': '永久免費 · MIT 開源 · 需要 macOS 14 或更新版本',
+      'hero.fine': '<span class="nw">永久免費</span> · <span class="nw">MIT 開源</span> · <span class="nw">需要 macOS 14 或更新版本</span>',
 
       'stage.aria': '互動示範：在這塊區域裡，你的滑鼠游標會變成敲黑板的手套。點一下，手套就戳一下。',
       'hint.mouse': '偷偷說：在這一塊，你的游標已經變成手套了。點一下試試。',
@@ -459,8 +459,7 @@
 
       'nav.what': '這是什麼',
       'nav.how': '怎麼用',
-      'what.eyebrow': '01 · 這是什麼',
-      'what.h2': '用一隻長桿手套，取代你的滑鼠游標。',
+      'what.h2': '敲黑板是什麼？',
       'what.p': '敲黑板（Tapper）是一款免費的 Mac 選單列小工具。打開它，滑鼠游標就變成一隻掛在長桿上、會彈會晃的卡通手套。指尖就在原本游標的位置，所以點擊、拖曳、選取都和平常一樣。每點一下，手套就戳一下。關掉它，原本的箭頭馬上回來。',
       'what.f1.t': '住在選單列裡',
       'what.f1.p': '找那個小手圖示就行。沒有 Dock 圖示，也沒有視窗要管。',
@@ -468,8 +467,7 @@
       'what.f2.p': '預設是隱藏的。按一個快速鍵手套就出場，再按一次就收起。',
       'what.f3.t': '哪裡都能用',
       'what.f3.p': '它畫在螢幕最上層，所以任何 App、任何一個螢幕上都能用。',
-      'why.eyebrow': '02 · 有什麼用',
-      'why.h2': '再也沒人找不到你的游標。',
+      'why.h2': '它能幫你什麼',
       'why.p': '開會分享螢幕或錄影時，Mac 的箭頭太小了。別人一下就跟丟，你只好說「這裡……不對，是另一個」。一隻大手套，動起來還會晃，眼睛很容易跟上；每次點擊它都戳一下，「就是這個」的那一刻，大家都看得清清楚楚。',
       'why.u1.t': '產品示範、業務會議',
       'why.u1.p': '在 Zoom、Google Meet 或 Teams 上帶客戶看產品，不會再有人問「你的滑鼠在哪裡」。',
@@ -479,8 +477,7 @@
       'why.u3.p': '觀眾用手機看也知道你點了哪裡，剪輯時也不用再手動加醒目標示。',
       'why.u4.t': '播投影片',
       'why.u4.p': '在簡報模式下對著圖表指、戳，不會一不小心點到下面的東西。',
-      'how.eyebrow': '03 · 怎麼用',
-      'how.h2': '兩分鐘就能用上。',
+      'how.h2': '怎麼用',
       'how.s1.t': '安裝',
       'how.s1.p': `<a href="${DL}">下載 Tapper.dmg</a>，打開後把 Tapper 拖進「應用程式」，再打開它。需要 macOS 14 或更新版本，已通過 Apple 簽署和公證。`,
       'how.s2.t': '第一次打開',
@@ -499,6 +496,9 @@
       'how.k3.k': '點擊',
       'how.k3': '戳一下。連著快點幾下，戳得更用力。',
       'how.more': '選單裡還有：「登入時啟動」「語言」「新手引導…」（再看一次引導）和「檢查更新…」。',
+      'what.sub': '用一隻長桿手套，取代你的滑鼠游標。',
+      'why.sub': '再也沒人找不到你的游標。',
+      'how.sub': '兩分鐘就能用上。',
     },
   };
 

@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>document.documentElement.classList.add('js')</script>
 <title>Tapper — point like you mean it</title>
 <meta name="description" content="Tapper is a free, open-source macOS menu-bar app that turns your mouse pointer into a cartoon glove on a long stick. Perfect for demos, screen shares and tutorials. Try it live.">
 <link rel="canonical" href="https://jamesai.dev/tapper/">
@@ -53,7 +54,7 @@
   <!-- ============ HERO: the whole hero is the live demo. The glove replaces your pointer here. ============ -->
   <section class="hero stage" id="stage" aria-label="Interactive demo: inside this area your pointer becomes the Tapper glove. Click to poke." data-i18n-attr="aria-label:stage.aria">
     <div class="hero-inner" id="top">
-      <div class="faces" aria-hidden="true">
+      <div class="faces" aria-hidden="true" data-impeccable-ignore="bounce-easing">
         <span class="face f-icon"><img src="assets/icon.png" alt="" width="76" height="76"></span>
         <span class="face f-tiny"><img src="assets/glove-tiny.png" alt="" width="76" height="112"></span>
         <span class="face f-paw"><img src="assets/glove-paw.png" alt="" width="76" height="112"></span>
@@ -63,7 +64,7 @@
       <p class="lede" data-i18n="hero.lede">Tapper swaps your pointer for a cartoon glove on a long, wobbly stick. Nobody watching your demo, call or recording will ever ask “wait, where are you pointing?” again.</p>
       <div class="cta">
         <a class="btn btn--big" id="heroDl" href="https://github.com/iamzifei/tapper/releases/latest/download/Tapper.dmg" data-park><svg class="apple" viewBox="0 0 17 20" aria-hidden="true"><path fill="currentColor" d="M14.1 10.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9C3.6 4.8 2 5.8 1.1 7.4c-1.8 3.1-.5 7.8 1.3 10.4.9 1.3 1.9 2.7 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.6 0 2 .8 3.4.8 1.4 0 2.3-1.3 3.1-2.6 1-1.5 1.4-2.9 1.4-3-.1 0-2.7-1-2.7-4.2zM11.5 3c.7-.9 1.2-2 1-3.2-1 .1-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.2.1 2.3-.6 3.1-1.5z"/></svg><span data-i18n="cta.free">Download for Mac — free</span></a>
-        <p class="fine" data-i18n="hero.fine">Free forever · MIT open source · macOS 14 or later</p>
+        <p class="fine" data-i18n-html="hero.fine"><span class="nw">Free forever</span> · <span class="nw">MIT open source</span> · <span class="nw">macOS 14 or later</span></p>
       </div>
 
       <!-- Controls for the hero glove -->
@@ -83,7 +84,7 @@
             <output id="moodOut" for="mood" aria-live="polite">3/5 · Clear signal</output>
           </div>
         </div>
-        <div class="dock-group">
+        <div class="dock-group color">
           <span class="dock-lbl" data-i18n="ctl.color">Stick colour</span>
           <div class="swatches" id="swatches" role="radiogroup" aria-label="Stick colour" data-i18n-attr="aria-label:ctl.color.aria">
             <button type="button" class="sw" role="radio" aria-checked="true"  data-color="0" aria-label="Black"  title="Black"  data-i18n-attr="aria-label:color.0;title:color.0" style="--c:#000000"></button>
@@ -127,30 +128,30 @@
 
 
   <!-- ============ 01 WHAT IT IS ============ -->
-  <section class="explain" id="what" aria-labelledby="what-h">
+  <section class="section explain" id="what" aria-labelledby="what-h">
     <div class="wrap">
-      <p class="eyebrow" data-i18n="what.eyebrow">01 · What it is</p>
-      <h2 id="what-h" data-i18n="what.h2">A glove on a stick, in place of your pointer.</h2>
+      <h2 id="what-h" data-i18n="what.h2">What is Tapper?</h2>
+      <p class="sub" data-i18n="what.sub">A glove on a stick, in place of your pointer.</p>
       <p class="big-p" data-i18n="what.p">Tapper is a free menu-bar app for the Mac. Switch it on and your mouse pointer becomes a cartoon glove on a long, springy stick. The fingertip sits exactly where your pointer is, so clicking, dragging and selecting work just like before. Every click makes the glove poke. Switch it off and your normal arrow is back.</p>
       <ul class="facts">
-        <li><strong data-i18n="what.f1.t">Lives in the menu bar</strong><span data-i18n="what.f1.p">Look for the little hand icon. No Dock icon, no window to manage.</span></li>
-        <li><strong data-i18n="what.f2.t">Off until you want it</strong><span data-i18n="what.f2.p">It starts hidden. One shortcut brings the glove out, the same one puts it away.</span></li>
-        <li><strong data-i18n="what.f3.t">Works everywhere</strong><span data-i18n="what.f3.p">In every app and on every display, because it is drawn on top of the screen.</span></li>
+        <li class="card"><h3 data-i18n="what.f1.t">Lives in the menu bar</h3><p data-i18n="what.f1.p">Look for the little hand icon. No Dock icon, no window to manage.</p></li>
+        <li class="card"><h3 data-i18n="what.f2.t">Off until you want it</h3><p data-i18n="what.f2.p">It starts hidden. One shortcut brings the glove out, the same one puts it away.</p></li>
+        <li class="card"><h3 data-i18n="what.f3.t">Works everywhere</h3><p data-i18n="what.f3.p">In every app and on every display, because it is drawn on top of the screen.</p></li>
       </ul>
     </div>
   </section>
 
   <!-- ============ 02 WHY / WHO ============ -->
-  <section class="explain" id="why" aria-labelledby="why-h">
+  <section class="section explain" id="why" aria-labelledby="why-h">
     <div class="wrap">
-      <p class="eyebrow" data-i18n="why.eyebrow">02 · Why you’d want it</p>
-      <h2 id="why-h" data-i18n="why.h2">Nobody loses your pointer again.</h2>
+      <h2 id="why-h" data-i18n="why.h2">Why you’d want it</h2>
+      <p class="sub" data-i18n="why.sub">Nobody loses your pointer again.</p>
       <p class="big-p" data-i18n="why.p">On a call or in a recording, the Mac’s arrow is tiny. People lose it, and you end up saying “up here… no, the other one”. A big glove that swings as it moves is easy to follow, and the poke on every click shows exactly when you mean “this one”.</p>
       <div class="uses">
-        <article class="use"><h3 data-i18n="why.u1.t">Demos and sales calls</h3><p data-i18n="why.u1.p">Walk a customer through your product on Zoom, Meet or Teams without anyone asking where your mouse is.</p></article>
-        <article class="use"><h3 data-i18n="why.u2.t">Teaching and training</h3><p data-i18n="why.u2.p">Classes, workshops and onboarding: people follow the hand instead of hunting for the arrow.</p></article>
-        <article class="use"><h3 data-i18n="why.u3.t">Screen recordings and tutorials</h3><p data-i18n="why.u3.p">Viewers can see where you click even on a phone screen, and you don’t need to add highlights in editing.</p></article>
-        <article class="use"><h3 data-i18n="why.u4.t">Presenting slides</h3><p data-i18n="why.u4.p">Point and poke at a chart in Presentation mode, without accidentally clicking something underneath.</p></article>
+        <article class="card"><h3 data-i18n="why.u1.t">Demos and sales calls</h3><p data-i18n="why.u1.p">Walk a customer through your product on Zoom, Meet or Teams without anyone asking where your mouse is.</p></article>
+        <article class="card"><h3 data-i18n="why.u2.t">Teaching and training</h3><p data-i18n="why.u2.p">Classes, workshops and onboarding: people follow the hand instead of hunting for the arrow.</p></article>
+        <article class="card"><h3 data-i18n="why.u3.t">Screen recordings and tutorials</h3><p data-i18n="why.u3.p">Viewers can see where you click even on a phone screen, and you don’t need to add highlights in editing.</p></article>
+        <article class="card"><h3 data-i18n="why.u4.t">Presenting slides</h3><p data-i18n="why.u4.p">Point and poke at a chart in Presentation mode, without accidentally clicking something underneath.</p></article>
       </div>
     </div>
   </section>
@@ -172,7 +173,7 @@
   </section>
 
   <!-- ============ FEATURES: one centred column, a sticker per item ============ -->
-  <section class="features" id="features" aria-labelledby="feat-h">
+  <section class="section features" id="features" aria-labelledby="feat-h">
     <div class="wrap">
       <h2 class="vh" id="feat-h" data-i18n="feat.h2">Impossible to miss. On purpose.</h2>
       <ul class="flist">
@@ -202,12 +203,12 @@
           <p data-i18n="f5.p">Five steps from “Shy finger” to “In your face”: size, stick length and how hard it pokes, all in one slider.</p>
         </li>
         <li class="reveal">
-          <div class="ficon keys" aria-hidden="true"><kbd translate="no">⌃<small>control</small></kbd><kbd translate="no">⌥<small>option</small></kbd><kbd translate="no">P</kbd></div>
+          <div class="ficon keys" aria-hidden="true" data-impeccable-ignore="hard-offset-shadow"><kbd translate="no">⌃<small>control</small></kbd><kbd translate="no">⌥<small>option</small></kbd><kbd translate="no">P</kbd></div>
           <h3 data-i18n="fk.t">Hotkey ready</h3>
           <p data-i18n="fk.p">Show or hide the glove from any app. Your normal arrow comes straight back.</p>
         </li>
         <li class="reveal">
-          <div class="ficon keys" aria-hidden="true"><kbd translate="no">⌃<small>control</small></kbd><kbd translate="no">⌥<small>option</small></kbd><kbd translate="no">T</kbd></div>
+          <div class="ficon keys" aria-hidden="true" data-impeccable-ignore="hard-offset-shadow"><kbd translate="no">⌃<small>control</small></kbd><kbd translate="no">⌥<small>option</small></kbd><kbd translate="no">T</kbd></div>
           <h3 data-i18n="f7.t">Presentation mode</h3>
           <p data-i18n="f7.p">Clicks only poke, they never reach the app underneath. The keyboard keeps working, so slides advance as usual.</p>
         </li>
@@ -217,38 +218,38 @@
           <p data-i18n="f8.p">Works across every display and shows up in screen shares and recordings, because it’s drawn on screen.</p>
         </li>
         <li class="reveal">
-          <div class="ficon term" aria-hidden="true"><span translate="no">&gt; tapper://poke</span></div>
+          <div class="ficon term" aria-hidden="true" data-impeccable-ignore="hard-offset-shadow"><span translate="no">&gt; tapper://poke</span></div>
           <h3 data-i18n="f9.t">Scriptable</h3>
           <p data-i18n-html="f9.p">A <code>tapper://</code> URL scheme lets Shortcuts, Raycast, Stream Deck or a shell script drive it.</p>
         </li>
       </ul>
       <div class="center-cta reveal">
         <a class="btn btn--big" href="https://github.com/iamzifei/tapper/releases/latest/download/Tapper.dmg"><svg class="apple" viewBox="0 0 17 20" aria-hidden="true"><path fill="currentColor" d="M14.1 10.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9C3.6 4.8 2 5.8 1.1 7.4c-1.8 3.1-.5 7.8 1.3 10.4.9 1.3 1.9 2.7 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.6 0 2 .8 3.4.8 1.4 0 2.3-1.3 3.1-2.6 1-1.5 1.4-2.9 1.4-3-.1 0-2.7-1-2.7-4.2zM11.5 3c.7-.9 1.2-2 1-3.2-1 .1-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.2.1 2.3-.6 3.1-1.5z"/></svg><span data-i18n="cta.free">Download for Mac — free</span></a>
-        <p class="fine" data-i18n="hero.fine">Free forever · MIT open source · macOS 14 or later</p>
+        <p class="fine" data-i18n-html="hero.fine"><span class="nw">Free forever</span> · <span class="nw">MIT open source</span> · <span class="nw">macOS 14 or later</span></p>
       </div>
     </div>
   </section>
 
 
   <!-- ============ 03 HOW TO USE (matches the real app's menu, see Sources/Tapper/main.swift) ============ -->
-  <section class="explain how" id="how" aria-labelledby="how-h">
+  <section class="section explain how" id="how" aria-labelledby="how-h">
     <div class="wrap">
-      <p class="eyebrow" data-i18n="how.eyebrow">03 · How to use it</p>
-      <h2 id="how-h" data-i18n="how.h2">Up and running in two minutes.</h2>
+      <h2 id="how-h" data-i18n="how.h2">How to use it</h2>
+      <p class="sub" data-i18n="how.sub">Up and running in two minutes.</p>
       <ol class="steps">
         <li><h3 data-i18n="how.s1.t">Install</h3><p data-i18n-html="how.s1.p"><a href="https://github.com/iamzifei/tapper/releases/latest/download/Tapper.dmg">Download Tapper.dmg</a>, open it and drag Tapper into Applications. Then open Tapper. It needs macOS 14 or later, and it is signed and notarized by Apple.</p></li>
         <li><h3 data-i18n="how.s2.t">First run</h3><p data-i18n="how.s2.p">A short welcome guide opens the first time. After that Tapper sits in the menu bar as a little hand icon. The glove starts hidden, so nothing changes yet.</p></li>
-        <li><h3 data-i18n="how.s3.t">Turn the glove on</h3><p data-i18n-html="how.s3.p">Press <kbd translate="no">⌃</kbd> <kbd translate="no">⌥</kbd> <kbd translate="no">P</kbd> in any app, or click the menu-bar icon and choose “Show pointer”. Press it again to hide the glove and get your normal arrow back. The icon fills in while the glove is on.</p></li>
+        <li><h3 data-i18n="how.s3.t">Turn the glove on</h3><p data-i18n-html="how.s3.p">Press <span class="kg"><kbd translate="no">⌃</kbd> <kbd translate="no">⌥</kbd> <kbd translate="no">P</kbd></span> in any app, or click the menu-bar icon and choose “Show pointer”. Press it again to hide the glove and get your normal arrow back. The icon fills in while the glove is on.</p></li>
         <li><h3 data-i18n="how.s4.t">Pick a hand and a mood</h3><p data-i18n="how.s4.p">Click the menu-bar icon. Choose Tiny hand, Cat paw or Middle child. Drag the Pointer mood slider across its five steps, from Shy finger to In your face: each step makes the glove bigger, the stick longer and the poke harder.</p></li>
         <li><h3 data-i18n="how.s5.t">Colour and sound</h3><p data-i18n="how.s5.p">In the same menu: Color has eight stick colours. Animate on click turns the poke animation on or off. Knock sound plays a short knock on each click (it is on at first), with a Volume slider right below.</p></li>
-        <li><h3 data-i18n="how.s6.t">Presentation mode (optional)</h3><p data-i18n-html="how.s6.p">Press <kbd translate="no">⌃</kbd> <kbd translate="no">⌥</kbd> <kbd translate="no">T</kbd> and clicks only poke: they no longer reach the app underneath, while the keyboard keeps working, so slides still advance. The first time, macOS asks for Accessibility permission: allow Tapper in System Settings → Privacy &amp; Security → Accessibility, then press <kbd translate="no">⌃</kbd> <kbd translate="no">⌥</kbd> <kbd translate="no">T</kbd> again. Press <kbd translate="no">⌃</kbd> <kbd translate="no">⌥</kbd> <kbd translate="no">T</kbd> once more to leave.</p></li>
+        <li><h3 data-i18n="how.s6.t">Presentation mode (optional)</h3><p data-i18n-html="how.s6.p">Press <span class="kg"><kbd translate="no">⌃</kbd> <kbd translate="no">⌥</kbd> <kbd translate="no">T</kbd></span> and clicks only poke: they no longer reach the app underneath, while the keyboard keeps working, so slides still advance. The first time, macOS asks for Accessibility permission: allow Tapper in System Settings → Privacy &amp; Security → Accessibility, then press <span class="kg"><kbd translate="no">⌃</kbd> <kbd translate="no">⌥</kbd> <kbd translate="no">T</kbd></span> again. Press <span class="kg"><kbd translate="no">⌃</kbd> <kbd translate="no">⌥</kbd> <kbd translate="no">T</kbd></span> once more to leave.</p></li>
       </ol>
 
-      <div class="keys-card">
+      <div class="card keys-card">
         <h3 data-i18n="how.keys.t">The only shortcuts you need</h3>
         <dl>
-          <div><dt><kbd translate="no">⌃</kbd> <kbd translate="no">⌥</kbd> <kbd translate="no">P</kbd></dt><dd data-i18n="how.k1">Show or hide the glove</dd></div>
-          <div><dt><kbd translate="no">⌃</kbd> <kbd translate="no">⌥</kbd> <kbd translate="no">T</kbd></dt><dd data-i18n="how.k2">Presentation mode on or off</dd></div>
+          <div><dt><span class="kg"><kbd translate="no">⌃</kbd> <kbd translate="no">⌥</kbd> <kbd translate="no">P</kbd></span></dt><dd data-i18n="how.k1">Show or hide the glove</dd></div>
+          <div><dt><span class="kg"><kbd translate="no">⌃</kbd> <kbd translate="no">⌥</kbd> <kbd translate="no">T</kbd></span></dt><dd data-i18n="how.k2">Presentation mode on or off</dd></div>
           <div><dt><span class="click" data-i18n="how.k3.k">Click</span></dt><dd data-i18n="how.k3">Poke. Click quickly several times for a bigger hit.</dd></div>
         </dl>
         <p class="muted" data-i18n="how.more">Also in the menu: Launch at login, Language, Welcome Guide… (to see the intro again) and Check for Updates….</p>
@@ -257,13 +258,13 @@
   </section>
 
   <!-- ============ FAQ ============ -->
-  <section class="faq" id="faq" aria-labelledby="faq-h">
+  <section class="section faq" id="faq" aria-labelledby="faq-h">
     <div class="wrap">
       <h2 id="faq-h" data-i18n="faq.h2">FAQ</h2>
       <div class="faq-list">
         <details><summary><span data-i18n="faq.q1">Is it really free?</span></summary><div class="ans"><p data-i18n="faq.a1">Yes. Tapper is open source under the MIT licence: free to download, use, share and modify. The code is on GitHub.</p></div></details>
         <details><summary><span data-i18n="faq.q4">Will viewers see the glove in screen shares and recordings?</span></summary><div class="ans"><p data-i18n="faq.a4">Yes, when you share or record your whole screen. The glove is drawn on screen, so it appears there across all your displays. If you share a single window, the glove sits above that window and is not part of it.</p></div></details>
-        <details><summary><span data-i18n="faq.q8">Can I still click normally?</span></summary><div class="ans"><p data-i18n-html="faq.a8">Yes. Only the look changes: clicks, drags and selections land exactly where the fingertip is. If you want clicks to only poke, turn on Presentation mode with <kbd>⌃</kbd> <kbd>⌥</kbd> <kbd>T</kbd>.</p></div></details>
+        <details><summary><span data-i18n="faq.q8">Can I still click normally?</span></summary><div class="ans"><p data-i18n-html="faq.a8">Yes. Only the look changes: clicks, drags and selections land exactly where the fingertip is. If you want clicks to only poke, turn on Presentation mode with <span class="kg"><kbd>⌃</kbd> <kbd>⌥</kbd> <kbd>T</kbd></span>.</p></div></details>
         <details><summary><span data-i18n="faq.q2">What permissions does it need?</span></summary><div class="ans"><p data-i18n="faq.a2">Presentation mode needs Accessibility permission, because that is how macOS lets an app stop clicks from reaching other apps. macOS asks the first time you turn it on. If you never use Presentation mode, you never need to grant it.</p></div></details>
         <details><summary><span data-i18n="faq.q3">Does it record anything?</span></summary><div class="ans"><p data-i18n="faq.a3">No. Tapper draws a glove and reacts to your clicks so it can poke. It doesn’t record your screen, your keystrokes or what you click on. It’s open source, so you can read exactly what it does.</p></div></details>
         <details><summary><span data-i18n="faq.q7">Can I control it from a script?</span></summary><div class="ans"><p data-i18n-html="faq.a7">Yes. Tapper answers to <code>tapper://</code> links, so Shortcuts, Raycast, Stream Deck, a shell script or a link in your slide notes can drive it.</p>
@@ -278,7 +279,7 @@ open "tapper://set?style=paw&amp;mood=3&amp;color=2&amp;sound=off"</code></pre>
   </section>
 
   <!-- ============ FINAL CTA ============ -->
-  <section class="final" id="get" aria-labelledby="final-h">
+  <section class="section final" id="get" aria-labelledby="final-h">
     <div class="wrap">
       <h2 id="final-h" data-i18n="final.h2">Go on. Give them something to look at.</h2>
       <a class="btn btn--big" href="https://github.com/iamzifei/tapper/releases/latest/download/Tapper.dmg"><svg class="apple" viewBox="0 0 17 20" aria-hidden="true"><path fill="currentColor" d="M14.1 10.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9C3.6 4.8 2 5.8 1.1 7.4c-1.8 3.1-.5 7.8 1.3 10.4.9 1.3 1.9 2.7 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.6 0 2 .8 3.4.8 1.4 0 2.3-1.3 3.1-2.6 1-1.5 1.4-2.9 1.4-3-.1 0-2.7-1-2.7-4.2zM11.5 3c.7-.9 1.2-2 1-3.2-1 .1-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.2.1 2.3-.6 3.1-1.5z"/></svg><span data-i18n="final.download">Download Tapper</span></a>
@@ -287,7 +288,7 @@ open "tapper://set?style=paw&amp;mood=3&amp;color=2&amp;sound=off"</code></pre>
   </section>
 
   <!-- ============ MORE MAC APPS BY JAMES ============ -->
-  <section class="sibs" id="more-apps" aria-labelledby="sib-h">
+  <section class="section sibs" id="more-apps" aria-labelledby="sib-h">
     <div class="wrap">
       <h2 id="sib-h" data-i18n="sib.h2">More Mac apps by James</h2>
       <div class="sib-grid">
