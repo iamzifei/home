@@ -33,6 +33,11 @@
 <!-- Inline icon sprite: Apple logo for the download button, plus plus/chevron glyphs. -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-apple" viewBox="0 0 814 1000"><path d="M788 341c-6 4-108 62-108 190 0 148 130 200 134 201-1 3-21 71-68 141-43 61-87 123-155 123s-86-40-164-40c-77 0-104 41-166 41s-106-57-155-127C49 788 0 652 0 523c0-208 135-318 268-318 71 0 130 46 174 46 43 0 109-49 190-49 31 0 141 3 213 106zM538 147c33-40 57-95 57-150 0-8-1-15-2-22-54 2-118 36-157 81-30 34-59 89-59 145 0 8 1 17 2 19 3 1 9 2 14 2 49 0 110-33 145-75z"/></symbol>
+  <symbol id="i-look" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="8.5"/></g><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/></symbol>
+  <symbol id="i-focus" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3.2" fill="currentColor"/></symbol>
+  <symbol id="i-screens" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="3" y="4.5" width="18" height="12" rx="2"/><path d="M8.5 20h7M12 16.5V20"/></g></symbol>
+  <symbol id="i-hand" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="6.5" y="3" width="11" height="18" rx="5.5"/><path d="M12 7v3.5"/></g></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M10 14a4 4 0 0 0 5.66 0l3-3a4 4 0 0 0-5.66-5.66l-1 1"/><path d="M14 10a4 4 0 0 0-5.66 0l-3 3a4 4 0 0 0 5.66 5.66l1-1"/></g></symbol>
 </svg>
 
 <header class="site-header">
@@ -61,18 +66,17 @@
 
 <!-- ───────────── Hero ───────────── -->
 <section class="hero wrap" aria-labelledby="hero-h">
-  <p class="eyebrow" data-i18n-html="hero.eyebrow">Free &amp; open source &middot; macOS 14+</p>
   <h1 id="hero-h" class="claim" data-i18n-html="hero.claim">Focus on one window. <span class="lo">Everything behind it softly blurs away.</span></h1>
   <p class="ctas">
     <a class="btn ink lg" href="https://github.com/iamzifei/veil/releases/latest/download/Veil.dmg"><svg class="apple" aria-hidden="true"><use href="#i-apple"/></svg><span data-i18n="hero.cta1">Download for Mac</span></a>
   </p>
-  <p class="fine"><a class="dotted" href="#try" data-i18n="hero.cta2">or try it right here</a><span class="sep" aria-hidden="true">&middot;</span><span data-i18n="hero.fine">Free, MIT licence, no account</span></p>
+  <p class="fine"><a class="dotted" href="#try" data-i18n="hero.cta2">or try it right here</a><span class="sep" aria-hidden="true">&middot;</span><span data-i18n="hero.fine">Free and open source · macOS 14+</span></p>
 </section>
 
 <!-- ───────────── Live demo desk ───────────── -->
 <section class="try wrap" id="try" aria-labelledby="try-h">
   <div class="desk-head">
-    <h2 id="try-h" class="desk-say" data-i18n="try.h2">This desktop is fake. The blur is real.</h2>
+    <p id="try-h" class="desk-say" data-i18n="try.h2">This desktop is fake. The blur is real.</p>
     <p class="hint" data-i18n-html="try.hint"><span class="hint-pointer">Click</span><span class="hint-touch">Tap</span> any window to focus it. Drag a title bar to move it. Hold <kbd>Shift</kbd> and sweep the mouse to peek behind the veil.</p>
   </div>
 
@@ -210,8 +214,7 @@
 
 <!-- ───────────── What it is ───────────── -->
 <section class="block wrap rise" id="what" aria-labelledby="what-h">
-  <p class="kicker" data-i18n="what.k">What it is</p>
-  <h2 id="what-h" class="say" data-i18n-html="what.claim">A small Mac app for one thing. <span class="lo">It blurs every window except the one you are using.</span></h2>
+  <h2 id="what-h" class="say" data-i18n-html="what.claim">What Veil is. <span class="lo">A small Mac app that blurs every window except the one you are using.</span></h2>
   <div class="cols">
     <div class="col"><h3 data-i18n="what.1h">Sharp where you work</h3><p data-i18n="what.1p">The window in front stays crisp. Everything behind it, other windows and the desktop, is softly blurred and dimmed.</p></div>
     <div class="col"><h3 data-i18n="what.2h">It follows your clicks</h3><p data-i18n="what.2p">Click another window and the sharp spot moves with you. There are no window rules to set up.</p></div>
@@ -221,8 +224,7 @@
 
 <!-- ───────────── Why it helps ───────────── -->
 <section class="block wrap rise" id="why" aria-labelledby="why-h">
-  <p class="kicker" data-i18n="why.k">Why it helps</p>
-  <h2 id="why-h" class="say" data-i18n-html="why.claim">A busy screen keeps pulling your eyes away. <span class="lo">Veil turns the noise down, so the task in front of you is the only thing that stands out.</span></h2>
+  <h2 id="why-h" class="say" data-i18n-html="why.claim">Why it helps. <span class="lo">A busy screen keeps pulling your eyes away. Veil turns the noise down, so the task in front of you stands out.</span></h2>
   <div class="cols">
     <div class="col"><h3 data-i18n="why.1h">Fewer glances away</h3><p data-i18n="why.1p">Chat badges, a second document, a browser tab: anything that moves or flashes behind your work is blurred, so it is far less likely to catch your eye.</p></div>
     <div class="col"><h3 data-i18n="why.2h">Nothing is hidden or closed</h3><p data-i18n="why.2p">Unlike full screen, your windows stay where they are. Click one and it comes back into focus at once.</p></div>
@@ -249,8 +251,7 @@
 
 <!-- ───────────── How to use it ───────────── -->
 <section class="block wrap rise" id="how" aria-labelledby="how-h">
-  <p class="kicker" data-i18n="how.k">How to use it</p>
-  <h2 id="how-h" class="say" data-i18n-html="how.claim">Up and running in a minute. <span class="lo">Install it, click the menu-bar icon, get to work.</span></h2>
+  <h2 id="how-h" class="say" data-i18n-html="how.claim">How to use it. <span class="lo">Up and running in a minute: install, click the menu-bar icon, get to work.</span></h2>
   <ol class="howto">
     <li><h3 data-i18n="how.1h">Install</h3><p data-i18n-html="how.1p">Download <b>Veil.dmg</b>, open it and drag Veil into your Applications folder. Needs macOS 14 Sonoma or later, on Apple Silicon or Intel. The app is signed and notarized by Apple, so it opens normally.</p></li>
     <li><h3 data-i18n="how.2h">First run</h3><p data-i18n="how.2p">Open Veil. A short welcome guide appears once, and Veil is already on. It needs no permissions. The only exception is the optional auto-hide of the menu bar and Dock, which asks for Automation access the first time you turn it on.</p></li>
@@ -278,7 +279,7 @@
 
       <article class="cp">
         <div class="cp-card">
-          <h3 class="cp-h"><span class="ic ic-look" aria-hidden="true"></span><span data-i18n="set.look">Look</span></h3>
+          <h3 class="cp-h"><svg class="ic" aria-hidden="true"><use href="#i-look"/></svg><span data-i18n="set.look">Look</span></h3>
           <div class="cp-row"><span data-i18n="set.mode">Mode</span><span class="mini-seg"><i class="on" data-i18n="v.ambient">Ambient</i><i data-i18n="v.deep">Deep</i></span></div>
           <div class="cp-row"><span data-i18n="p.blur">Blur</span><span class="mini-slider" style="--v:.37"><i></i></span><em>22</em></div>
           <div class="cp-row"><span data-i18n="p.tint">Tint</span><span class="dots" aria-hidden="true"><i class="sys"></i><i style="--c:#8e8e93" class="on"></i><i style="--c:#0a84ff"></i><i style="--c:#bf5af2"></i><i style="--c:#ff375f"></i><i style="--c:#ff453a"></i><i style="--c:#ff9f0a"></i><i style="--c:#ffd60a"></i><i style="--c:#30d158"></i></span></div>
@@ -291,7 +292,7 @@
 
       <article class="cp">
         <div class="cp-card">
-          <h3 class="cp-h"><span class="ic ic-focus" aria-hidden="true"></span><span data-i18n="set.focus">Focus</span></h3>
+          <h3 class="cp-h"><svg class="ic" aria-hidden="true"><use href="#i-focus"/></svg><span data-i18n="set.focus">Focus</span></h3>
           <div class="cp-row"><span data-i18n="set.appwide">App-wide focus</span><span class="tog" aria-hidden="true"></span></div>
           <div class="cp-row col"><span class="row-top"><span data-i18n="set.groups">App Groups</span><span class="btnish" data-i18n="set.newgroup">New Group…</span></span>
             <span class="group-pill"><i class="appdot a1" aria-hidden="true"></i><i class="appdot a2" aria-hidden="true"></i><span data-i18n="set.groupdemo">Editor + browser</span></span></div>
@@ -302,7 +303,7 @@
 
       <article class="cp">
         <div class="cp-card">
-          <h3 class="cp-h"><span class="ic ic-screens" aria-hidden="true"></span><span data-i18n="set.screens">Screens</span></h3>
+          <h3 class="cp-h"><svg class="ic" aria-hidden="true"><use href="#i-screens"/></svg><span data-i18n="set.screens">Screens</span></h3>
           <div class="cp-row"><span data-i18n="set.multi">Multi-screen mode</span><span class="mini-seg"><i class="on" data-i18n="v.perscreen">Per screen</i><i data-i18n="v.global">Global</i></span></div>
           <div class="cp-row"><span data-i18n="set.autohide">Auto-hide Menu Bar &amp; Dock</span><span class="tog" aria-hidden="true"></span></div>
           <div class="cp-row"><span data-i18n="set.stage">Blur Stage Manager</span><span class="tog" aria-hidden="true"></span></div>
@@ -312,7 +313,7 @@
 
       <article class="cp">
         <div class="cp-card">
-          <h3 class="cp-h"><span class="ic ic-hand" aria-hidden="true"></span><span data-i18n="set.gestures">Gestures</span></h3>
+          <h3 class="cp-h"><svg class="ic" aria-hidden="true"><use href="#i-hand"/></svg><span data-i18n="set.gestures">Gestures</span></h3>
           <div class="cp-row"><span data-i18n="set.shake">Shake to toggle</span><span class="tog on" aria-hidden="true"></span></div>
           <div class="cp-row"><span data-i18n="set.shakepeek">Hold + shake to peek</span><span class="pick"><kbd>⇧</kbd> Shift</span></div>
           <div class="cp-row"><span data-i18n="set.corner">Corner peek</span><span class="tog" aria-hidden="true"></span></div>
@@ -324,7 +325,7 @@
 
       <article class="cp" id="automation">
         <div class="cp-card code-card">
-          <h3 class="cp-h"><span class="ic ic-link" aria-hidden="true"></span><span data-i18n="set.url">URL scheme</span></h3>
+          <h3 class="cp-h"><svg class="ic" aria-hidden="true"><use href="#i-link"/></svg><span data-i18n="set.url">URL scheme</span></h3>
 <pre class="codeblock" tabindex="0"><code><span class="c"># Shell, AppleScript, Shortcuts, Raycast…</span>
 open "veil://toggle"
 open "veil://mode/deep"

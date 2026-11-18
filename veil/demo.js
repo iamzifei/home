@@ -45,9 +45,33 @@
     grain: 0.15, mono: 0, transition: 'fade', peek: false
   };
 
-  /* ── Scaling: the stage is a fixed 1000x640 canvas scaled to the frame width ── */
+  /* ── Scaling: the stage is a fixed-size canvas scaled to the frame width.
+   *  Wide frames use a 1000x640 landscape desk. Phone-width frames switch to a
+   *  620x780 portrait desk with the windows re-stacked, so they stay large enough
+   *  to read and to tap (about 0.58x instead of 0.36x on a 390px phone). ── */
+  var LAYOUTS = {
+    wide: { w: 1000, h: 640, pos: {
+      'w-notes': [34, 58, 290, 262], 'w-code': [292, 96, 400, 286], 'w-chat': [716, 54, 250, 300],
+      'w-music': [52, 376, 316, 208], 'w-cal': [560, 344, 380, 262] } },
+    tall: { w: 620, h: 780, pos: {
+      'w-notes': [20, 44, 290, 262], 'w-chat': [330, 64, 270, 286], 'w-code': [40, 240, 400, 286],
+      'w-music': [300, 470, 300, 208], 'w-cal': [20, 524, 380, 236] } }
+  };
+  var layout = null;
+  function applyLayout(name) {
+    var L = LAYOUTS[name];
+    layout = name; STAGE_W = L.w; STAGE_H = L.h;
+    stage.style.width = L.w + 'px'; stage.style.height = L.h + 'px';
+    Object.keys(L.pos).forEach(function (id) {
+      var w = document.getElementById(id), p = L.pos[id];
+      if (!w) return;
+      w.style.left = p[0] + 'px'; w.style.top = p[1] + 'px'; w.style.width = p[2] + 'px'; w.style.height = p[3] + 'px';
+    });
+  }
   var scale = 1;
   function fit() {
+    var want = frame.clientWidth < 640 ? 'tall' : 'wide';
+    if (want !== layout) applyLayout(want);
     scale = frame.clientWidth / STAGE_W;
     stage.style.transform = 'scale(' + scale + ')';
     frame.style.height = Math.round(STAGE_H * scale) + 'px';
