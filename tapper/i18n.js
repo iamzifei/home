@@ -23,8 +23,11 @@
   const DICT = {
     /* ------------------------------------------------------------------ English */
     en: {
-      'meta.title': 'Tapper — point like you mean it',
-      'meta.desc': 'Tapper is a free, open-source macOS menu-bar app that turns your mouse pointer into a cartoon glove on a long stick. Perfect for demos, screen shares and tutorials. Try it live.',
+      'meta.title': 'Tapper — Mac Cursor Highlighter for Demos & Recordings',
+      'meta.desc': 'Tapper is a free, open-source Mac menu-bar app that turns your pointer into a cartoon glove on a stick, so no one loses your cursor in demos or recordings.',
+      'brew.label': 'Or install with Homebrew',
+      'brew.copy': 'Copy',
+      'brew.copied': 'Copied',
       'meta.og': 'A cartoon glove on a long stick replaces your Mac pointer. Free, open source, made for demos and screen shares.',
       'skip': 'Skip to content',
       'brand': 'Tapper',
@@ -159,7 +162,7 @@
       'why.u4.p': 'Point and poke at a chart in Presentation mode, without accidentally clicking something underneath.',
       'how.h2': 'How to use it',
       'how.s1.t': 'Install',
-      'how.s1.p': `<a href="${DL}">Download Tapper.dmg</a>, open it and drag Tapper into Applications. Then open Tapper. It needs macOS 14 or later, and it is signed and notarized by Apple.`,
+      'how.s1.p': `<a href="${DL}">Download Tapper.dmg</a>, open it and drag Tapper into Applications, or run <code>brew install --cask iamzifei/tap/tapper</code> in Terminal. Then open Tapper. It needs macOS 14 or later, and it is signed and notarized by Apple.`,
       'how.s2.t': 'First run',
       'how.s2.p': 'A short welcome guide opens the first time. After that Tapper sits in the menu bar as a little hand icon. The glove starts hidden, so nothing changes yet.',
       'how.s3.t': 'Turn the glove on',
@@ -183,8 +186,11 @@
 
     /* ------------------------------------------------------------ 简体中文 */
     'zh-Hans': {
-      'meta.title': '敲黑板（Tapper）— 让所有人看清你指哪儿',
-      'meta.desc': '敲黑板（Tapper）是一款免费开源的 macOS 菜单栏小工具，把鼠标指针变成挂在长杆上的卡通手套。演示、共享屏幕、做教程都用得上，网页上就能试玩。',
+      'meta.title': '敲黑板（Tapper）— Mac 鼠标指针高亮工具，演示录屏都看得清',
+      'meta.desc': '敲黑板（Tapper）是免费开源的 Mac 菜单栏小工具，把鼠标指针变成挂在长杆上的卡通手套。演示、共享屏幕、录教程都用得上，支持 macOS 14 及以上，网页上就能试玩。',
+      'brew.label': '或者用 Homebrew 安装',
+      'brew.copy': '复制',
+      'brew.copied': '已复制',
       'meta.og': '一只挂在长杆上的卡通手套，替代你 Mac 上的鼠标指针。免费开源，专为演示和共享屏幕而做。',
       'skip': '跳到正文',
       'brand': '敲黑板',
@@ -319,7 +325,7 @@
       'why.u4.p': '在演示模式下对着图表指、戳，不会一不小心点到下面的东西。',
       'how.h2': '怎么用',
       'how.s1.t': '安装',
-      'how.s1.p': `<a href="${DL}">下载 Tapper.dmg</a>，打开后把 Tapper 拖进「应用程序」，再打开它。需要 macOS 14 或更高版本，已通过 Apple 签名和公证。`,
+      'how.s1.p': `<a href="${DL}">下载 Tapper.dmg</a>，打开后把 Tapper 拖进「应用程序」（也可以在终端运行 <code>brew install --cask iamzifei/tap/tapper</code>），再打开它。需要 macOS 14 或更高版本，已通过 Apple 签名和公证。`,
       'how.s2.t': '第一次打开',
       'how.s2.p': '第一次打开会弹出一个简短的新手引导。之后它就待在菜单栏里，是一个小手图标。手套默认是隐藏的，所以这时什么都不会变。',
       'how.s3.t': '把手套打开',
@@ -343,8 +349,11 @@
 
     /* ------------------------------------------------------------ 繁體中文（台灣） */
     'zh-Hant': {
-      'meta.title': '敲黑板（Tapper）— 讓大家看清楚你指哪裡',
-      'meta.desc': '敲黑板（Tapper）是一款免費開源的 macOS 選單列小工具，把滑鼠游標變成掛在長桿上的卡通手套。簡報、分享螢幕、錄教學都用得上，網頁上就能試玩。',
+      'meta.title': '敲黑板（Tapper）— Mac 滑鼠游標醒目工具，簡報錄影都看得清',
+      'meta.desc': '敲黑板（Tapper）是免費開源的 Mac 選單列小工具，把滑鼠游標變成掛在長桿上的卡通手套。簡報、分享螢幕、錄教學都用得上，支援 macOS 14 以上，網頁上就能試玩。',
+      'brew.label': '或者用 Homebrew 安裝',
+      'brew.copy': '複製',
+      'brew.copied': '已複製',
       'meta.og': '一隻掛在長桿上的卡通手套，取代你 Mac 上的滑鼠游標。免費開源，專為簡報和分享螢幕而做。',
       'skip': '跳到內文',
       'brand': '敲黑板',
@@ -479,7 +488,7 @@
       'why.u4.p': '在簡報模式下對著圖表指、戳，不會一不小心點到下面的東西。',
       'how.h2': '怎麼用',
       'how.s1.t': '安裝',
-      'how.s1.p': `<a href="${DL}">下載 Tapper.dmg</a>，打開後把 Tapper 拖進「應用程式」，再打開它。需要 macOS 14 或更新版本，已通過 Apple 簽署和公證。`,
+      'how.s1.p': `<a href="${DL}">下載 Tapper.dmg</a>，打開後把 Tapper 拖進「應用程式」（也可以在終端機執行 <code>brew install --cask iamzifei/tap/tapper</code>），再打開它。需要 macOS 14 或更新版本，已通過 Apple 簽署和公證。`,
       'how.s2.t': '第一次打開',
       'how.s2.p': '第一次打開會跳出一個簡短的新手引導。之後它就待在選單列裡，是一個小手圖示。手套預設是隱藏的，所以這時什麼都不會變。',
       'how.s3.t': '把手套打開',
@@ -547,6 +556,16 @@
     const root = document.documentElement;
     root.lang = lang;
     document.title = t('meta.title');
+    // A page opened with ?lang= is its own canonical (it is one of the hreflang alternates);
+    // without the parameter the canonical stays the bare /tapper/ URL.
+    try {
+      if (new URLSearchParams(location.search).get('lang')) {
+        const canon = 'https://jamesai.dev/tapper/?lang=' + lang;
+        const link = document.querySelector('link[rel="canonical"]');
+        if (link) link.setAttribute('href', canon);
+        setMeta('meta[property="og:url"]', canon);
+      }
+    } catch (e) { /* ignore */ }
     setMeta('meta[name="description"]', t('meta.desc'));
     setMeta('meta[property="og:title"]', t('meta.title'));
     setMeta('meta[property="og:description"]', t('meta.og'));

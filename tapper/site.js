@@ -47,6 +47,25 @@
     });
   }
 
+  // 5. Homebrew "Copy" buttons: copy the command, say "Copied" for 1.5 s. Where the Clipboard API
+  //    is missing (plain http, old Safari) the command text is selected instead.
+  document.querySelectorAll('[data-copy]').forEach(btn => {
+    let timer;
+    const tr = k => (window.TapperI18n ? window.TapperI18n.t(k) : k);
+    const select = () => {
+      try { const r = document.createRange(); r.selectNodeContents(btn.parentNode.querySelector('code')); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); } catch (e) { /* ignore */ }
+    };
+    btn.addEventListener('click', () => {
+      const done = () => {
+        btn.textContent = tr('brew.copied'); btn.classList.add('done');
+        clearTimeout(timer);
+        timer = setTimeout(() => { btn.textContent = tr('brew.copy'); btn.classList.remove('done'); }, 1500);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(btn.dataset.copy).then(done, select);
+      else select();
+    });
+  });
+
   // 4. Mobile bar
   const mbar = document.getElementById('mbar');
   const hero = document.getElementById('stage');

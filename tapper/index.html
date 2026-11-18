@@ -4,9 +4,16 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <script>document.documentElement.classList.add('js')</script>
-<title>Tapper — point like you mean it</title>
-<meta name="description" content="Tapper is a free, open-source macOS menu-bar app that turns your mouse pointer into a cartoon glove on a long stick. Perfect for demos, screen shares and tutorials. Try it live.">
+<title>Tapper — Mac Cursor Highlighter for Demos & Recordings</title>
+<meta name="description" content="Tapper is a free, open-source Mac menu-bar app that turns your pointer into a cartoon glove on a stick, so no one loses your cursor in demos or recordings.">
+<meta name="keywords" content="cursor highlighter Mac, highlight mouse pointer, big cursor for screen recording, presentation pointer, macOS">
+<meta name="author" content="James">
 <link rel="canonical" href="https://jamesai.dev/tapper/">
+<!-- Languages are switched with ?lang= (see i18n.js); x-default lets the browser pick. -->
+<link rel="alternate" hreflang="en" href="https://jamesai.dev/tapper/?lang=en">
+<link rel="alternate" hreflang="zh-Hans" href="https://jamesai.dev/tapper/?lang=zh-Hans">
+<link rel="alternate" hreflang="zh-Hant" href="https://jamesai.dev/tapper/?lang=zh-Hant">
+<link rel="alternate" hreflang="x-default" href="https://jamesai.dev/tapper/">
 <link rel="icon" type="image/png" href="assets/icon.png">
 <link rel="apple-touch-icon" href="assets/icon.png">
 <meta name="theme-color" content="#FFCF3F" media="(prefers-color-scheme: light)">
@@ -14,14 +21,78 @@
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Tapper">
-<meta property="og:title" content="Tapper — point like you mean it">
+<meta property="og:title" content="Tapper — Mac Cursor Highlighter for Demos & Recordings">
 <meta property="og:description" content="A cartoon glove on a long stick replaces your Mac pointer. Free, open source, made for demos and screen shares.">
 <meta property="og:url" content="https://jamesai.dev/tapper/">
-<meta property="og:image" content="https://jamesai.dev/tapper/assets/poster.jpg">
+<meta property="og:image" content="https://jamesai.dev/tapper/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Tapper's pointing glove on a long stick pokes the tallest bar of a chart in a slide">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Tapper — point like you mean it">
+<meta name="twitter:creator" content="@JamesAI">
+<meta name="twitter:title" content="Tapper — Mac Cursor Highlighter for Demos & Recordings">
 <meta name="twitter:description" content="A cartoon glove on a long stick replaces your Mac pointer. Free, open source, made for demos and screen shares.">
-<meta name="twitter:image" content="https://jamesai.dev/tapper/assets/poster.jpg">
+<meta name="twitter:image" content="https://jamesai.dev/tapper/assets/og.jpg">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://jamesai.dev/tapper/#app",
+      "name": "Tapper",
+      "alternateName": "敲黑板",
+      "description": "Free, open-source macOS menu-bar app that replaces the mouse pointer with a cartoon glove on a long, springy stick, so viewers can follow your cursor in demos, screen shares and recordings.",
+      "url": "https://jamesai.dev/tapper/",
+      "image": "https://jamesai.dev/tapper/assets/og.jpg",
+      "screenshot": "https://jamesai.dev/tapper/assets/poster.jpg",
+      "applicationCategory": "UtilitiesApplication",
+      "applicationSubCategory": "Presentation",
+      "operatingSystem": "macOS 14.0 or later",
+      "processorRequirements": "Apple silicon or Intel (universal binary)",
+      "softwareVersion": "1.1.0",
+      "fileSize": "2.6 MB",
+      "downloadUrl": "https://github.com/iamzifei/tapper/releases/latest/download/Tapper.dmg",
+      "installUrl": "https://github.com/iamzifei/tapper/releases/latest/download/Tapper.dmg",
+      "releaseNotes": "https://github.com/iamzifei/tapper/releases",
+      "license": "https://opensource.org/licenses/MIT",
+      "isAccessibleForFree": true,
+      "inLanguage": ["en", "zh-Hans", "zh-Hant"],
+      "featureList": [
+        "Replaces the system pointer with a cartoon glove on a springy stick, on every display",
+        "Three hands: Tiny hand, Cat paw, Middle child; eight stick colours",
+        "Every click pokes with comic impact lines; optional knock sound",
+        "Pointer mood slider with five steps of size, stick length and poke strength",
+        "Control-Option-P shows or hides the glove; Control-Option-T toggles Presentation mode",
+        "tapper:// URL scheme for Shortcuts, Raycast, Stream Deck and shell scripts",
+        "Install with Homebrew: brew install --cask iamzifei/tap/tapper"
+      ],
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "author": { "@type": "Person", "name": "James", "url": "https://jamesai.dev/", "sameAs": ["https://github.com/iamzifei", "https://x.com/JamesAI"] }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "James AI", "item": "https://jamesai.dev/" },
+        { "@type": "ListItem", "position": 2, "name": "Tapper", "item": "https://jamesai.dev/tapper/" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Is it really free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Tapper is open source under the MIT licence: free to download, use, share and modify. The code is on GitHub." } },
+        { "@type": "Question", "name": "Will viewers see the glove in screen shares and recordings?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, when you share or record your whole screen. The glove is drawn on screen, so it appears there across all your displays. If you share a single window, the glove sits above that window and is not part of it." } },
+        { "@type": "Question", "name": "Can I still click normally?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Only the look changes: clicks, drags and selections land exactly where the fingertip is. If you want clicks to only poke, turn on Presentation mode with Control-Option-T." } },
+        { "@type": "Question", "name": "What permissions does it need?", "acceptedAnswer": { "@type": "Answer", "text": "Presentation mode needs Accessibility permission, because that is how macOS lets an app stop clicks from reaching other apps. macOS asks the first time you turn it on. If you never use Presentation mode, you never need to grant it." } },
+        { "@type": "Question", "name": "Does it record anything?", "acceptedAnswer": { "@type": "Answer", "text": "No. Tapper draws a glove and reacts to your clicks so it can poke. It doesn’t record your screen, your keystrokes or what you click on. It’s open source, so you can read exactly what it does." } },
+        { "@type": "Question", "name": "Can I control it from a script?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Tapper answers to tapper:// links, so Shortcuts, Raycast, Stream Deck, a shell script or a link in your slide notes can drive it." } },
+        { "@type": "Question", "name": "Which Macs does it run on?", "acceptedAnswer": { "@type": "Answer", "text": "Any Mac running macOS 14 or later. It’s a native Swift app and a universal binary, so it runs natively on both Apple silicon and Intel." } }
+      ]
+    }
+  ]
+}
+</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -65,6 +136,10 @@
       <div class="cta">
         <a class="btn btn--big" id="heroDl" href="https://github.com/iamzifei/tapper/releases/latest/download/Tapper.dmg" data-park><svg class="apple" viewBox="0 0 17 20" aria-hidden="true"><path fill="currentColor" d="M14.1 10.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9C3.6 4.8 2 5.8 1.1 7.4c-1.8 3.1-.5 7.8 1.3 10.4.9 1.3 1.9 2.7 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.6 0 2 .8 3.4.8 1.4 0 2.3-1.3 3.1-2.6 1-1.5 1.4-2.9 1.4-3-.1 0-2.7-1-2.7-4.2zM11.5 3c.7-.9 1.2-2 1-3.2-1 .1-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.2.1 2.3-.6 3.1-1.5z"/></svg><span data-i18n="cta.free">Download for Mac — free</span></a>
         <p class="fine" data-i18n-html="hero.fine"><span class="nw">Free forever</span> · <span class="nw">MIT open source</span> · <span class="nw">macOS 14 or later</span></p>
+        <div class="brew">
+          <span class="brew-label" data-i18n="brew.label">Or install with Homebrew</span>
+          <span class="brew-box"><code translate="no">brew install --cask iamzifei/tap/tapper</code><button type="button" class="brew-copy" data-copy="brew install --cask iamzifei/tap/tapper" aria-live="polite" data-i18n="brew.copy">Copy</button></span>
+        </div>
       </div>
 
       <!-- Controls for the hero glove -->
@@ -237,7 +312,7 @@
       <h2 id="how-h" data-i18n="how.h2">How to use it</h2>
       <p class="sub" data-i18n="how.sub">Up and running in two minutes.</p>
       <ol class="steps">
-        <li><h3 data-i18n="how.s1.t">Install</h3><p data-i18n-html="how.s1.p"><a href="https://github.com/iamzifei/tapper/releases/latest/download/Tapper.dmg">Download Tapper.dmg</a>, open it and drag Tapper into Applications. Then open Tapper. It needs macOS 14 or later, and it is signed and notarized by Apple.</p></li>
+        <li><h3 data-i18n="how.s1.t">Install</h3><p data-i18n-html="how.s1.p"><a href="https://github.com/iamzifei/tapper/releases/latest/download/Tapper.dmg">Download Tapper.dmg</a>, open it and drag Tapper into Applications, or run <code>brew install --cask iamzifei/tap/tapper</code> in Terminal. Then open Tapper. It needs macOS 14 or later, and it is signed and notarized by Apple.</p></li>
         <li><h3 data-i18n="how.s2.t">First run</h3><p data-i18n="how.s2.p">A short welcome guide opens the first time. After that Tapper sits in the menu bar as a little hand icon. The glove starts hidden, so nothing changes yet.</p></li>
         <li><h3 data-i18n="how.s3.t">Turn the glove on</h3><p data-i18n-html="how.s3.p">Press <span class="kg"><kbd translate="no">⌃</kbd> <kbd translate="no">⌥</kbd> <kbd translate="no">P</kbd></span> in any app, or click the menu-bar icon and choose “Show pointer”. Press it again to hide the glove and get your normal arrow back. The icon fills in while the glove is on.</p></li>
         <li><h3 data-i18n="how.s4.t">Pick a hand and a mood</h3><p data-i18n="how.s4.p">Click the menu-bar icon. Choose Tiny hand, Cat paw or Middle child. Drag the Pointer mood slider across its five steps, from Shy finger to In your face: each step makes the glove bigger, the stick longer and the poke harder.</p></li>
@@ -283,6 +358,10 @@ open "tapper://set?style=paw&amp;mood=3&amp;color=2&amp;sound=off"</code></pre>
     <div class="wrap">
       <h2 id="final-h" data-i18n="final.h2">Go on. Give them something to look at.</h2>
       <a class="btn btn--big" href="https://github.com/iamzifei/tapper/releases/latest/download/Tapper.dmg"><svg class="apple" viewBox="0 0 17 20" aria-hidden="true"><path fill="currentColor" d="M14.1 10.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9C3.6 4.8 2 5.8 1.1 7.4c-1.8 3.1-.5 7.8 1.3 10.4.9 1.3 1.9 2.7 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.6 0 2 .8 3.4.8 1.4 0 2.3-1.3 3.1-2.6 1-1.5 1.4-2.9 1.4-3-.1 0-2.7-1-2.7-4.2zM11.5 3c.7-.9 1.2-2 1-3.2-1 .1-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.2.1 2.3-.6 3.1-1.5z"/></svg><span data-i18n="final.download">Download Tapper</span></a>
+      <div class="brew">
+        <span class="brew-label" data-i18n="brew.label">Or install with Homebrew</span>
+        <span class="brew-box"><code translate="no">brew install --cask iamzifei/tap/tapper</code><button type="button" class="brew-copy" data-copy="brew install --cask iamzifei/tap/tapper" aria-live="polite" data-i18n="brew.copy">Copy</button></span>
+      </div>
       <p class="fine"><a href="#top" data-i18n="final.again">Try the demo again</a> · <a href="https://github.com/iamzifei/tapper" data-i18n="cta.github">View on GitHub</a></p>
     </div>
   </section>

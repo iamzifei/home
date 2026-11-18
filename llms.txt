@@ -1,0 +1,32 @@
+# James AI (jamesai.dev)
+
+> Personal site of James, a full-stack engineer in Sydney who builds free native macOS apps and Claude Code skills. Six Mac apps, each installable with Homebrew from the iamzifei/tap tap.
+
+All six apps are free, native Swift menu-bar or desktop apps for macOS, made by one person (James, GitHub iamzifei, X @JamesAI). ClipStack, Candela, AudioSwitch, Veil and Tapper are MIT-licensed open source on GitHub. Every app below can be installed with `brew install --cask iamzifei/tap/<name>`; Homebrew adds the tap automatically on first use.
+
+The site is available in Simplified Chinese, Traditional Chinese and English. Each app has its own homepage and a detail page on this site (product.html?p=<repo>) with screenshots.
+
+## Mac apps
+
+- [ClipStack](https://getclipstack.app/): Clipboard history in the Mac menu bar. Press Shift-Cmd-V to search everything you copied (text, images, files) and paste it again. macOS 13+, Apple silicon. Install: `brew install --cask iamzifei/tap/clipstack`. Source: https://github.com/iamzifei/clipstack
+- [Candela](https://getcandela.app/): Every display control macOS hides. Real brightness on external monitors over DDC, hidden HiDPI modes, brightness keys on every screen. macOS 26+, Apple silicon. Install: `brew install --cask iamzifei/tap/candela`. Source: https://github.com/iamzifei/Candela
+- [AudioSwitch](https://audioswitch.dev/): Audio device switching from the menu bar, with volume sliders, a live microphone level meter, a hard mic-off switch and device locking. macOS 14+, Apple silicon. Install: `brew install --cask iamzifei/tap/audioswitch`. Source: https://github.com/iamzifei/audioswitch
+- [Veil](https://jamesai.dev/veil/): Keeps the window you are working in sharp and softly blurs everything behind it, so you can focus on one window. Ambient and Deep modes, adjustable blur, tint, grain and monochrome, App Groups, multi-display support, veil:// URL scheme. macOS 14+, universal (Apple silicon and Intel), v1.1.0. Install: `brew install --cask iamzifei/tap/veil`. Source: https://github.com/iamzifei/veil
+- [Tapper](https://jamesai.dev/tapper/): Turns your mouse pointer into a cartoon glove on a long stick (Chinese name 敲黑板), so viewers can follow your cursor in demos, screen shares and recordings. Clicks poke; three hands; Presentation mode; tapper:// URL scheme. macOS 14+, universal (Apple silicon and Intel), v1.1.0. Install: `brew install --cask iamzifei/tap/tapper`. Source: https://github.com/iamzifei/tapper
+- [Inkstone](https://inkslab.app/): Free Markdown notes that stay plain files in a folder you choose, with wikilinks, backlinks, a graph, a JSON Canvas board and daily notes; syncs through iCloud or a GitHub repository. macOS 26+, universal. Install: `brew install --cask iamzifei/tap/inkstone`. Source: https://github.com/iamzifei/inkstone
+
+## Claude Code skills
+
+- [AI KEY](https://jamesai.dev/product.html?p=aikey): 25 Claude Code skills behind one command (/key) for running a content account and reading a small business's numbers. Install: `npx skills add iamzifei/aikey`. Source: https://github.com/iamzifei/aikey
+- More skills (publishing to WeChat, Xiaohongshu, LinkedIn, X and others) are listed on the homepage: https://jamesai.dev/
+
+## Links
+
+- Homepage: https://jamesai.dev/
+- Veil homepage: https://jamesai.dev/veil/
+- Tapper homepage: https://jamesai.dev/tapper/
+- App detail pages: https://jamesai.dev/product.html?p=clipstack, https://jamesai.dev/product.html?p=Candela, https://jamesai.dev/product.html?p=audioswitch, https://jamesai.dev/product.html?p=veil, https://jamesai.dev/product.html?p=tapper, https://jamesai.dev/product.html?p=inkstone
+- Homebrew tap: https://github.com/iamzifei/homebrew-tap
+- GitHub: https://github.com/iamzifei
+- X: https://x.com/JamesAI
+- Sitemap: https://jamesai.dev/sitemap.xml

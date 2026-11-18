@@ -72,7 +72,7 @@
       "look4.c": "No blur, just dim and monochrome.",
       "how.claim": "How to use it. <span class=\"lo\">Up and running in a minute: install, click the menu-bar icon, get to work.</span>",
       "how.1h": "Install",
-      "how.1p": "Download <b>Veil.dmg</b>, open it and drag Veil into your Applications folder. Needs macOS 14 Sonoma or later, on Apple Silicon or Intel. The app is signed and notarized by Apple, so it opens normally.",
+      "how.1p": "Download <b>Veil.dmg</b>, open it and drag Veil into your Applications folder, or run <code>brew install --cask iamzifei/tap/veil</code> in Terminal. Needs macOS 14 Sonoma or later, on Apple Silicon or Intel. The app is signed and notarized by Apple, so it opens normally.",
       "how.2h": "First run",
       "how.2p": "Open Veil. A short welcome guide appears once, and Veil is already on. It needs no permissions. The only exception is the optional auto-hide of the menu bar and Dock, which asks for Automation access the first time you turn it on.",
       "how.3h": "Turn it on and off",
@@ -141,9 +141,12 @@
       "foot.sib": "More Mac apps by James",
       "foot.tapper": "Tapper",
       "foot.mit": "MIT licence",
-      "meta.title": "Veil — focus on one window",
-      "meta.desc": "Veil is a free, open-source macOS menu-bar app that keeps the window you are working in sharp and softly blurs everything behind it. Try it live in your browser.",
-      "meta.ogdesc": "A free, open-source macOS menu-bar app that keeps your active window sharp and softly blurs everything behind it.",
+      "meta.title": "Veil — Blur Background Windows on Mac | Free Focus App",
+      "meta.desc": "Veil is a free, open-source Mac menu-bar app that keeps your active window sharp and blurs everything behind it. macOS 14+. Try it live, then download.",
+      "meta.ogdesc": "A free, open-source Mac menu-bar app that keeps your active window sharp and softly blurs everything behind it.",
+      "brew.label": "Or install with Homebrew",
+      "brew.copy": "Copy",
+      "brew.copied": "Copied",
       "p.off": "Off",
     },
     'zh-Hans': {
@@ -204,7 +207,7 @@
       "look4.c": "不模糊，只变暗、变黑白。",
       "how.claim": "怎么用。<span class=\"lo\">一分钟用起来：装好，点一下菜单栏图标，开始干活。</span>",
       "how.1h": "安装",
-      "how.1p": "下载 <b>Veil.dmg</b>，打开后把 Veil 拖进「应用程序」文件夹。需要 macOS 14 Sonoma 或更高版本，Apple 芯片和 Intel 都支持。应用已签名并通过 Apple 公证，可以正常打开。",
+      "how.1p": "下载 <b>Veil.dmg</b>，打开后把 Veil 拖进「应用程序」文件夹；也可以在终端运行 <code>brew install --cask iamzifei/tap/veil</code>。需要 macOS 14 Sonoma 或更高版本，Apple 芯片和 Intel 都支持。应用已签名并通过 Apple 公证，可以正常打开。",
       "how.2h": "第一次打开",
       "how.2p": "打开 Veil，会出现一次简短的新手引导，而且 Veil 已经开启。它不需要任何权限。唯一的例外是可选的「自动隐藏菜单栏和程序坞」，第一次打开这个选项时会请求「自动化」权限。",
       "how.3h": "开启和关闭",
@@ -273,8 +276,11 @@
       "foot.sib": "James 的其他 Mac 应用",
       "foot.tapper": "敲黑板",
       "foot.mit": "MIT 许可",
-      "meta.title": "Veil — 专注于一个窗口",
-      "meta.desc": "Veil 是免费开源的 macOS 菜单栏应用，让你正在用的窗口保持清晰，把背后的一切轻轻模糊。可以直接在浏览器里试玩。",
+      "meta.title": "Veil — Mac 背景窗口模糊工具，专注当前窗口 | 免费开源",
+      "meta.desc": "Veil 是免费开源的 Mac 菜单栏应用：正在用的窗口保持清晰，背后的窗口和桌面轻轻模糊，帮你专注。支持 macOS 14 及以上，可先在浏览器里试玩。",
+      "brew.label": "或者用 Homebrew 安装",
+      "brew.copy": "复制",
+      "brew.copied": "已复制",
       "meta.ogdesc": "免费开源的 macOS 菜单栏应用，让当前窗口保持清晰，背后轻轻模糊。",
       "p.off": "关",
     },
@@ -336,7 +342,7 @@
       "look4.c": "不模糊，只變暗、變黑白。",
       "how.claim": "怎麼用。<span class=\"lo\">一分鐘用起來：裝好，點一下選單列圖示，開始工作。</span>",
       "how.1h": "安裝",
-      "how.1p": "下載 <b>Veil.dmg</b>，打開後把 Veil 拖進「應用程式」資料夾。需要 macOS 14 Sonoma 或更新版本，Apple 晶片和 Intel 都支援。App 已簽署並通過 Apple 公證，可以正常開啟。",
+      "how.1p": "下載 <b>Veil.dmg</b>，打開後把 Veil 拖進「應用程式」資料夾；也可以在終端機執行 <code>brew install --cask iamzifei/tap/veil</code>。需要 macOS 14 Sonoma 或更新版本，Apple 晶片和 Intel 都支援。App 已簽署並通過 Apple 公證，可以正常開啟。",
       "how.2h": "第一次開啟",
       "how.2p": "開啟 Veil，會出現一次簡短的新手引導，而且 Veil 已經開啟。它不需要任何權限。唯一的例外是選用的「自動隱藏選單列與 Dock」，第一次開啟這個選項時會要求「自動化」權限。",
       "how.3h": "開啟和關閉",
@@ -405,8 +411,11 @@
       "foot.sib": "James 的其他 Mac 應用",
       "foot.tapper": "敲黑板",
       "foot.mit": "MIT 授權",
-      "meta.title": "Veil — 專注在一個視窗",
-      "meta.desc": "Veil 是免費開源的 macOS 選單列 App，讓你正在使用的視窗保持清晰，把後面的一切輕輕模糊。可以直接在瀏覽器裡試玩。",
+      "meta.title": "Veil — Mac 背景視窗模糊工具，專注目前視窗 | 免費開源",
+      "meta.desc": "Veil 是免費開源的 Mac 選單列 App：正在使用的視窗保持清晰，後面的視窗和桌面輕輕模糊，幫你專注。支援 macOS 14 以上，可先在瀏覽器裡試玩。",
+      "brew.label": "或者用 Homebrew 安裝",
+      "brew.copy": "複製",
+      "brew.copied": "已複製",
       "meta.ogdesc": "免費開源的 macOS 選單列 App，讓目前的視窗保持清晰，後面輕輕模糊。",
       "p.off": "關",
     },
@@ -479,6 +488,16 @@
     });
 
     document.title = d['meta.title'];
+    // A page opened with ?lang= is its own canonical (it is one of the hreflang alternates);
+    // without the parameter the canonical stays the bare /veil/ URL.
+    try {
+      if (new URLSearchParams(location.search).get('lang')) {
+        var canon = 'https://jamesai.dev/veil/?lang=' + lang;
+        var link = document.querySelector('link[rel="canonical"]');
+        if (link) link.setAttribute('href', canon);
+        setMeta('meta[property="og:url"]', canon);
+      }
+    } catch (e) {}
     setMeta('meta[name="description"]', d['meta.desc']);
     setMeta('meta[property="og:title"]', d['meta.title']);
     setMeta('meta[property="og:description"]', d['meta.ogdesc']);

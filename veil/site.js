@@ -39,6 +39,27 @@
   keepPhrases();
   document.addEventListener('veil:lang', keepPhrases);
 
+  // Homebrew "Copy" buttons: copy the command, say "Copied" for 1.5 s. Where the Clipboard API
+  // is missing (plain http, old Safari) the command text is selected instead, one keystroke away.
+  document.querySelectorAll('[data-copy]').forEach(function (btn) {
+    var timer;
+    btn.addEventListener('click', function () {
+      var text = btn.getAttribute('data-copy');
+      var tr = function (k) { return window.VeilI18n ? window.VeilI18n.t(k) : k; };
+      function select() {
+        var code = btn.parentNode.querySelector('code');
+        try { var r = document.createRange(); r.selectNodeContents(code); var s = getSelection(); s.removeAllRanges(); s.addRange(r); } catch (e) {}
+      }
+      function done() {
+        btn.textContent = tr('brew.copied'); btn.classList.add('done');
+        clearTimeout(timer);
+        timer = setTimeout(function () { btn.textContent = tr('brew.copy'); btn.classList.remove('done'); }, 1500);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, select);
+      else select();
+    });
+  });
+
   if (!('IntersectionObserver' in window)) return;
   root.classList.add('js');
 

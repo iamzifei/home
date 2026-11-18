@@ -115,6 +115,16 @@ kbd { display: inline; padding: .15em .45em; border-radius: 6px; background: var
 .apple { width: 1em; height: 1.15em; flex: none; margin-top: -.12em; }
 .fine { margin: var(--sp-3) 0 0; font-size: var(--fs-small); color: var(--ink-soft); }
 .fine a { display: inline-flex; align-items: center; min-height: var(--tap); }   /* taller tap area without moving the text */
+/* Homebrew line under the download buttons (hero and final CTA): label, then the command on the
+   code-block colours with a copy button. The box never widens the page: on a phone the command
+   wraps inside it. */
+.brew { display: flex; flex-direction: column; align-items: center; gap: var(--sp-2); margin-top: var(--sp-3); max-width: 100%; font-size: var(--fs-small); color: var(--ink-soft); }
+.brew-box { display: flex; align-items: stretch; max-width: min(100%, calc(100vw - 2 * var(--gutter))); min-width: 0; background: var(--code-bg); color: var(--code-ink); border-radius: var(--r-sm); text-align: left; }
+.brew-box code { align-self: center; min-width: 0; overflow-wrap: anywhere; background: none; padding: var(--sp-2) var(--sp-2) var(--sp-2) var(--sp-3); font: 500 .86rem/1.5 var(--font-mono); color: inherit; }
+.brew-copy { flex: none; min-height: var(--tap); min-width: var(--tap); padding: 0 var(--sp-3); border: 0; border-left: 2px solid rgba(255, 233, 176, .22); background: transparent; color: inherit; font: 700 .875rem/1 var(--font-body); cursor: pointer; border-radius: 0 var(--r-sm) var(--r-sm) 0; }
+.brew-copy:hover { background: rgba(255, 233, 176, .1); }
+.brew-copy.done { color: var(--accent); }
+.steps code { overflow-wrap: anywhere; }
 
 /* ---------- Header ---------- */
 .site-header {

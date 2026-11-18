@@ -3,25 +3,94 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Veil — focus on one window</title>
-<meta name="description" content="Veil is a free, open-source macOS menu-bar app that keeps the window you are working in sharp and softly blurs everything behind it. Try it live in your browser.">
+<title>Veil — Blur Background Windows on Mac | Free Focus App</title>
+<meta name="description" content="Veil is a free, open-source Mac menu-bar app that keeps your active window sharp and blurs everything behind it. macOS 14+. Try it live, then download.">
+<meta name="keywords" content="blur background windows Mac, focus app for Mac, dim inactive windows, menu bar app, macOS">
+<meta name="author" content="James">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0e0e0e" media="(prefers-color-scheme: dark)">
 <link rel="icon" type="image/png" href="assets/icon.png">
 <link rel="apple-touch-icon" href="assets/icon.png">
 <link rel="canonical" href="https://jamesai.dev/veil/">
+<!-- Languages are switched with ?lang= (see i18n.js); x-default lets the browser pick. -->
+<link rel="alternate" hreflang="en" href="https://jamesai.dev/veil/?lang=en">
+<link rel="alternate" hreflang="zh-Hans" href="https://jamesai.dev/veil/?lang=zh-Hans">
+<link rel="alternate" hreflang="zh-Hant" href="https://jamesai.dev/veil/?lang=zh-Hant">
+<link rel="alternate" hreflang="x-default" href="https://jamesai.dev/veil/">
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Veil">
-<meta property="og:title" content="Veil — focus on one window">
-<meta property="og:description" content="A free, open-source macOS menu-bar app that keeps your active window sharp and softly blurs everything behind it.">
+<meta property="og:title" content="Veil — Blur Background Windows on Mac | Free Focus App">
+<meta property="og:description" content="A free, open-source Mac menu-bar app that keeps your active window sharp and softly blurs everything behind it.">
 <meta property="og:url" content="https://jamesai.dev/veil/">
-<meta property="og:image" content="https://jamesai.dev/veil/assets/poster.jpg">
+<meta property="og:image" content="https://jamesai.dev/veil/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A text editor window in sharp focus while the rest of the Mac desktop is softly blurred by Veil">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Veil — focus on one window">
-<meta name="twitter:description" content="A free, open-source macOS menu-bar app that keeps your active window sharp and softly blurs everything behind it.">
-<meta name="twitter:image" content="https://jamesai.dev/veil/assets/poster.jpg">
+<meta name="twitter:creator" content="@JamesAI">
+<meta name="twitter:title" content="Veil — Blur Background Windows on Mac | Free Focus App">
+<meta name="twitter:description" content="A free, open-source Mac menu-bar app that keeps your active window sharp and softly blurs everything behind it.">
+<meta name="twitter:image" content="https://jamesai.dev/veil/assets/og.jpg">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://jamesai.dev/veil/#app",
+      "name": "Veil",
+      "description": "Free, open-source macOS menu-bar app that keeps the window you are working in sharp and softly blurs every other window and the desktop behind it.",
+      "url": "https://jamesai.dev/veil/",
+      "image": "https://jamesai.dev/veil/assets/og.jpg",
+      "screenshot": "https://jamesai.dev/veil/assets/poster.jpg",
+      "applicationCategory": "UtilitiesApplication",
+      "applicationSubCategory": "Productivity",
+      "operatingSystem": "macOS 14.0 or later",
+      "processorRequirements": "Apple silicon or Intel (universal binary)",
+      "softwareVersion": "1.1.0",
+      "fileSize": "2.6 MB",
+      "downloadUrl": "https://github.com/iamzifei/veil/releases/latest/download/Veil.dmg",
+      "installUrl": "https://github.com/iamzifei/veil/releases/latest/download/Veil.dmg",
+      "releaseNotes": "https://github.com/iamzifei/veil/releases",
+      "license": "https://opensource.org/licenses/MIT",
+      "isAccessibleForFree": true,
+      "inLanguage": ["en", "zh-Hans", "zh-Hant"],
+      "featureList": [
+        "Keeps the frontmost window sharp and blurs everything behind it",
+        "Ambient and Deep modes, adjustable blur, tint, film grain and monochrome",
+        "App Groups keep two apps sharp together; ignore list for apps",
+        "Per-screen or global behaviour on multiple displays",
+        "Shake to toggle, hold Shift and shake to peek, keyboard shortcuts",
+        "veil:// URL scheme for Shortcuts, Raycast and shell scripts",
+        "Install with Homebrew: brew install --cask iamzifei/tap/veil"
+      ],
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+      "author": { "@type": "Person", "name": "James", "url": "https://jamesai.dev/", "sameAs": ["https://github.com/iamzifei", "https://x.com/JamesAI"] }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "James AI", "item": "https://jamesai.dev/" },
+        { "@type": "ListItem", "position": 2, "name": "Veil", "item": "https://jamesai.dev/veil/" }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Is it really free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Veil is MIT-licensed and open source. There is no paid tier, no trial timer and no account. You can read, build and change the code on GitHub." } },
+        { "@type": "Question", "name": "Does it need any permissions?", "acceptedAnswer": { "@type": "Answer", "text": "Not for the core feature. Blurring the background works without Screen Recording or Accessibility access. The only optional permission is Automation, which Veil asks for if you turn on auto-hiding the menu bar and Dock." } },
+        { "@type": "Question", "name": "Will it slow my Mac down?", "acceptedAnswer": { "@type": "Answer", "text": "No. Veil hands the blur to the system compositor, the same machinery macOS uses for its own translucent surfaces. It does not capture your screen or process frames itself, so idle cost is close to nothing." } },
+        { "@type": "Question", "name": "Can I keep two apps sharp at once?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Put them in an App Group, for example your editor and your browser, and they share focus. You can also keep all windows of the front app sharp, and add apps to an ignore list." } },
+        { "@type": "Question", "name": "Does it work with several displays?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Choose Per screen so each display keeps its own frontmost window sharp, or Global to keep a single window sharp across all displays." } },
+        { "@type": "Question", "name": "How do I update it?", "acceptedAnswer": { "@type": "Answer", "text": "Veil checks for updates itself and installs them when you agree. You can also download the latest disk image from this page at any time." } }
+      ]
+    }
+  ]
+}
+</script>
 
 <link rel="stylesheet" href="site.css">
 <script>if ("IntersectionObserver" in window) document.documentElement.classList.add("js");</script>
@@ -71,6 +140,10 @@
     <a class="btn ink lg" href="https://github.com/iamzifei/veil/releases/latest/download/Veil.dmg"><svg class="apple" aria-hidden="true"><use href="#i-apple"/></svg><span data-i18n="hero.cta1">Download for Mac</span></a>
   </p>
   <p class="fine"><a class="dotted" href="#try" data-i18n="hero.cta2">or try it right here</a><span class="sep" aria-hidden="true">&middot;</span><span data-i18n="hero.fine">Free and open source · macOS 14+</span></p>
+  <div class="brew">
+    <span class="brew-label" data-i18n="brew.label">Or install with Homebrew</span>
+    <span class="brew-box"><code translate="no">brew install --cask iamzifei/tap/veil</code><button type="button" class="brew-copy" data-copy="brew install --cask iamzifei/tap/veil" aria-live="polite" data-i18n="brew.copy">Copy</button></span>
+  </div>
 </section>
 
 <!-- ───────────── Live demo desk ───────────── -->
@@ -253,7 +326,7 @@
 <section class="block wrap rise" id="how" aria-labelledby="how-h">
   <h2 id="how-h" class="say" data-i18n-html="how.claim">How to use it. <span class="lo">Up and running in a minute: install, click the menu-bar icon, get to work.</span></h2>
   <ol class="howto">
-    <li><h3 data-i18n="how.1h">Install</h3><p data-i18n-html="how.1p">Download <b>Veil.dmg</b>, open it and drag Veil into your Applications folder. Needs macOS 14 Sonoma or later, on Apple Silicon or Intel. The app is signed and notarized by Apple, so it opens normally.</p></li>
+    <li><h3 data-i18n="how.1h">Install</h3><p data-i18n-html="how.1p">Download <b>Veil.dmg</b>, open it and drag Veil into your Applications folder, or run <code>brew install --cask iamzifei/tap/veil</code> in Terminal. Needs macOS 14 Sonoma or later, on Apple Silicon or Intel. The app is signed and notarized by Apple, so it opens normally.</p></li>
     <li><h3 data-i18n="how.2h">First run</h3><p data-i18n="how.2p">Open Veil. A short welcome guide appears once, and Veil is already on. It needs no permissions. The only exception is the optional auto-hide of the menu bar and Dock, which asks for Automation access the first time you turn it on.</p></li>
     <li><h3 data-i18n="how.3h">Turn it on and off</h3><p data-i18n="how.3p">Click the Veil icon in the menu bar (a dashed circle means it is off). You can also shake the mouse, or press ⌃⌥⌘F. Right-click or Control-click the icon for the menu: Ambient or Deep mode, ignore the current app, peek, Settings, the welcome guide and updates.</p></li>
     <li><h3 data-i18n="how.4h">Work as usual</h3><p data-i18n="how.4p">Click any window to bring it into focus; Veil follows. To look behind the veil for a moment, hold ⇧ and shake the mouse, or choose Peek from the menu. The veil also steps aside while you drag a file.</p></li>
@@ -346,6 +419,10 @@ open "veil://set?blur=30&amp;tint=blue&amp;grain=0.4"</code></pre>
     <a class="btn soft lg" href="https://github.com/iamzifei/veil" rel="noopener" data-i18n="inst.src">View source</a>
   </p>
   <p class="fine" data-i18n="inst.note">macOS 14 Sonoma or later · Apple Silicon and Intel · signed with a Developer ID and notarized by Apple.</p>
+  <div class="brew">
+    <span class="brew-label" data-i18n="brew.label">Or install with Homebrew</span>
+    <span class="brew-box"><code translate="no">brew install --cask iamzifei/tap/veil</code><button type="button" class="brew-copy" data-copy="brew install --cask iamzifei/tap/veil" aria-live="polite" data-i18n="brew.copy">Copy</button></span>
+  </div>
 </section>
 
 <!-- ───────────── FAQ ───────────── -->

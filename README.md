@@ -17,6 +17,20 @@
 - **零依赖**，一个 HTML、一个数据文件、几张图，没有构建步骤
 - Star 数在页面加载时从 GitHub API 拉一次实时刷新，请求失败就用文件里的兜底值
 
+## 六个 Mac 应用，都能用 Homebrew 装
+
+```bash
+brew install --cask iamzifei/tap/clipstack     # 剪贴板历史 · macOS 13+
+brew install --cask iamzifei/tap/candela       # 显示器控制 · macOS 26+
+brew install --cask iamzifei/tap/audioswitch   # 音频设备切换 · macOS 14+
+brew install --cask iamzifei/tap/veil          # 只让当前窗口清晰 · macOS 14+
+brew install --cask iamzifei/tap/tapper        # 敲黑板，指针变手套 · macOS 14+
+brew install --cask iamzifei/tap/inkstone      # Markdown 笔记 · macOS 26+
+```
+
+每个应用的详情页（`product.html?p=<仓库名>`）也有这条命令，带复制按钮；命令写在
+[`data.js`](data.js) 每个应用的 `brew` 字段里。
+
 ## 改内容
 
 项目清单在 [`data.js`](data.js)，加一个项目就是加一个对象：
@@ -63,6 +77,9 @@ index.html    页面本体：样式、文案、渲染逻辑、滚动动效
 data.js       项目清单（分类 → 条目）
 assets/       截图与图标
 scripts/      截图合成脚本
+sitemap.xml   全站页面清单（含 /veil/ /tapper/ 和各详情页），新增公开页面时同步
+robots.txt    允许所有爬虫，含 AI 搜索爬虫
+llms.txt      给 AI 助手读的站点说明：每个应用一句话、官网和 brew 命令
 ```
 
 ## 排版

@@ -19,6 +19,20 @@ within thirty seconds what I have built and which piece is useful to them.
 - Star counts refresh from the GitHub API on load in a single request, falling
   back silently to the values in the data file
 
+## The six Mac apps, all on Homebrew
+
+```bash
+brew install --cask iamzifei/tap/clipstack     # clipboard history · macOS 13+
+brew install --cask iamzifei/tap/candela       # display control · macOS 26+
+brew install --cask iamzifei/tap/audioswitch   # audio device switching · macOS 14+
+brew install --cask iamzifei/tap/veil          # keep one window sharp · macOS 14+
+brew install --cask iamzifei/tap/tapper        # pointer as a glove on a stick · macOS 14+
+brew install --cask iamzifei/tap/inkstone      # Markdown notes · macOS 26+
+```
+
+Each app's detail page (`product.html?p=<repo>`) shows the same command with a copy
+button; it comes from the app's `brew` field in [`data.js`](data.js).
+
 ## Editing the content
 
 The catalogue lives in [`data.js`](data.js). Adding a project means adding an
@@ -68,6 +82,9 @@ index.html    the page itself: styles, copy, rendering, scroll animation
 data.js       the catalogue (categories → items)
 assets/       screenshots and icons
 scripts/      screenshot composition
+sitemap.xml   every public page (incl. /veil/, /tapper/, detail pages); update when adding one
+robots.txt    all crawlers allowed, AI search crawlers included
+llms.txt      site summary for AI assistants: each app in one line, homepage, brew command
 ```
 
 ## Typography

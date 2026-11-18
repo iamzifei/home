@@ -31,9 +31,9 @@
  *   git -C ~/Dev/<repo> log --reverse --format=%as | head -1
  *     taro-car        2020-02-27   first venture in this machine's history
  *     nailARt-app     2023-03-29
- *     orrisapi        2023-04-22   CCAPI — the API line starts
- *     imaginepro-web  2023-06-23
- *     sunoapi-web     2024-03-27   MusicAPI — 「JA2024 = 2024 出海那年」
+ *     (api repo)      2023-04-22   the API line starts
+ *     (product repo)  2023-06-23
+ *     (product repo)  2024-03-27   「JA2024 = 2024 出海那年」
  *
  * TO EDIT
  *   `years` prints verbatim, any format. An empty string prints nothing at all
@@ -89,7 +89,7 @@ const LEGS = [
     code: "SYD",
     place: { zh: "悉尼", en: "Sydney" },
     role:  { zh: "一人公司", en: "One-person company" },
-    years: "2023 —",                       // 实测（起点）— orrisapi 2023-04-22
+    years: "2023 —",                       // 实测（起点）— first API repo 2023-04-22
     note: {
       zh: "API 与工具，卖给全世界。2024 年出海，现在四个 macOS 应用和几条 API 线，一个人在跑。",
       en: "APIs and tools, sold worldwide. Four macOS apps and a handful of API lines, run by one person.",

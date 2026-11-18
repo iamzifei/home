@@ -4,6 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>James AI</title>
+<!-- Description, canonical and og:title/description/url/image are set per product by the
+     script below (one template, many products); these are the shared defaults. -->
+<meta name="description" content="Free Mac apps and Claude Code skills by James: ClipStack, Candela, AudioSwitch, Veil, Tapper, Inkstone and AI KEY.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="James AI">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@JamesAI">
 <!-- Shared with the homepage-era stylesheet. See the note at the top of site.css. -->
 <link rel="stylesheet" href="site.css?v=5">
 <script>
@@ -146,7 +153,11 @@
            background: transparent; border: 1px solid var(--rule);
            border-radius: var(--r-l);
            padding: calc(var(--m) * 1.25) calc(var(--m) * 2); }
+.cta-cmd { min-height: 44px; }
 .cta-cmd code { font: inherit; overflow-wrap: anywhere; }
+.cta-label { margin: var(--m) 0 calc(var(--m) * -1); font-family: var(--mono);
+             font-size: 0.6875rem; letter-spacing: 0.12em; text-transform: uppercase;
+             color: var(--ink3); }
 .cta-cmd b { font-family: var(--mono); font-size: 0.6875rem; font-weight: 400;
              letter-spacing: 0.12em; text-transform: uppercase;
              color: var(--ink3); white-space: nowrap; }
@@ -274,8 +285,8 @@
   </section>
 </main>
 
-<script src="data.js?v=8"></script>
-<script src="i18n.js?v=5"></script>
+<script src="data.js?v=9"></script>
+<script src="i18n.js?v=6"></script>
 <script>
 /* One product, from the shared catalogue. */
 (function () {
@@ -294,7 +305,7 @@
       kind: '类型', stars: '星标', src: '源码', web: '官网',
       prev: '← 上一项', next: '下一项 →',
       ctaSite: '打开 %s', ctaRepo: '在 GitHub 上打开',
-      copy: '复制', copied: '已复制',
+      copy: '复制', copied: '已复制', brew: '或者用 Homebrew 安装',
       lost: '没有这一项', lostBody: '目录里找不到 %s。', unnamed: '（未指定）',
       auto: '自动', day: '日间版', night: '夜间版', mode: '显示模式',
       sys: '跟随系统'
@@ -305,7 +316,7 @@
       kind: '類型', stars: '星標', src: '原始碼', web: '官網',
       prev: '← 上一項', next: '下一項 →',
       ctaSite: '開啟 %s', ctaRepo: '在 GitHub 上開啟',
-      copy: '複製', copied: '已複製',
+      copy: '複製', copied: '已複製', brew: '或者用 Homebrew 安裝',
       lost: '沒有這一項', lostBody: '目錄裡找不到 %s。', unnamed: '（未指定）',
       auto: '自動', day: '日間版', night: '夜間版', mode: '顯示模式',
       sys: '跟隨系統'
@@ -316,7 +327,7 @@
       kind: 'Kind', stars: 'Stars', src: 'Source', web: 'Site',
       prev: '← Previous', next: 'Next →',
       ctaSite: 'Open %s', ctaRepo: 'Open it on GitHub',
-      copy: 'Copy', copied: 'Copied',
+      copy: 'Copy', copied: 'Copied', brew: 'Or install with Homebrew',
       lost: 'No such entry', lostBody: 'Nothing in the catalogue answers to %s.',
       unnamed: '(none given)',
       auto: 'Auto', day: 'Day', night: 'Night', mode: 'Appearance',
@@ -372,6 +383,13 @@
 
   var host = document.getElementById('page');
 
+  /* Find-or-create one <head> tag, so a language change updates it in place. */
+  function headTag(tag, key, keyVal, attr, value) {
+    var el = document.head.querySelector(tag + '[' + key + '="' + keyVal + '"]');
+    if (!el) { el = document.createElement(tag); el.setAttribute(key, keyVal); document.head.appendChild(el); }
+    el.setAttribute(attr, value);
+  }
+
   /* Everything below depends on the language, so it is a function and not a
      run of statements: changing the select re-runs exactly this. */
   function paint() {
@@ -387,7 +405,24 @@
     }
     var it = flat[i].it, kind = t(flat[i].cat.title);
     var shots = it.shots || [];
-    document.title = t(it.name) + ' \u00b7 James AI';
+    document.title = t(it.name) + ' \u00b7 ' + t(it.tagline) + ' \u00b7 James AI';
+    /* Search and link previews: this page is one template for many products,
+       so its description, canonical and Open Graph tags are set here. */
+    var pageUrl = 'https://jamesai.dev/product.html?p=' + encodeURIComponent(it.repo);
+    var about = t(it.desc);
+    if (about.length > 155) {
+      /* Prefer ending on a whole sentence; otherwise cut at a word and add an ellipsis. */
+      var cut = about.slice(0, 155), end = Math.max(cut.lastIndexOf('. '), cut.lastIndexOf('\u3002'), cut.lastIndexOf('\uff1b'));
+      about = end > 60 ? cut.slice(0, end + 1)
+            : cut.slice(0, 154).replace(/[\s,;:—–-]+\S*$/, '') + '\u2026';
+    }
+    headTag('meta', 'name', 'description', 'content', about);
+    headTag('link', 'rel', 'canonical', 'href', pageUrl);
+    headTag('meta', 'property', 'og:title', 'content', document.title);
+    headTag('meta', 'property', 'og:description', 'content', about);
+    headTag('meta', 'property', 'og:url', 'content', pageUrl);
+    if (it.shot) headTag('meta', 'property', 'og:image', 'content',
+      'https://jamesai.dev/' + it.shot.replace(/\.(jpg|webp)$/, '.webp'));
 
     function siteHost(u) { return u.replace(/^https?:\/\//, '').replace(/\/$/, ''); }
     var repoUrl = 'https://github.com/iamzifei/' + it.repo;
@@ -480,6 +515,9 @@
        are at different places when they are ready to act. The first one is under
        the hero and carries the command; the last one is the button alone, so the
        foot does not repeat a paragraph nobody reads twice. */
+    /* The Mac apps install from Homebrew too (data.js `brew`, a cask in
+       iamzifei/tap). Shown under the first button only, like `cta.cmd`. */
+    var brewCmd = it.brew ? 'brew install --cask ' + it.brew : '';
     function ctaBlock(withCmd) {
       return '<section class="p-cta' + (withCmd ? '' : ' p-cta-foot') + '">'
         + '<a class="cta-go" href="' + esc(ctaHref) + '">' + esc(ctaLabel) + '</a>'
@@ -488,6 +526,11 @@
               + '<code>' + esc(cta.cmd) + '</code><b>' + esc(L('copy')) + '</b></button>'
             : '')
         + (withCmd && cta.note ? '<p class="cta-note">' + esc(t(cta.note)) + '</p>' : '')
+        + (withCmd && brewCmd
+            ? '<p class="cta-label">' + esc(L('brew')) + '</p>'
+              + '<button class="cta-cmd" type="button" data-cmd="' + esc(brewCmd) + '">'
+              + '<code translate="no">' + esc(brewCmd) + '</code><b>' + esc(L('copy')) + '</b></button>'
+            : '')
         + '</section>';
     }
 
@@ -558,8 +601,7 @@
        text — which is what the reader would have had to do by hand anyway, and
        leaves them one keystroke from the same result. The label says which of
        the two happened rather than claiming success either way. */
-    var cmdBtn = host.querySelector('.cta-cmd');
-    if (cmdBtn) {
+    [].forEach.call(host.querySelectorAll('.cta-cmd'), function (cmdBtn) {
       cmdBtn.addEventListener('click', function () {
         var text = cmdBtn.getAttribute('data-cmd');
         var label = cmdBtn.querySelector('b');
@@ -587,7 +629,7 @@
           } catch (e) {}
         }
       });
-    }
+    });
     /* The hero may be a video, which has no naturalWidth. Its poster does, and
        the poster is frame 0 of that video — same pixels, same width — so the cap
        is measured off an Image that is never inserted into the page. */

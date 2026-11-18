@@ -28,6 +28,8 @@ const CATEGORIES = [
       {
         repo: "clipstack",
         site: "https://getclipstack.app",
+        /* Homebrew cask in iamzifei/tap; product.html shows `brew install --cask <brew>`. */
+        brew: "iamzifei/tap/clipstack",
         name: "ClipStack",
         stars: 5,
         shot: "assets/shot-clipstack.webp",
@@ -58,6 +60,8 @@ const CATEGORIES = [
       {
         repo: "Candela",
         site: "https://getcandela.app",
+        /* Homebrew cask in iamzifei/tap; product.html shows `brew install --cask <brew>`. */
+        brew: "iamzifei/tap/candela",
         name: "Candela",
         stars: 1,
         shot: "assets/shot-candela.webp",
@@ -88,6 +92,8 @@ const CATEGORIES = [
       {
         repo: "audioswitch",
         site: "https://audioswitch.dev",
+        /* Homebrew cask in iamzifei/tap; product.html shows `brew install --cask <brew>`. */
+        brew: "iamzifei/tap/audioswitch",
         name: "AudioSwitch",
         stars: 2,
         shot: "assets/shot-audioswitch.webp",
@@ -118,6 +124,8 @@ const CATEGORIES = [
       {
         repo: "veil",
         site: "https://jamesai.dev/veil/",
+        /* Homebrew cask in iamzifei/tap; product.html shows `brew install --cask <brew>`. */
+        brew: "iamzifei/tap/veil",
         name: "Veil",
         stars: 0,
         shot: "assets/shot-veil.webp",
@@ -146,6 +154,8 @@ const CATEGORIES = [
       {
         repo: "tapper",
         site: "https://jamesai.dev/tapper/",
+        /* Homebrew cask in iamzifei/tap; product.html shows `brew install --cask <brew>`. */
+        brew: "iamzifei/tap/tapper",
         /* Chinese name 敲黑板 set by James 2026-11-18; the app itself is still called Tapper. */
         name: { zh: "敲黑板 Tapper", "zh-Hant": "敲黑板 Tapper", en: "Tapper" },
         stars: 0,
@@ -175,6 +185,8 @@ const CATEGORIES = [
       {
         repo: "inkstone",
         site: "https://inkslab.app",
+        /* Homebrew cask in iamzifei/tap; product.html shows `brew install --cask <brew>`. */
+        brew: "iamzifei/tap/inkstone",
         name: "Inkstone",
         stars: 4,
         shot: "assets/shot-inkstone.webp",

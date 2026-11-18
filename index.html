@@ -3,8 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>James AI · 在悉尼和稀泥</title>
-<meta name="description" content="全栈工程师，现居悉尼。做能自己跑起来的工具：六个原生 macOS 应用，和一批让 Claude Code 真正去做事的技能。源码公开。">
+<title>James AI · 在悉尼和稀泥 · 免费 Mac 应用与 Claude Code 技能</title>
+<meta name="description" content="全栈工程师 James，现居悉尼。六个免费的原生 macOS 应用（ClipStack、Candela、AudioSwitch、Veil、Tapper、Inkstone，都能用 Homebrew 安装），和一批让 Claude Code 真正去做事的技能。">
+<meta name="author" content="James">
 <meta name="theme-color" content="#F5F1E8" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#14161C" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="assets/favicon.png" sizes="48x48">
@@ -13,11 +14,201 @@
 <link rel="apple-touch-icon" href="assets/favicon-180.png">
 <link rel="canonical" href="https://jamesai.dev/">
 <meta property="og:type" content="profile">
-<meta property="og:title" content="James AI · 在悉尼和稀泥">
-<meta property="og:description" content="做能自己跑起来的工具：六个原生 macOS 应用，和让 Claude Code 真正去做事的技能。">
+<meta property="og:title" content="James AI · 在悉尼和稀泥 · 免费 Mac 应用与 Claude Code 技能">
+<meta property="og:description" content="做能自己跑起来的工具：六个免费的原生 macOS 应用，和让 Claude Code 真正去做事的技能。">
 <meta property="og:url" content="https://jamesai.dev/">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:site" content="@JamesAI">
+<!-- Who runs the site and which apps it lists, for search engines and AI answers.
+     Keep the app facts in step with data.js and llms.txt. -->
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "WebSite",
+   "@id": "https://jamesai.dev/#site",
+   "name": "James AI",
+   "url": "https://jamesai.dev/",
+   "inLanguage": [
+    "zh-Hans",
+    "zh-Hant",
+    "en"
+   ],
+   "author": {
+    "@id": "https://jamesai.dev/#james"
+   }
+  },
+  {
+   "@type": "Person",
+   "@id": "https://jamesai.dev/#james",
+   "name": "James",
+   "alternateName": "James AI",
+   "url": "https://jamesai.dev/",
+   "jobTitle": "Full-stack engineer",
+   "homeLocation": {
+    "@type": "Place",
+    "name": "Sydney, Australia"
+   },
+   "sameAs": [
+    "https://github.com/iamzifei",
+    "https://x.com/JamesAI"
+   ]
+  },
+  {
+   "@type": "ItemList",
+   "name": "Free Mac apps by James",
+   "numberOfItems": 6,
+   "itemListElement": [
+    {
+     "@type": "ListItem",
+     "position": 1,
+     "item": {
+      "@type": "SoftwareApplication",
+      "name": "ClipStack",
+      "url": "https://getclipstack.app/",
+      "description": "Clipboard history manager in the Mac menu bar: press Shift-Cmd-V to search and paste text, images and files you copied before.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "macOS 13.0 or later",
+      "processorRequirements": "Apple silicon",
+      "offers": {
+       "@type": "Offer",
+       "price": "0",
+       "priceCurrency": "USD"
+      },
+      "author": {
+       "@id": "https://jamesai.dev/#james"
+      },
+      "featureList": [
+       "Install with Homebrew: brew install --cask iamzifei/tap/clipstack"
+      ]
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 2,
+     "item": {
+      "@type": "SoftwareApplication",
+      "name": "Candela",
+      "url": "https://getcandela.app/",
+      "description": "Menu-bar display control for Mac: real brightness on external monitors over DDC, hidden HiDPI modes and brightness keys for every screen.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "macOS 26.0 or later",
+      "processorRequirements": "Apple silicon",
+      "offers": {
+       "@type": "Offer",
+       "price": "0",
+       "priceCurrency": "USD"
+      },
+      "author": {
+       "@id": "https://jamesai.dev/#james"
+      },
+      "featureList": [
+       "Install with Homebrew: brew install --cask iamzifei/tap/candela"
+      ]
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 3,
+     "item": {
+      "@type": "SoftwareApplication",
+      "name": "AudioSwitch",
+      "url": "https://audioswitch.dev/",
+      "description": "Menu-bar audio device switcher for Mac with volume sliders, a live microphone meter, a hard mic-off switch and device locking.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "macOS 14.0 or later",
+      "processorRequirements": "Apple silicon",
+      "offers": {
+       "@type": "Offer",
+       "price": "0",
+       "priceCurrency": "USD"
+      },
+      "author": {
+       "@id": "https://jamesai.dev/#james"
+      },
+      "featureList": [
+       "Install with Homebrew: brew install --cask iamzifei/tap/audioswitch"
+      ]
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 4,
+     "item": {
+      "@type": "SoftwareApplication",
+      "name": "Veil",
+      "url": "https://jamesai.dev/veil/",
+      "description": "Keeps the Mac window you are working in sharp and softly blurs every window behind it, to help you focus.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "macOS 14.0 or later",
+      "processorRequirements": "Apple silicon or Intel (universal binary)",
+      "offers": {
+       "@type": "Offer",
+       "price": "0",
+       "priceCurrency": "USD"
+      },
+      "author": {
+       "@id": "https://jamesai.dev/#james"
+      },
+      "featureList": [
+       "Install with Homebrew: brew install --cask iamzifei/tap/veil"
+      ]
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 5,
+     "item": {
+      "@type": "SoftwareApplication",
+      "name": "Tapper",
+      "url": "https://jamesai.dev/tapper/",
+      "description": "Turns the Mac mouse pointer into a cartoon glove on a long stick, so viewers can follow your cursor in demos, screen shares and recordings.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "macOS 14.0 or later",
+      "processorRequirements": "Apple silicon or Intel (universal binary)",
+      "offers": {
+       "@type": "Offer",
+       "price": "0",
+       "priceCurrency": "USD"
+      },
+      "author": {
+       "@id": "https://jamesai.dev/#james"
+      },
+      "featureList": [
+       "Install with Homebrew: brew install --cask iamzifei/tap/tapper"
+      ]
+     }
+    },
+    {
+     "@type": "ListItem",
+     "position": 6,
+     "item": {
+      "@type": "SoftwareApplication",
+      "name": "Inkstone",
+      "url": "https://inkslab.app/",
+      "description": "Markdown notes for Mac that stay plain files in a folder you choose, with wikilinks, backlinks, a graph and a JSON Canvas board.",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "macOS 26.0 or later",
+      "processorRequirements": "Apple silicon or Intel (universal binary)",
+      "offers": {
+       "@type": "Offer",
+       "price": "0",
+       "priceCurrency": "USD"
+      },
+      "author": {
+       "@id": "https://jamesai.dev/#james"
+      },
+      "featureList": [
+       "Install with Homebrew: brew install --cask iamzifei/tap/inkstone"
+      ]
+     }
+    }
+   ]
+  }
+ ]
+}
+</script>
 <script>
 /* Resolve day/night before the first paint. Stored choice wins; with no
    stored choice the system decides, and keeps deciding — the listener is what
@@ -1033,9 +1224,9 @@ a { color: inherit; }
   </div>
 </footer>
 
-<script src="data.js?v=8"></script>
+<script src="data.js?v=9"></script>
 <script src="issues.js?v=6"></script>
-<script src="i18n.js?v=5"></script>
+<script src="i18n.js?v=6"></script>
 <script>
 /* The whole edition, set from the same files the live site reads. */
 (function () {
@@ -1072,7 +1263,8 @@ a { color: inherit; }
     'dept.writing.kicker': '写作与产品',
     'dept.writing.note': '两年前写的一本 PDF，讲的是先把钱赚到手再谈别的；还有一套把内容生产自动化的工作流。',
     'dept.writing.title': '《搞到钱再说》与其他',
-    'doc.title': 'James AI · 在悉尼和稀泥',
+    'doc.title': 'James AI · 在悉尼和稀泥 · 免费 Mac 应用与 Claude Code 技能',
+    'doc.desc': '全栈工程师 James，现居悉尼。六个免费的原生 macOS 应用（ClipStack、Candela、AudioSwitch、Veil、Tapper、Inkstone，都能用 Homebrew 安装），和一批让 Claude Code 真正去做事的技能。',
     'html.lang': 'zh-Hans',
     'lang.system': '跟随系统',
     'link.github': '开源仓库',
@@ -1216,6 +1408,8 @@ a { color: inherit; }
   function render() {
     document.documentElement.lang = T('html.lang');
     document.title = T('doc.title');
+    var metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc && T('doc.desc')) metaDesc.setAttribute('content', T('doc.desc'));
     dataLang = T('data.lang') || 'en';
 
     document.getElementById('skip').textContent = T('p.skip');
