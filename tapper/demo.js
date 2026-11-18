@@ -1,4 +1,5 @@
-/* Tapper live demo: a cartoon glove on a spring-loaded stick that follows the pointer inside #stage.
+/* Tapper live demo: a cartoon glove on a spring-loaded stick that replaces the pointer inside #stage
+ * (the whole hero section).
  *
  * Rig geometry (all in the glove's local frame, origin = fingertip):
  *   - Sprite PNGs are 320x472, drawn at 4px per unit => base scale 0.25 (~80x118 CSS px).
@@ -50,6 +51,7 @@
     clicks: [],
     last: performance.now(),
     visible: true,
+    first: true,
   };
 
   const m = () => MOODS[st.mood];
@@ -83,6 +85,15 @@
       `fill="${COLORS[st.color]}" stroke="#000" stroke-width="2.5" stroke-linejoin="round"/>`;
   }
 
+  // Where the glove rests: just inside the right end of the park target, pointing at it.
+  const parkEl = document.querySelector('[data-park]');
+  function parkPoint() {
+    const r = stage.getBoundingClientRect();
+    if (!parkEl) return { x: r.width * 0.6, y: r.height * 0.6 };
+    const b = parkEl.getBoundingClientRect();
+    return { x: b.right - r.left - 22, y: b.bottom - r.top - 12 };
+  }
+
   // ---- Physics + render loop ---------------------------------------------------------------------
   function restPoint() {
     const R = ropeLen();
@@ -99,12 +110,15 @@
     st.last = now;
     if (!st.visible) return;
 
-    // Before the visitor touches anything, park the glove at a friendly spot on the fake slide.
+    // While the pointer is not over the stage, the glove rests pointing at the Download button
+    // ([data-park]). It glides back there when the pointer leaves, and teleports there on first paint.
     if (!st.interacted) {
-      const r = stage.getBoundingClientRect();
-      const nx = r.width * 0.6, ny = r.height * 0.52;
-      if (Math.abs(st.tip.x - nx) > 0.5 || Math.abs(st.tip.y - ny) > 0.5) {
-        st.tip.x = nx; st.tip.y = ny; resetMass();
+      const p = parkPoint();
+      if (st.first) { st.first = false; st.tip.x = p.x; st.tip.y = p.y; resetMass(); }
+      else if (Math.abs(st.tip.x - p.x) > 0.5 || Math.abs(st.tip.y - p.y) > 0.5) {
+        const k = reduceMotion ? 1 : Math.min(1, dtRaw * 7);
+        st.tip.x += (p.x - st.tip.x) * k; st.tip.y += (p.y - st.tip.y) * k;
+        if (reduceMotion) resetMass();
       }
     }
 
@@ -216,10 +230,12 @@
     const r = stage.getBoundingClientRect();
     st.tip.x = e.clientX - r.left;
     st.tip.y = e.clientY - r.top;
-    if (!st.interacted) { st.interacted = true; hint.classList.add('is-gone'); resetMass(); }
+    if (!st.interacted) { st.interacted = true; hint.classList.add('is-gone'); }
     if (teleport) resetMass();
   }
-  stage.addEventListener('pointermove', e => setTip(e, false));
+  stage.addEventListener('pointermove', e => { if (e.pointerType !== 'touch') setTip(e, false); });
+  // Mouse leaves the hero: the glove glides back to its resting spot.
+  stage.addEventListener('pointerleave', e => { if (e.pointerType !== 'touch') st.interacted = false; });
   stage.addEventListener('pointerdown', e => {
     // On touch the glove appears where you tap; there is no hover to follow beforehand.
     setTip(e, e.pointerType === 'touch');
