@@ -43,16 +43,16 @@ const CATEGORIES = [
             cap: { zh: "预览带类型、大小、时间和来源应用；文本原样显示，不做截断。", "zh-Hant": "預覽帶類型、大小、時間和來源應用；文字原樣顯示，不做截斷。",
                    en: "The preview carries type, size, time and source app, and shows text verbatim rather than truncated." } },
           { src: "assets/clip-keys.webp",
-            cap: { zh: "⌘1–9 直接粘第 N 条，⌘P 置顶，⌘T 常驻，esc 关掉。手不用离开键盘。", "zh-Hant": "⌘1–9 直接貼第 N 條，⌘P 置頂，⌘T 常駐，esc 關掉。手不用離開鍵盤。",
-                   en: "Cmd-1 to 9 pastes the Nth entry, Cmd-P pins, Cmd-T keeps it on top, esc closes. Hands never leave the keyboard." } },
+            cap: { zh: "⌘1–9 直接复制第 N 条，⌘K 转换，⌘M 多选合并，⌘O 浮窗，⌘P 置顶，⌘T 常驻。手不用离开键盘。", "zh-Hant": "⌘1–9 直接複製第 N 條，⌘K 轉換，⌘M 多選合併，⌘O 浮動視窗，⌘P 置頂，⌘T 常駐。手不用離開鍵盤。",
+                   en: "Cmd-1 to 9 copies the Nth entry, Cmd-K transforms, Cmd-M marks for a merged copy, Cmd-O floats, Cmd-P pins, Cmd-T keeps it on top. Hands never leave the keyboard." } },
         ],
         tagline: {
           zh: "菜单栏剪贴板历史", "zh-Hant": "選單欄剪貼簿歷史",
           en: "Clipboard history in the menu bar",
         },
         desc: {
-          zh: "⇧⌘V 呼出可搜索的历史面板，文本、图片、文件都留得住，右侧带完整预览，回车即粘回。连续复制多段内容时，你需要的是全部，不只是最后一段。", "zh-Hant": "⇧⌘V 呼出可搜尋的歷史面板，文字、圖片、檔案都留得住，右側帶完整預覽，按 Enter 即貼回。連續複製多段內容時，你需要的是全部，不只是最後一段。",
-          en: "⇧⌘V brings up a searchable panel of everything you have copied — text, images, files — with a full preview pane. Return pastes it back. When several snippets get copied in a row, you need all of them, not just the last.",
+          zh: "⇧⌘V 呼出可搜索的历史面板，文本、图片、文件都留得住，按类型打标签，右侧带完整预览，回车即放回剪贴板。按住 ⇧⌘ 连按 V 还能像 ⌘Tab 一样翻历史，松手就粘贴。连续复制多段内容时，你需要的是全部，不只是最后一段。", "zh-Hant": "⇧⌘V 呼出可搜尋的歷史面板，文字、圖片、檔案都留得住，依類型加標籤，右側帶完整預覽，按 Enter 即放回剪貼簿。按住 ⇧⌘ 連按 V 還能像 ⌘Tab 一樣翻歷史，放開就貼上。連續複製多段內容時，你需要的是全部，不只是最後一段。",
+          en: "⇧⌘V brings up a searchable panel of everything you have copied — text, images, files — tagged by type, with a full preview pane. Return puts it back on the clipboard; hold ⇧⌘ and tap V to cycle through history like ⌘Tab and paste on release. When several snippets get copied in a row, you need all of them, not just the last.",
         },
       },
       {
