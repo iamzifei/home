@@ -22,6 +22,7 @@ Python 3.8+, standard library only. Read it before you run it: it is short.
 import json
 import plistlib
 import re
+import secrets
 import subprocess
 import sys
 import threading
@@ -34,6 +35,7 @@ from pathlib import Path
 
 HOME = Path.home()
 VALID_ID = re.compile(r"[A-Za-z0-9._\- ]{1,200}")  # same rule as mac-api/macapi/validate.py
+VALID_SKILL = re.compile(r"[\w.\-]+(?::[\w.\-]+)?")  # same rule as mac-api/macapi/validate.py
 APP_DIRS = [Path("/Applications"), HOME / "Applications"]
 SKILL_WINDOW_DAYS = 30
 API = "https://jamesai-mac-api.vercel.app/api/submit"
@@ -172,7 +174,7 @@ def scan_skills(window_days=SKILL_WINDOW_DAYS):
                         continue
                     for m in list(SKILL_CALL.finditer(line)) + list(SLASH_CALL.finditer(line)):
                         name = m.group(1)
-                        if name in known:
+                        if name in known and len(name) <= 80 and VALID_SKILL.fullmatch(name):
                             counts[name] = counts.get(name, 0) + 1
         except OSError:
             continue
@@ -183,10 +185,15 @@ def scan_skills(window_days=SKILL_WINDOW_DAYS):
 
 # ----------------------------------------------------------------------------- saved settings
 def load_config():
+    """{"handle": last used, "tokens": {handle: edit key}, "last": last profile}."""
     try:
-        return json.loads(CONFIG.read_text())
+        cfg = json.loads(CONFIG.read_text())
     except (OSError, ValueError):
-        return {}
+        return {"tokens": {}}
+    cfg.setdefault("tokens", {})
+    if cfg.get("token") and cfg.get("handle"):  # older single-key format
+        cfg["tokens"].setdefault(cfg["handle"], cfg.pop("token"))
+    return cfg
 
 
 def save_config(cfg):
@@ -198,8 +205,9 @@ def save_config(cfg):
 def publish(profile, cfg):
     """Send the profile to jamesai.dev. Returns (http_status, response dict)."""
     body = {"profile": profile}
-    if cfg.get("token") and cfg.get("handle") == profile.get("handle"):
-        body["token"] = cfg["token"]
+    token = cfg.get("tokens", {}).get(profile.get("handle"))
+    if token:
+        body["token"] = token
     req = urllib.request.Request(API, data=json.dumps(body).encode(), method="POST",
                                  headers={"content-type": "application/json"})
     try:
@@ -286,7 +294,7 @@ go.onclick=function(){
  var p={v:1,handle:h,name:document.getElementById('name').value.trim()||h,scannedAt:DATA.scannedAt,skillsDays:DATA.skillsDays,apps:apps,skills:pick('s',DATA.skills)};
  ['bio','x','github'].forEach(function(k){var v=document.getElementById(k).value.trim().replace(/^@/,'');if(v)p[k]=v;});
  go.disabled=true;go.textContent=L.sending;
- fetch('/publish',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(p)}).then(function(r){return r.json();}).then(function(r){
+ fetch('/publish'+location.search,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(p)}).then(function(r){return r.json();}).then(function(r){
   if(r.ok){document.getElementById('bar').remove();document.getElementById('w').innerHTML='<div class="done"><h1>✓ '+L.done+'</h1><p>'+L.doneSub+'</p><a href="'+esc(r.url)+'">'+L.open+'</a></div>';setTimeout(function(){location.href=r.url;},1200);return;}
   go.disabled=false;go.textContent=SAVED.handle?L.update:L.publish;
   if(r.error==='handle_taken'){hEl.classList.add('bad');hEl.focus();msg.textContent=L.taken;}
@@ -307,6 +315,7 @@ def serve(data, cfg, timeout_minutes=30):
     page = (PAGE.replace("__DATA__", json.dumps(data, ensure_ascii=False).replace("</", "<\\/"))
                 .replace("__SAVED__", json.dumps(saved, ensure_ascii=False).replace("</", "<\\/"))).encode()
     result = {}
+    nonce = secrets.token_urlsafe(16)  # only the page we open knows it
 
     class H(BaseHTTPRequestHandler):
         def log_message(self, *a):  # keep the terminal quiet
@@ -319,7 +328,13 @@ def serve(data, cfg, timeout_minutes=30):
             self.end_headers()
             self.wfile.write(b)
 
+        def _host_ok(self):
+            # Blocks DNS rebinding: only our own 127.0.0.1:<port> may talk to us.
+            return self.headers.get("host") == f"127.0.0.1:{self.server.server_port}"
+
         def do_GET(self):
+            if not self._host_ok() or self.path != f"/?k={nonce}":
+                return self._json(404, {"ok": False})
             self.send_response(200)
             self.send_header("content-type", "text/html; charset=utf-8")
             self.end_headers()
@@ -328,26 +343,40 @@ def serve(data, cfg, timeout_minutes=30):
         def do_POST(self):
             # Only the page we served can reach this: the server listens on
             # 127.0.0.1 and requires a same-origin JSON request.
-            if self.path != "/publish" or "application/json" not in (self.headers.get("content-type") or ""):
-                return self._json(404, {"ok": False})
-            origin = self.headers.get("origin")
-            if origin and origin != f"http://127.0.0.1:{self.server.server_port}":
+            # Must be our page: right host, right origin, the one-time key from
+            # the URL we opened, and a sane body size.
+            if (not self._host_ok() or self.path != f"/publish?k={nonce}"
+                    or self.headers.get("origin") != f"http://127.0.0.1:{self.server.server_port}"
+                    or "application/json" not in (self.headers.get("content-type") or "")):
                 return self._json(403, {"ok": False})
-            profile = json.loads(self.rfile.read(int(self.headers.get("content-length") or 0)))
+            n = int(self.headers.get("content-length") or 0)
+            if not 0 < n <= 256 * 1024:
+                return self._json(413, {"ok": False})
+            try:
+                profile = json.loads(self.rfile.read(n))
+            except ValueError:
+                return self._json(400, {"ok": False})
             status, resp = publish(profile, cfg)
             if resp.get("ok"):
                 cfg["handle"] = resp["handle"]
                 if resp.get("token"):
-                    cfg["token"] = resp["token"]
+                    cfg.setdefault("tokens", {})[resp["handle"]] = resp["token"]
                 cfg["last"] = profile
                 save_config(cfg)
                 result["url"] = resp["url"]
-                threading.Timer(3, self.server.shutdown).start()
+                stop(3)
             self._json(200, resp)
 
     srv = ThreadingHTTPServer(("127.0.0.1", 0), H)
-    threading.Timer(timeout_minutes * 60, srv.shutdown).start()
-    url = f"http://127.0.0.1:{srv.server_port}/"
+
+    def stop(after):
+        # Daemon timers: they must never keep the process alive after we finish.
+        t = threading.Timer(after, srv.shutdown)
+        t.daemon = True
+        t.start()
+
+    stop(timeout_minutes * 60)
+    url = f"http://127.0.0.1:{srv.server_port}/?k={nonce}"
     print(f"Opening {url}  (Ctrl+C to quit)")
     webbrowser.open(url)
     try:

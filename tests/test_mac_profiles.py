@@ -10,20 +10,24 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "mac-api"))
 
+from macapi.blob import BlobExists  # noqa: E402
 from macapi.build_index import build  # noqa: E402
-from macapi.service import SubmitError, remove, submit  # noqa: E402
+from macapi.service import SubmitError, latest_profile, profile_versions, remove, submit  # noqa: E402
 from macapi.validate import check  # noqa: E402
 
 
 class FakeStore:
     """In-memory stand-in for macapi.blob.Blob."""
 
-    def __init__(self):
+    def __init__(self, fail_on=()):
         self.files = {}
+        self.fail_on = set(fail_on)
 
     def put(self, path, data, content_type="application/json", overwrite=True):
         if not overwrite and path in self.files:
-            raise RuntimeError("exists")
+            raise BlobExists(path)
+        if any(path.startswith(f) for f in self.fail_on):
+            raise OSError("blob 503")
         self.files[path] = data
         return "mem://" + path
 
@@ -74,6 +78,10 @@ class ValidateTest(unittest.TestCase):
         self.assertTrue(any("duplicate" in e for e in check(profile(apps=[a, dict(a)]))))
         self.assertTrue(any("bad id" in e for e in check(profile(apps=[{"id": "__proto__", "name": "x"}]))))
 
+    def test_bool_numbers_rejected(self):
+        self.assertTrue(check(profile(v=True)))
+        self.assertTrue(check(profile(skillsDays=True)))
+
     def test_trailing_newline_rejected(self):
         self.assertTrue(check(profile(x="ab\n")))
         self.assertTrue(check(profile(handle="alice\n")))
@@ -88,8 +96,10 @@ class SubmitTest(unittest.TestCase):
         r = submit(s, {"profile": profile()})
         self.assertTrue(r["new"])
         self.assertGreater(len(r["token"]), 30)
-        self.assertEqual(s.json("u/alice.json")["name"], "Alice")
-        self.assertNotIn(r["token"].encode(), s.files["owners/alice.txt"])  # only the hash is stored
+        self.assertEqual(latest_profile(s, "alice")["name"], "Alice")
+        stored = [p for p in s.files if p.startswith("keys/alice/")]
+        self.assertEqual(len(stored), 1)
+        self.assertNotIn(r["token"], stored[0])  # only the hash is stored
         self.assertEqual(s.json("index.json")["people"][0]["handle"], "alice")
 
     def test_handle_is_lowercased(self):
@@ -107,7 +117,8 @@ class SubmitTest(unittest.TestCase):
         r = submit(s, {"profile": profile(name="Alice 2"), "token": tok})
         self.assertFalse(r["new"])
         self.assertNotIn("token", r)
-        self.assertEqual(s.json("u/alice.json")["name"], "Alice 2")
+        self.assertEqual(latest_profile(s, "alice")["name"], "Alice 2")
+        self.assertEqual(len(profile_versions(s, "alice")), 1)  # old version deleted
 
     def test_invalid_profile_stores_nothing(self):
         s = FakeStore()
@@ -126,14 +137,45 @@ class SubmitTest(unittest.TestCase):
 
     def test_corrupt_stored_profile_skipped(self):
         s = FakeStore()
-        s.files["u/broken.json"] = b"{not json"
+        s.files["u/broken/0000000000001.json"] = b"{not json"
         submit(s, {"profile": profile()})
         self.assertEqual([p["handle"] for p in s.json("index.json")["people"]], ["alice"])
+
+    def test_unstorable_text_rejected_before_claim(self):
+        s = FakeStore()
+        with self.assertRaises(SubmitError) as e:
+            submit(s, {"profile": profile(name="\ud800")})
+        self.assertEqual(e.exception.status, 422)
+        self.assertEqual(s.files, {})  # handle not claimed
+
+    def test_failed_profile_write_releases_claim(self):
+        s = FakeStore(fail_on={"u/alice/"})
+        with self.assertRaises(OSError):
+            submit(s, {"profile": profile()})
+        self.assertNotIn("owners/alice.txt", s.files)
+        self.assertFalse([p for p in s.files if p.startswith("keys/")])
+        s.fail_on.clear()
+        self.assertTrue(submit(s, {"profile": profile()})["new"])  # retry can claim it
+
+    def test_failed_index_still_returns_token(self):
+        s = FakeStore(fail_on={"index.json"})
+        r = submit(s, {"profile": profile()})
+        self.assertIn("token", r)
+        self.assertIsNotNone(latest_profile(s, "alice"))
+
+    def test_unreadable_profile_keeps_old_index(self):
+        s = FakeStore()
+        submit(s, {"profile": profile(handle="bob")})
+        old = s.files["index.json"]
+        real_get = s.get
+        s.get = lambda url: (_ for _ in ()).throw(OSError("blob 500")) if "/u/bob/" in url else real_get(url)
+        submit(s, {"profile": profile(handle="carol")})
+        self.assertEqual(s.files["index.json"], old)  # rebuild aborted, nobody dropped
 
     def test_remove(self):
         s = FakeStore()
         submit(s, {"profile": profile()})
-        self.assertEqual(remove(s, "alice"), 2)
+        self.assertEqual(remove(s, "alice"), 3)
         self.assertEqual(s.json("index.json")["people"], [])
 
 

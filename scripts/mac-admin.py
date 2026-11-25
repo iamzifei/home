@@ -29,8 +29,8 @@ def main():
         sys.exit(__doc__)
     store, cmd = Blob(token()), sys.argv[1]
     if cmd == "list":
-        for b in store.list("u/"):
-            print(b["pathname"][2:-5], b["uploadedAt"])
+        for b in store.list("u/"):  # u/<handle>/<version>.json
+            print(b["pathname"].split("/")[1], b["uploadedAt"])
     elif cmd == "delete" and len(sys.argv) == 3:
         print(f"removed {remove(store, sys.argv[2].lower())} blobs")
     elif cmd == "reindex":

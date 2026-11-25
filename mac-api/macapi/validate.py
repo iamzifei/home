@@ -50,7 +50,7 @@ def check(p):
     extra = set(p) - TOP_KEYS
     if extra:
         errs.append(f"unknown fields: {sorted(extra)}")
-    if p.get("v") != 1:
+    if p.get("v") != 1 or isinstance(p.get("v"), bool):
         errs.append("v must be 1")
     if not (isinstance(p.get("handle"), str) and HANDLE.fullmatch(p["handle"])):
         errs.append("handle: 1-39 lowercase letters, digits or -")
@@ -64,7 +64,7 @@ def check(p):
         errs.append("github: GitHub username")
     if not is_iso(p.get("scannedAt", "")):
         errs.append("scannedAt must be an ISO date")
-    if "skillsDays" in p and not (isinstance(p["skillsDays"], int) and 1 <= p["skillsDays"] <= 365):
+    if "skillsDays" in p and not (type(p["skillsDays"]) is int and 1 <= p["skillsDays"] <= 365):
         errs.append("skillsDays: 1-365")
 
     apps = p.get("apps")

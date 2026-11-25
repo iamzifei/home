@@ -191,7 +191,7 @@ def main():
         sys.exit(f"publish failed ({status}): {resp}")
     cfg.update({"handle": resp["handle"], "last": profile})
     if resp.get("token"):
-        cfg["token"] = resp["token"]
+        cfg["tokens"][resp["handle"]] = resp["token"]
     scan.save_config(cfg)
     print(f"catalog: {len(catalog)} apps · published {resp['url']}: {len(apps)} apps, {len(skills)} skills")
 

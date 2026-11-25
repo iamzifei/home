@@ -3,7 +3,8 @@
 Body: {"profile": {...}, "token": "<edit token, omit on first publish>"}
 200 → {"ok": true, "handle", "url", "new", "token"?}
 409 → handle taken (no or wrong token)   422 → validation errors
-Called by mac/scan.py's local server, not by browsers directly.
+Called by mac/scan.py's local server, not by browsers: no CORS headers,
+so other websites can't make visitors' browsers claim handles.
 """
 import json
 import os
@@ -22,17 +23,9 @@ class handler(BaseHTTPRequestHandler):
         body = json.dumps(obj, ensure_ascii=False).encode()
         self.send_response(status)
         self.send_header("content-type", "application/json; charset=utf-8")
-        self.send_header("access-control-allow-origin", "*")
         self.send_header("cache-control", "no-store")
         self.end_headers()
         self.wfile.write(body)
-
-    def do_OPTIONS(self):
-        self.send_response(204)
-        self.send_header("access-control-allow-origin", "*")
-        self.send_header("access-control-allow-methods", "POST, OPTIONS")
-        self.send_header("access-control-allow-headers", "content-type")
-        self.end_headers()
 
     def do_POST(self):
         try:

@@ -201,7 +201,7 @@ window.__applyTheme = function (v) {
 
   var load = handle
     ? Promise.all([fetch('../catalog.json').then(function (r) { return r.json(); }),
-                   fetch(K.DATA + '/u/' + handle + '.json').then(function (r) { if (!r.ok) throw 0; return r.json(); })])
+                   fetch(K.API + '/u?h=' + handle).then(function (r) { if (!r.ok) throw 0; return r.json(); })])
     : Promise.reject(0);
   load.then(function (res) {
     CAT = res[0]; P = res[1];

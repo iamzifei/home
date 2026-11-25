@@ -8,6 +8,8 @@
 from datetime import datetime, timezone
 
 OWNER = "iamzifei"
+# Keep index.json small however many odd ids people submit.
+MAX_APPS, MAX_SKILLS = 500, 300
 
 
 def build(profiles):
@@ -41,6 +43,6 @@ def build(profiles):
     return {
         "builtAt": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "people": people,
-        "apps": sorted(apps.values(), key=rank),
-        "skills": sorted(skills.values(), key=rank),
+        "apps": sorted(apps.values(), key=rank)[:MAX_APPS],
+        "skills": sorted(skills.values(), key=rank)[:MAX_SKILLS],
     }

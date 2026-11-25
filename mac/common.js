@@ -119,6 +119,8 @@
   var M = {
     /* Profiles and the hub index live in Vercel Blob, written by mac-api. */
     DATA: 'https://1yz29bdzoe7fwktz.public.blob.vercel-storage.com',
+    /* One profile, always the newest version (see mac-api/api/u.py). */
+    API: 'https://jamesai-mac-api.vercel.app/api',
     lang: pickLang(),
     LANGS: LANGS,
     S: function () { return STR[M.lang]; },
