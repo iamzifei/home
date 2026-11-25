@@ -256,25 +256,6 @@
    },
    "verified": false
   },
-  "com.github.GitHubClient": {
-   "name": "GitHub Desktop",
-   "icon": "github-desktop",
-   "cat": "dev",
-   "url": "https://desktop.github.com/",
-   "model": "open-source",
-   "price": {
-    "zh-Hans": "免费",
-    "zh-Hant": "免費",
-    "en": "Free"
-   },
-   "sortPrice": 0.0,
-   "desc": {
-    "zh-Hans": "图形化 Git 客户端",
-    "zh-Hant": "圖形化 Git 客戶端",
-    "en": "Visual Git client for GitHub repos"
-   },
-   "verified": false
-  },
   "org.jkiss.dbeaver.core.product": {
    "name": "DBeaver",
    "icon": "dbeaver",

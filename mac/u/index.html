@@ -65,7 +65,7 @@ window.__applyTheme = function (v) {
    --------------------------------------------------------------------------- */
 (function () {
   var K = window.MacKit;
-  var handle = (new URLSearchParams(location.search).get('h') || '').replace(/[^A-Za-z0-9-]/g, '');
+  var handle = (new URLSearchParams(location.search).get('h') || '').toLowerCase().replace(/[^a-z0-9-]/g, '');
   var state = { cat: 'all', freq: 'all', price: 'all', sort: 'use' };
   var P = null, CAT = null, APPS = [], MAXLOG = 1, DAY = 864e5;
 
@@ -102,7 +102,7 @@ window.__applyTheme = function (v) {
       '<span class="live"><i></i>' + K.esc(K.f(s.scanned, K.date(P.scannedAt))) + '</span>'
       + '<h1>' + K.esc(K.f(s.profileTitle, name)) + '</h1>'
       + '<p class="sub">' + K.esc(K.t(P.bio) || K.f(s.profileSub, name)) + '</p>'
-      + '<div class="who"><img src="https://github.com/' + K.esc(P.handle) + '.png?size=112" alt="" width="56" height="56">'
+      + '<div class="who">' + (P.github ? '<img src="https://github.com/' + K.esc(P.github) + '.png?size=112" alt="" width="56" height="56">' : '<span class="ico tile" style="width:56px;height:56px;border-radius:50%">' + K.esc((name || '?').charAt(0).toUpperCase()) + '</span>')
       + '<div><div class="name">' + K.esc(name) + '</div><div class="h">@' + K.esc(P.handle)
       + (P.x ? ' · <a href="https://x.com/' + K.esc(P.x) + '" rel="noopener">x.com/' + K.esc(P.x) + '</a>' : '') + '</div></div></div>'
       + '<div class="stats"><span><b>' + APPS.length + '</b>' + s.apps + '</span><span><b>' + K.num(total) + '</b>' + s.launches + '</span>'
@@ -201,7 +201,7 @@ window.__applyTheme = function (v) {
 
   var load = handle
     ? Promise.all([fetch('../catalog.json').then(function (r) { return r.json(); }),
-                   fetch('./' + handle + '.json').then(function (r) { if (!r.ok) throw 0; return r.json(); })])
+                   fetch(K.DATA + '/u/' + handle + '.json').then(function (r) { if (!r.ok) throw 0; return r.json(); })])
     : Promise.reject(0);
   load.then(function (res) {
     CAT = res[0]; P = res[1];
@@ -219,7 +219,7 @@ window.__applyTheme = function (v) {
     APPS.forEach(function (a) { a.tier = tier(a); });
     document.getElementById('filters').hidden = false;
     document.getElementById('notes').hidden = false;
-    var canon = document.createElement('link'); canon.rel = 'canonical'; canon.href = 'https://jamesai.dev/mac/u/?h=' + P.handle;
+    var canon = document.createElement('link'); canon.rel = 'canonical'; canon.href = 'https://jamesai.dev/mac/u/?h=' + encodeURIComponent(P.handle);
     document.head.appendChild(canon);
   }).catch(function () { P = null; }).then(function () { K.chrome(paintAll); });
 })();

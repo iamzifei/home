@@ -6,16 +6,17 @@ Outputs
                         price, one-line blurb (zh-Hans / zh-Hant / en).
                         Shared by every profile; apps nobody has catalogued
                         yet still render, just without a price or blurb.
-  mac/u/iamzifei.json   James's profile, scanned with the same code
-                        (mac/scan.py) that everyone else runs.
+  James's profile      scanned with the same code everyone runs (mac/scan.py)
+                        and published through the same API, using the edit
+                        key saved in ~/.config/jamesai/mac.json.
 
 Inputs
   mac/prices.json       hand-checked links, prices and blurbs.
   CATALOG below         which installed apps go into the catalog, with icon
                         slug and category. Icons live in mac/icons/<slug>.png.
 
-Run, then rebuild the hub index:
-    python3 scripts/build-mac-apps.py && python3 scripts/build-mac-index.py
+Run (commit + push afterwards if catalog.json changed):
+    python3 scripts/build-mac-apps.py
 
 Affiliate links: add "ref": "<url>" to an entry in mac/prices.json. Pages use
 it instead of "url", mark the link rel="sponsored", and show a disclosure.
@@ -29,7 +30,6 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 PRICES = ROOT / "mac" / "prices.json"
 CATALOG_OUT = ROOT / "mac" / "catalog.json"
-PROFILE_OUT = ROOT / "mac" / "u" / "iamzifei.json"
 PRICES_CHECKED = "2026-11-26"
 
 sys.path.insert(0, str(ROOT / "tools"))
@@ -180,14 +180,20 @@ def main():
             skills.append(s)
     from datetime import datetime, timezone
     profile = {
-        "v": 1, "handle": "iamzifei", "name": "James", "x": "JamesAI",
+        "v": 1, "handle": "iamzifei", "name": "James", "x": "JamesAI", "github": "iamzifei",
         "bio": tri("一个人做软件，在悉尼。这是我 Mac 上真正在用的东西。", "I build software on my own in Sydney. These are the apps I actually use.") | {"zh-Hant": "一個人做軟體，在雪梨。這是我 Mac 上真正在用的東西。"},
         "scannedAt": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "skillsDays": scan.SKILL_WINDOW_DAYS, "apps": apps, "skills": skills,
     }
-    PROFILE_OUT.parent.mkdir(parents=True, exist_ok=True)
-    PROFILE_OUT.write_text(json.dumps(profile, ensure_ascii=False, indent=1) + "\n")
-    print(f"catalog: {len(catalog)} apps · profile: {len(apps)} apps, {len(skills)} skills")
+    cfg = scan.load_config()
+    status, resp = scan.publish(profile, cfg)
+    if not resp.get("ok"):
+        sys.exit(f"publish failed ({status}): {resp}")
+    cfg.update({"handle": resp["handle"], "last": profile})
+    if resp.get("token"):
+        cfg["token"] = resp["token"]
+    scan.save_config(cfg)
+    print(f"catalog: {len(catalog)} apps · published {resp['url']}: {len(apps)} apps, {len(skills)} skills")
 
 
 if __name__ == "__main__":

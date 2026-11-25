@@ -66,11 +66,13 @@ python3 scripts/make-cards.py
 [jamesai.dev/mac](https://jamesai.dev/mac/) 是一个推荐站：每个人一页，推荐的分量来自
 macOS Spotlight 记下的真实打开次数（以诚实为准，不做第三方验证）。
 
-- 任何人：`curl -fsSL https://jamesai.dev/mac/scan.py | python3` → 本机勾选 → 用 GitHub 提 PR 加 `mac/u/<GitHub 用户名>.json`
-- PR 由 `.github/workflows/mac-profiles.yml` 校验（只能改自己名字的文件），人工合并；合并后自动重建 `mac/index.json`
-- 共享资料（官网、价格、简介、图标）：`mac/prices.json` + `scripts/build-mac-apps.py` → `mac/catalog.json`；联盟链接写在 `prices.json` 的 `ref` 字段
-- 我自己那页：`python3 scripts/build-mac-apps.py && python3 scripts/build-mac-index.py`
-- 测试：`python3 -m unittest discover -s tests`
+- **任何人一站式发布**：`curl -fsSL https://jamesai.dev/mac/scan.py | python3` → 浏览器里勾选 → 点「发布」→ 自动跳到自己的页面。不用注册；编辑密钥存在本机 `~/.config/jamesai/mac.json`，再跑一次就是更新
+- **数据**：每人资料和排行在 Vercel Blob（`u/<名字>.json`、`index.json`），由 `mac-api/`（Vercel 项目 `orris/jamesai-mac-api`）写入；页面直接从 Blob 读
+- **共享资料**（官网、价格、简介、图标）：`mac/prices.json` + `scripts/build-mac-apps.py` → `mac/catalog.json`；联盟链接写在 `prices.json` 的 `ref` 字段
+- **管理**：`python3 scripts/mac-admin.py list | delete <名字> | reindex`
+- **我自己那页**：`python3 scripts/build-mac-apps.py`（顺带重建 catalog，然后 commit + push）
+- **部署 API**：`cd mac-api && vercel deploy --prod --scope orris`
+- **测试**：`python3 -m unittest discover -s tests`
 
 ## 本地预览
 

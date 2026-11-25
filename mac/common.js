@@ -31,9 +31,9 @@
       people: '%s 人在用', totalOpens: '共打开 %s 次', skillUses: '共调用 %s 次',
       statPeople: '位推荐人', statApps: '个 App', statOpens: '次打开',
       personApps: '%s 个 App', personSkills: '%s 个技能', seePage: '看 TA 的页面 →',
-      joinTitle: '做你自己的这一页', joinSub: '在 Mac 的「终端」里粘贴这一行。它只在你电脑上扫描，然后打开一个本地页面让你勾选要公开哪些、写一句理由；你点「提交」之前，什么都不会离开你的电脑。',
-      joinSteps: ['粘贴命令，回车', '勾选、写理由', '用 GitHub 提交，审核后上线'], copy: '复制', copied: '已复制',
-      joinNote: '提交需要一个 GitHub 账号。用 Claude Code 的话，直接把这行发给它也行。',
+      joinTitle: '做你自己的这一页', joinSub: '在 Mac 的「终端」里粘贴这一行，回车。它只在你电脑上扫描，然后打开一个页面让你勾选要公开哪些、写一句理由。点「发布」，你的页面马上上线；以后再跑一次就是更新。',
+      joinSteps: ['粘贴命令，回车', '勾选、写理由', '点「发布」，马上上线'], copy: '复制', copied: '已复制',
+      joinNote: '不用注册账号。点「发布」之前，什么都不会离开你的电脑。用 Claude Code 的话，直接把这行发给它也行。',
       // profile
       profileTitle: '%s 的 Mac 软件', profileSub: '这些是 %s 的 Mac 上装着、并且真的在用的软件。打开次数和最近使用时间来自 macOS Spotlight 的记录。',
       scanned: '扫描于 %s', apps: '个 App', launches: '次打开', freeToUse: '个可免费用',
@@ -60,9 +60,9 @@
       people: '%s 人在用', totalOpens: '共開啟 %s 次', skillUses: '共呼叫 %s 次',
       statPeople: '位推薦人', statApps: '個 App', statOpens: '次開啟',
       personApps: '%s 個 App', personSkills: '%s 個技能', seePage: '看 TA 的頁面 →',
-      joinTitle: '做你自己的這一頁', joinSub: '在 Mac 的「終端機」裡貼上這一行。它只在你的電腦上掃描，然後開啟一個本機頁面讓你勾選要公開哪些、寫一句理由；在你按「提交」之前，什麼都不會離開你的電腦。',
-      joinSteps: ['貼上指令，按 Enter', '勾選、寫理由', '用 GitHub 提交，審核後上線'], copy: '複製', copied: '已複製',
-      joinNote: '提交需要一個 GitHub 帳號。用 Claude Code 的話，直接把這行傳給它也可以。',
+      joinTitle: '做你自己的這一頁', joinSub: '在 Mac 的「終端機」裡貼上這一行，按 Enter。它只在你的電腦上掃描，然後開啟一個頁面讓你勾選要公開哪些、寫一句理由。按「發佈」，你的頁面馬上上線；之後再跑一次就是更新。',
+      joinSteps: ['貼上指令，按 Enter', '勾選、寫理由', '按「發佈」，馬上上線'], copy: '複製', copied: '已複製',
+      joinNote: '不用註冊帳號。按「發佈」之前，什麼都不會離開你的電腦。用 Claude Code 的話，直接把這行傳給它也可以。',
       profileTitle: '%s 的 Mac 軟體', profileSub: '這些是 %s 的 Mac 上裝著、而且真的在用的軟體。開啟次數和最近使用時間來自 macOS Spotlight 的紀錄。',
       scanned: '掃描於 %s', apps: '個 App', launches: '次開啟', freeToUse: '個可免費用',
       skillsTitle: 'Claude Code 技能', skillsSub: '近 %s 天在 Claude Code 中實際呼叫的次數。', skillsUses: '呼叫 %s 次',
@@ -88,9 +88,9 @@
       people: '%s using', totalOpens: '%s opens', skillUses: '%s runs',
       statPeople: 'people', statApps: 'apps', statOpens: 'opens',
       personApps: '%s apps', personSkills: '%s skills', seePage: 'See their page →',
-      joinTitle: 'Make your own page', joinSub: 'Paste this line into Terminal on your Mac. It scans locally, then opens a page on your own machine where you tick what to share and add a reason. Nothing leaves your computer until you press Submit.',
-      joinSteps: ['Paste, press Return', 'Tick apps, add reasons', 'Submit with GitHub; live after review'], copy: 'Copy', copied: 'Copied',
-      joinNote: 'Submitting needs a GitHub account. Using Claude Code? Just hand it this line.',
+      joinTitle: 'Make your own page', joinSub: 'Paste this line into Terminal on your Mac and press Return. It scans locally, then opens a page where you tick what to share and say why. Press Publish and your page is live; run it again any time to update.',
+      joinSteps: ['Paste, press Return', 'Tick apps, add reasons', 'Press Publish — live instantly'], copy: 'Copy', copied: 'Copied',
+      joinNote: 'No sign-up. Nothing leaves your computer until you press Publish. Using Claude Code? Just hand it this line.',
       profileTitle: '%s’s Mac apps', profileSub: 'Apps installed on %s’s Mac and actually used. Launch counts and last-used dates come from macOS Spotlight.',
       scanned: 'Scanned %s', apps: 'apps', launches: 'launches', freeToUse: 'free to use',
       skillsTitle: 'Claude Code skills', skillsSub: 'Times each skill was actually run in Claude Code over the last %s days.', skillsUses: 'Run %s×',
@@ -117,6 +117,8 @@
   }
 
   var M = {
+    /* Profiles and the hub index live in Vercel Blob, written by mac-api. */
+    DATA: 'https://1yz29bdzoe7fwktz.public.blob.vercel-storage.com',
     lang: pickLang(),
     LANGS: LANGS,
     S: function () { return STR[M.lang]; },

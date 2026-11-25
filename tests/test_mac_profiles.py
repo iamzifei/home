@@ -1,25 +1,44 @@
-"""Tests for the jamesai.dev/mac profile pipeline.
+"""Tests for the jamesai.dev/mac submit pipeline (mac-api/macapi).
 
 Run:  python3 -m unittest discover -s tests
 """
-import importlib.util
 import json
-import tempfile
+import sys
 import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT / "mac-api"))
+
+from macapi.build_index import build  # noqa: E402
+from macapi.service import SubmitError, remove, submit  # noqa: E402
+from macapi.validate import check  # noqa: E402
 
 
-def load(name, rel):
-    spec = importlib.util.spec_from_file_location(name, ROOT / rel)
-    mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(mod)
-    return mod
+class FakeStore:
+    """In-memory stand-in for macapi.blob.Blob."""
 
+    def __init__(self):
+        self.files = {}
 
-validate = load("validate", "scripts/validate-mac-profile.py")
-index = load("index", "scripts/build-mac-index.py")
+    def put(self, path, data, content_type="application/json", overwrite=True):
+        if not overwrite and path in self.files:
+            raise RuntimeError("exists")
+        self.files[path] = data
+        return "mem://" + path
+
+    def list(self, prefix):
+        return [{"pathname": p, "url": "mem://" + p} for p in sorted(self.files) if p.startswith(prefix)]
+
+    def delete(self, urls):
+        for u in urls:
+            self.files.pop(u[len("mem://"):], None)
+
+    def get(self, url):
+        return self.files[url[len("mem://"):]]
+
+    def json(self, path):
+        return json.loads(self.files[path])
 
 
 def profile(**over):
@@ -34,110 +53,115 @@ def profile(**over):
 
 
 class ValidateTest(unittest.TestCase):
-    def run_check(self, p, filename=None, author=None):
-        with tempfile.TemporaryDirectory() as d:
-            f = Path(d) / (filename or f"{p.get('handle', 'x')}.json")
-            f.write_text(json.dumps(p))
-            return validate.check(f, author)
-
     def test_valid_profile_passes(self):
-        self.assertEqual(self.run_check(profile(), author="alice"), [])
+        self.assertEqual(check(profile()), [])
 
-    def test_owner_may_edit_anyone(self):
-        self.assertEqual(self.run_check(profile(), author="iamzifei"), [])
-
-    def test_other_author_rejected(self):
-        errs = self.run_check(profile(), author="mallory")
-        self.assertTrue(any("can only submit" in e for e in errs))
-
-    def test_filename_must_match_handle(self):
-        errs = self.run_check(profile(), filename="bob.json")
-        self.assertTrue(any("must be named" in e for e in errs))
+    def test_uppercase_handle_rejected(self):
+        self.assertTrue(check(profile(handle="Alice")))
 
     def test_unknown_field_rejected(self):
-        errs = self.run_check(profile(website="https://spam.example"))
-        self.assertTrue(any("unknown fields" in e for e in errs))
+        self.assertTrue(any("unknown fields" in e for e in check(profile(website="https://spam.example"))))
 
     def test_app_limits(self):
         too_many = [{"id": f"a.{i}", "name": "x", "uses": 1, "last": None} for i in range(61)]
-        self.assertTrue(self.run_check(profile(apps=too_many)))
-        self.assertTrue(self.run_check(profile(apps=[{"id": "a", "name": "x", "uses": -1}])))
-        self.assertTrue(self.run_check(profile(apps=[{"id": "a", "name": "x", "note": "y" * 141}])))
+        self.assertTrue(check(profile(apps=too_many)))
+        self.assertTrue(check(profile(apps=[{"id": "a", "name": "x", "uses": -1}])))
+        self.assertTrue(check(profile(apps=[{"id": "a", "name": "x", "uses": True}])))
+        self.assertTrue(check(profile(apps=[{"id": "a", "name": "x", "note": "y" * 141}])))
 
-    def test_duplicate_app_rejected(self):
+    def test_duplicate_and_prototype_ids_rejected(self):
         a = {"id": "a", "name": "x", "uses": 1}
-        errs = self.run_check(profile(apps=[a, dict(a)]))
-        self.assertTrue(any("duplicate" in e for e in errs))
+        self.assertTrue(any("duplicate" in e for e in check(profile(apps=[a, dict(a)]))))
+        self.assertTrue(any("bad id" in e for e in check(profile(apps=[{"id": "__proto__", "name": "x"}]))))
+
+    def test_trailing_newline_rejected(self):
+        self.assertTrue(check(profile(x="ab\n")))
+        self.assertTrue(check(profile(handle="alice\n")))
 
     def test_skill_url_must_be_github(self):
-        errs = self.run_check(profile(skills=[{"name": "x", "uses": 1, "url": "https://evil.example"}]))
-        self.assertTrue(any("github.com" in e for e in errs))
+        self.assertTrue(check(profile(skills=[{"name": "x", "uses": 1, "url": "javascript:alert(1)"}])))
 
-    def test_trailing_newline_handle_rejected(self):
-        errs = self.run_check(profile(x="ab\n"))
-        self.assertTrue(any("x:" in e for e in errs))
 
-    def test_prototype_id_rejected(self):
-        errs = self.run_check(profile(apps=[{"id": "__proto__", "name": "x", "uses": 1}]))
-        self.assertTrue(any("bad id" in e for e in errs))
+class SubmitTest(unittest.TestCase):
+    def test_first_submit_claims_handle_and_returns_token(self):
+        s = FakeStore()
+        r = submit(s, {"profile": profile()})
+        self.assertTrue(r["new"])
+        self.assertGreater(len(r["token"]), 30)
+        self.assertEqual(s.json("u/alice.json")["name"], "Alice")
+        self.assertNotIn(r["token"].encode(), s.files["owners/alice.txt"])  # only the hash is stored
+        self.assertEqual(s.json("index.json")["people"][0]["handle"], "alice")
 
-    def test_missing_file_is_failure(self):
-        import subprocess, sys
-        r = subprocess.run([sys.executable, str(ROOT / "scripts/validate-mac-profile.py"), "mac/u/does-not-exist.json"],
-                           capture_output=True, text=True)
-        self.assertEqual(r.returncode, 1)
+    def test_handle_is_lowercased(self):
+        s = FakeStore()
+        self.assertEqual(submit(s, {"profile": profile(handle="  Alice ")})["handle"], "alice")
 
-    def test_cannot_delete_others_profile(self):
-        import os, subprocess, sys
-        cmd = [sys.executable, str(ROOT / "scripts/validate-mac-profile.py"), "--deleted", "mac/u/bob.json"]
-        env = dict(os.environ, PR_AUTHOR="mallory")
-        self.assertEqual(subprocess.run(cmd, env=env, capture_output=True).returncode, 1)
-        env["PR_AUTHOR"] = "bob"
-        self.assertEqual(subprocess.run(cmd, env=env, capture_output=True).returncode, 0)
+    def test_update_needs_the_token(self):
+        s = FakeStore()
+        tok = submit(s, {"profile": profile()})["token"]
+        with self.assertRaises(SubmitError) as e:
+            submit(s, {"profile": profile(name="Mallory")})
+        self.assertEqual(e.exception.code, "handle_taken")
+        with self.assertRaises(SubmitError):
+            submit(s, {"profile": profile(name="Mallory"), "token": "guess"})
+        r = submit(s, {"profile": profile(name="Alice 2"), "token": tok})
+        self.assertFalse(r["new"])
+        self.assertNotIn("token", r)
+        self.assertEqual(s.json("u/alice.json")["name"], "Alice 2")
 
-    def test_owner_profile_on_disk_is_valid(self):
-        f = ROOT / "mac" / "u" / "iamzifei.json"
-        self.assertEqual(validate.check(f, "iamzifei"), [])
+    def test_invalid_profile_stores_nothing(self):
+        s = FakeStore()
+        with self.assertRaises(SubmitError) as e:
+            submit(s, {"profile": profile(apps=[])})
+        self.assertEqual(e.exception.status, 422)
+        self.assertEqual(s.files, {})
+
+    def test_index_counts_everyone(self):
+        s = FakeStore()
+        submit(s, {"profile": profile(handle="alice")})
+        submit(s, {"profile": profile(handle="bob", apps=[{"id": "com.google.Chrome", "name": "C", "uses": 5}])})
+        idx = s.json("index.json")
+        self.assertEqual(idx["apps"][0], {"id": "com.google.Chrome", "name": "Google Chrome", "people": 2, "uses": 17})
+        self.assertEqual(len(idx["people"]), 2)
+
+    def test_corrupt_stored_profile_skipped(self):
+        s = FakeStore()
+        s.files["u/broken.json"] = b"{not json"
+        submit(s, {"profile": profile()})
+        self.assertEqual([p["handle"] for p in s.json("index.json")["people"]], ["alice"])
+
+    def test_remove(self):
+        s = FakeStore()
+        submit(s, {"profile": profile()})
+        self.assertEqual(remove(s, "alice"), 2)
+        self.assertEqual(s.json("index.json")["people"], [])
 
 
 class IndexTest(unittest.TestCase):
     def test_ranks_by_people_then_uses(self):
-        with tempfile.TemporaryDirectory() as d:
-            u = Path(d) / "u"
-            u.mkdir()
-            a = profile(handle="alice", apps=[{"id": "x", "name": "X", "uses": 5}, {"id": "y", "name": "Y", "uses": 900}])
-            b = profile(handle="bob", apps=[{"id": "x", "name": "X", "uses": 7}])
-            (u / "alice.json").write_text(json.dumps(a))
-            (u / "bob.json").write_text(json.dumps(b))
-            index.PROFILES, index.OUT = u, Path(d) / "index.json"
-            index.main()
-            out = json.loads(index.OUT.read_text())
+        a = profile(handle="alice", apps=[{"id": "x", "name": "X", "uses": 5}, {"id": "y", "name": "Y", "uses": 900}])
+        b = profile(handle="bob", apps=[{"id": "x", "name": "X", "uses": 7}])
+        out = build([a, b])
         self.assertEqual([r["id"] for r in out["apps"]], ["x", "y"])  # 2 people beats 900 launches
-        self.assertEqual(out["apps"][0], {"id": "x", "name": "X", "people": 2, "uses": 12})
-        self.assertEqual(out["skills"][0]["people"], 2)
         self.assertEqual(out["people"][0]["handle"], "alice")  # more apps first
 
     def test_skill_url_only_from_owner(self):
-        with tempfile.TemporaryDirectory() as d:
-            u = Path(d) / "u"
-            u.mkdir()
-            evil = profile(handle="mallory", skills=[{"name": "commit", "uses": 1, "url": "https://github.com/mallory/x"}])
-            (u / "mallory.json").write_text(json.dumps(evil))
-            index.PROFILES, index.OUT = u, Path(d) / "index.json"
-            index.main()
-            out = json.loads(index.OUT.read_text())
-        self.assertNotIn("url", out["skills"][0])
+        evil = profile(handle="mallory", skills=[{"name": "commit", "uses": 1, "url": "https://github.com/mallory/x"}])
+        self.assertNotIn("url", build([evil])["skills"][0])
+        own = profile(handle="iamzifei", skills=[{"name": "commit", "uses": 1, "url": "https://github.com/iamzifei/x"}])
+        self.assertEqual(build([own])["skills"][0]["url"], "https://github.com/iamzifei/x")
 
-    def test_invalid_profile_skipped_not_fatal(self):
-        with tempfile.TemporaryDirectory() as d:
-            u = Path(d) / "u"
-            u.mkdir()
-            (u / "broken.json").write_text("{not json")
-            (u / "alice.json").write_text(json.dumps(profile()))
-            index.PROFILES, index.OUT = u, Path(d) / "index.json"
-            index.main()
-            out = json.loads(index.OUT.read_text())
-        self.assertEqual([p["handle"] for p in out["people"]], ["alice"])
+
+class ScannerTest(unittest.TestCase):
+    """The scanner and the API must agree on which app ids are valid."""
+
+    def test_valid_id_rule_matches_validator(self):
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("scan", ROOT / "mac" / "scan.py")
+        scan = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(scan)
+        from macapi import validate
+        self.assertEqual(scan.VALID_ID.pattern, validate.APP_ID.pattern)
 
 
 if __name__ == "__main__":
