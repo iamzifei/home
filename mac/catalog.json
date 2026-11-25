@@ -848,7 +848,8 @@
     "zh-Hant": "圖片批次壓縮",
     "en": "Batch image compression for the Mac"
    },
-   "verified": false
+   "verified": false,
+   "ref": "https://zipic.app/?atp=jamesai"
   },
   "org.blenderfoundation.blender": {
    "name": "Blender",
