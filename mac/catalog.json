@@ -688,7 +688,8 @@
     "zh-Hant": "截圖錄屏標註工具",
     "en": "Screenshots, screen recording and annotation"
    },
-   "verified": false
+   "verified": false,
+   "ref": "https://go.cleanshot.com/jamesai"
   },
   "app.fif7y.Pelmet": {
    "name": "Dimble",
