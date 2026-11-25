@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>我 Mac 上真正在用的软件 · James AI</title>
+<meta name="description" content="James 的 Mac 上装着、并且真的在用的软件：打开次数来自 macOS Spotlight 的实测记录，附官网链接与价格。Mac apps James actually uses, ranked by real launch counts, with official links and prices.">
+<link rel="canonical" href="https://jamesai.dev/mac/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="James AI">
+<meta property="og:title" content="我 Mac 上真正在用的软件 · James AI">
+<meta property="og:description" content="按 macOS 实测打开次数排序的 Mac 软件清单，附官网与价格。">
+<meta property="og:url" content="https://jamesai.dev/mac/">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@JamesAI">
+<link rel="icon" href="icons/ghostty.png">
+<script>
+/* Day / night before first paint. Same storage key as the rest of
+   jamesai.dev ('jamesai.press'), so one setting covers every page. */
+(function () {
+  var dark = false, v = 'system';
+  try { v = localStorage.getItem('jamesai.press') || 'system'; } catch (e) {}
+  if (v === 'night') dark = true;
+  else if (v === 'system') { try { dark = matchMedia('(prefers-color-scheme: dark)').matches; } catch (e) {} }
+  document.documentElement.setAttribute('data-press', dark ? 'night' : 'day');
+})();
+</script>
+<style>
+/* Tokens: the same paper + cobalt + terracotta values as site.css, so this
+   page reads as part of jamesai.dev. Layout borrows the quiet card grid of a
+   deals page: one row of filters, one grid, no chrome. */
+:root {
+  color-scheme: light;
+  --g0: #F5F1E8; --g1: #EDE8DC; --g2: #FAF8F2;
+  --ink: #12255E; --ink2: #3D4C7B; --ink3: #616C8E; --rule: #C6CBD9;
+  --accent: #C65F38; --accent-text: #A94A26;
+  --card: #FFFDF8;
+  --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Songti SC", "STSong", "Noto Serif SC", serif;
+  --sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+  --ease: cubic-bezier(.16, 1, .3, 1);
+}
+:root[data-press="night"] {
+  color-scheme: dark;
+  --g0: #14161C; --g1: #1B1E27; --g2: #0F1116;
+  --ink: #ECE8DF; --ink2: #AEB6CC; --ink3: #8B93A8; --rule: #333849;
+  --accent: #E0784B; --accent-text: #E89468;
+  --card: #1A1D25;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; text-autospace: normal; }
+body { background: var(--g0); color: var(--ink); font: 15px/1.6 var(--sans); -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+.wrap { width: min(100% - 32px, 1180px); margin: 0 auto; }
+
+/* top bar */
+.bar { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; font-size: 13px; color: var(--ink3); }
+.bar a:hover { color: var(--ink); }
+.bar .tools { display: flex; gap: 14px; }
+.bar button { font-size: 13px; color: var(--ink3); }
+.bar button:hover { color: var(--ink); }
+
+/* head */
+header.hero { padding: 48px 0 28px; }
+.live { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; letter-spacing: .04em; color: var(--ink3); }
+.live i { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent); }
+h1 { font: 600 clamp(32px, 5.2vw, 52px)/1.12 var(--serif); letter-spacing: -.01em; margin: 14px 0 12px; }
+:lang(zh-Hans) h1 { letter-spacing: .02em; }
+.sub { color: var(--ink2); max-width: 36em; font-size: 16px; }
+.stats { display: flex; flex-wrap: wrap; gap: 8px 28px; margin-top: 22px; font-size: 13px; color: var(--ink3); }
+.stats b { color: var(--ink); font: 600 20px/1 var(--serif); margin-right: 6px; font-variant-numeric: tabular-nums; }
+
+/* filters */
+.filters { position: sticky; top: 0; z-index: 5; background: color-mix(in srgb, var(--g0) 92%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: 12px 0; border-bottom: 1px solid var(--rule); }
+.row { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding: 3px 0; }
+.row::-webkit-scrollbar { display: none; }
+.row + .row { margin-top: 6px; }
+.row .lab { flex: none; font-size: 12px; color: var(--ink3); padding: 6px 6px 6px 0; min-width: 34px; }
+.chip { flex: none; font-size: 13px; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--rule); color: var(--ink2); background: transparent; transition: background .2s, color .2s, border-color .2s; white-space: nowrap; }
+.chip:hover { border-color: var(--ink3); color: var(--ink); }
+.chip[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--g0); }
+.chip small { opacity: .6; margin-left: 4px; font-size: 11px; }
+.sortrow { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 8px; font-size: 13px; color: var(--ink3); }
+.sortrow select { font: inherit; color: var(--ink); background: transparent; border: 1px solid var(--rule); border-radius: 8px; padding: 4px 8px; }
+
+/* grid + cards */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; padding: 22px 0 40px; }
+.card { position: relative; display: flex; flex-direction: column; gap: 12px; background: var(--card); border: 1px solid var(--rule); border-radius: 14px; padding: 18px; transition: transform .35s var(--ease), box-shadow .35s var(--ease), border-color .2s; }
+.card:hover { transform: translateY(-2px); border-color: var(--ink3); box-shadow: 0 10px 30px -18px rgba(18, 37, 94, .45); }
+.top { display: flex; gap: 14px; align-items: center; }
+.top img { width: 52px; height: 52px; flex: none; }
+.meta { font-size: 12px; color: var(--ink3); display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.meta .hot { color: var(--accent-text); font-weight: 600; }
+.name { font-weight: 600; font-size: 16px; line-height: 1.3; margin-top: 2px; }
+.desc { color: var(--ink2); font-size: 13.5px; line-height: 1.6; flex: 1; }
+.use { display: flex; align-items: center; gap: 10px; font-size: 12px; color: var(--ink3); font-variant-numeric: tabular-nums; }
+.use { flex-wrap: wrap; row-gap: 6px; }
+.use .track { flex: 0 0 100%; order: 2; height: 4px; border-radius: 2px; background: var(--g1); overflow: hidden; }
+.use .fill { display: block; height: 100%; background: var(--ink2); border-radius: 2px; }
+.foot { display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed var(--rule); padding-top: 12px; }
+.price { font-weight: 600; font-size: 14px; }
+.price small { display: block; font-weight: 400; color: var(--ink3); font-size: 11.5px; }
+.go { font-size: 13px; padding: 6px 12px; border-radius: 999px; background: var(--ink); color: var(--g0); transition: background .2s; white-space: nowrap; }
+.card:hover .go { background: var(--accent); }
+.card a.cover { position: absolute; inset: 0; border-radius: 14px; }
+.mine { position: absolute; top: 14px; right: 14px; font-size: 11px; color: var(--accent-text); border: 1px solid currentColor; border-radius: 999px; padding: 1px 8px; }
+.empty { grid-column: 1 / -1; text-align: center; color: var(--ink3); padding: 60px 0; }
+
+/* method + next */
+.notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; padding-bottom: 40px; }
+.note { border: 1px solid var(--rule); border-radius: 14px; padding: 22px; background: var(--g2); }
+.note h2 { font: 600 20px/1.3 var(--serif); margin-bottom: 10px; }
+.note p, .note li { color: var(--ink2); font-size: 14px; }
+.note ul { padding-left: 1.1em; margin-top: 6px; }
+.note code, .note pre { font: 12.5px/1.6 var(--mono); }
+.note pre { background: var(--g1); border-radius: 8px; padding: 10px 12px; margin-top: 10px; overflow-x: auto; color: var(--ink); }
+footer { border-top: 1px solid var(--rule); padding: 22px 0 40px; font-size: 12.5px; color: var(--ink3); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+footer a { text-decoration: underline; text-underline-offset: 3px; }
+
+@media (max-width: 560px) {
+  header.hero { padding-top: 24px; }
+  .grid { grid-template-columns: 1fr; gap: 10px; }
+  .card { padding: 16px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="bar">
+    <a href="/">← jamesai.dev</a>
+    <div class="tools">
+      <button id="lang" type="button">EN</button>
+      <button id="mode" type="button" aria-label="Toggle dark mode">◐</button>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <span class="live"><i></i><span data-t="live"></span></span>
+    <h1 data-t="title"></h1>
+    <p class="sub" data-t="sub"></p>
+    <div class="stats" id="stats"></div>
+  </header>
+</div>
+
+<div class="filters">
+  <div class="wrap">
+    <div class="row" id="f-cat"></div>
+    <div class="row" id="f-freq"></div>
+    <div class="row" id="f-price"></div>
+    <div class="sortrow">
+      <span id="count"></span>
+      <label><span data-t="sort"></span>
+        <select id="sort"></select>
+      </label>
+    </div>
+  </div>
+</div>
+
+<main class="wrap">
+  <div class="grid" id="grid"></div>
+
+  <section class="notes">
+    <div class="note">
+      <h2 data-t="howTitle"></h2>
+      <p data-t="how"></p>
+      <pre>mdls -name kMDItemUseCount -name kMDItemLastUsedDate /Applications/*.app</pre>
+    </div>
+    <div class="note">
+      <h2 data-t="nextTitle"></h2>
+      <p data-t="next"></p>
+      <ul>
+        <li data-t="next1"></li>
+        <li data-t="next2"></li>
+        <li data-t="next3"></li>
+      </ul>
+    </div>
+  </section>
+</main>
+
+<div class="wrap">
+  <footer>
+    <span data-t="foot"></span>
+    <span><a href="/">jamesai.dev</a> · <a href="https://x.com/JamesAI">@JamesAI</a></span>
+  </footer>
+</div>
+
+<script src="apps.js?v=1"></script>
+<script>
+/* ---------------------------------------------------------------------------
+   Rendering. All content lives in apps.js (window.MAC = { scannedAt, apps }).
+   Each app carries its raw Spotlight launch count and last-used date; the
+   frequency tier is derived here from those two numbers so the rule is
+   visible in one place and never hand-edited per app.
+   --------------------------------------------------------------------------- */
+(function () {
+  var D = window.MAC, APPS = D.apps;
+  var COPY = {
+    zh: {
+      live: '实测数据 · 扫描于 %s',
+      title: '我 Mac 上真正在用的软件',
+      sub: '不是「推荐清单」，是我这台 Mac 的真实记录：每个 App 被打开了多少次、最近一次是什么时候，都来自 macOS Spotlight。附官网和价格，挑你用得上的。',
+      apps: '个 App', launches: '次打开', free: '个可免费用',
+      sort: '排序 ', count: '%s 个',
+      all: '全部', freqLab: '频率', priceLab: '价格', catLab: '分类',
+      sorts: { use: '打开次数', recent: '最近使用', name: '名称', price: '价格低到高' },
+      freq: { daily: '天天开', week: '本周用过', month: '本月用过', idle: '装着备用' },
+      model: { free: '免费', freemium: '免费 + 付费版', 'one-time': '买断', subscription: '订阅', 'open-source': '开源免费' },
+      cats: { ai: 'AI', dev: '开发', web: '浏览器', chat: '沟通', work: '效率', media: '影音设计', files: '存储传输', mine: '我做的' },
+      unverified: '以官网为准', opened: '打开 %s 次', never: '无打开记录', last: '最近 %s', site: '官网', mine: '我做的',
+      empty: '没有符合这些条件的 App。',
+      howTitle: '数据从哪来',
+      how: 'macOS 会为每个 App 记一个打开次数（kMDItemUseCount）和最近使用时间（kMDItemLastUsedDate）。这页就是把它原样读出来。注意：一直挂在后台不关的 App（比如 Claude、菜单栏工具）打开次数会偏低，次数衡量的是「启动」，不是「使用时长」。价格以官网为准。',
+      nextTitle: '下一步：每个人一页',
+      next: '想把它做成一个推荐站：每个人有自己的一页，推荐的不是「我觉得好」，而是「我真的在用」。',
+      next1: '一条命令在本机扫描，数据只留在你电脑上，你挑要公开哪些再发布',
+      next2: '打开次数作为证据，就像营收要接 Stripe 才算数',
+      next3: '不止 Mac App，也包括 Claude Code 技能和 AI 工具',
+      foot: '数据：James 的 MacBook · macOS Spotlight 实测 · 价格核对于 %s，以官网为准'
+    },
+    en: {
+      live: 'Measured · scanned %s',
+      title: 'The Mac apps I actually use',
+      sub: 'Not a list of recommendations — a record. How many times each app was opened and when it was last used come straight from macOS Spotlight on my Mac. With official links and prices.',
+      apps: 'apps', launches: 'launches', free: 'free to use',
+      sort: 'Sort ', count: '%s apps',
+      all: 'All', freqLab: 'Use', priceLab: 'Price', catLab: 'Type',
+      sorts: { use: 'Most opened', recent: 'Recently used', name: 'Name', price: 'Price: low to high' },
+      freq: { daily: 'Every day', week: 'This week', month: 'This month', idle: 'Installed, idle' },
+      model: { free: 'Free', freemium: 'Free + paid', 'one-time': 'One-time', subscription: 'Subscription', 'open-source': 'Open source' },
+      cats: { ai: 'AI', dev: 'Developer', web: 'Browsers', chat: 'Communication', work: 'Productivity', media: 'Media & design', files: 'Files & sync', mine: 'Made by me' },
+      unverified: 'check site', opened: 'Opened %s×', never: 'No launch record', last: 'last %s', site: 'Website', mine: 'Mine',
+      empty: 'No apps match these filters.',
+      howTitle: 'Where the numbers come from',
+      how: 'macOS keeps a launch count (kMDItemUseCount) and a last-used date (kMDItemLastUsedDate) for every app. This page reads them as they are. Apps that stay open all day (Claude, menu-bar tools) show low counts: it measures launches, not hours. Prices are as listed on each official site.',
+      nextTitle: 'Next: a page for everyone',
+      next: 'I want to turn this into a recommendation site where everyone gets a page — not “what I like” but “what I actually use”.',
+      next1: 'One command scans your Mac locally; you choose what to publish',
+      next2: 'Launch counts as evidence, the way revenue counts only when Stripe says so',
+      next3: 'Not only Mac apps — Claude Code skills and AI tools too',
+      foot: 'Data: James’s MacBook · macOS Spotlight · prices checked %s, see official sites'
+    }
+  };
+
+  /* Language: same storage key as the homepage ('press.lang'); ?lang= wins. */
+  var lang = 'zh';
+  try {
+    var q = new URLSearchParams(location.search).get('lang');
+    var s = q || localStorage.getItem('press.lang') || 'system';
+    if (s === 'en') lang = 'en';
+    else if (s === 'system' && !/^zh/i.test(navigator.language || '')) lang = 'en';
+  } catch (e) {}
+
+  var state = { cat: 'all', freq: 'all', price: 'all', sort: 'use' };
+  var scanned = new Date(D.scannedAt);
+  var DAY = 864e5;
+
+  /* Tier rule, in one place: 200+ launches = every day; otherwise by how
+     recently it was last opened relative to the scan. */
+  function tier(a) {
+    if (a.uses == null || !a.last) return 'idle';
+    if (a.uses >= 200) return 'daily';
+    var age = (scanned - new Date(a.last)) / DAY;
+    if (age <= 7) return 'week';
+    if (age <= 30) return 'month';
+    return 'idle';
+  }
+  APPS.forEach(function (a) { a.tier = tier(a); });
+
+  function C() { return COPY[lang]; }
+  function f(s, v) { return s.replace('%s', v); }
+  function txt(v) { return typeof v === 'string' ? v : (v[lang] || v.zh); }
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function fmtDate(d) {
+    var x = new Date(d);
+    return lang === 'zh' ? (x.getMonth() + 1) + '月' + x.getDate() + '日'
+      : x.toLocaleDateString('en-AU', { day: 'numeric', month: 'short' });
+  }
+  function priceModel(a) { return a.model === 'open-source' ? 'free' : a.model; }
+
+  /* Log scale so 11,000 launches and 20 launches are both readable. */
+  var MAXLOG = Math.log10(Math.max.apply(null, APPS.map(function (a) { return a.uses || 1; })) + 1);
+
+  function chips(el, label, key, opts) {
+    var html = '<span class="lab">' + label + '</span>';
+    opts.forEach(function (o) {
+      html += '<button class="chip" type="button" data-k="' + key + '" data-v="' + o[0] + '" aria-pressed="' + (state[key] === o[0]) + '">'
+        + esc(o[1]) + (o[2] != null ? '<small>' + o[2] + '</small>' : '') + '</button>';
+    });
+    el.innerHTML = html;
+  }
+  function countBy(key, v) {
+    return APPS.filter(function (a) {
+      return key === 'cat' ? a.cat === v : key === 'freq' ? a.tier === v : priceModel(a) === v;
+    }).length;
+  }
+
+  function paintChrome() {
+    var c = C();
+    document.documentElement.lang = lang === 'zh' ? 'zh-Hans' : 'en';
+    document.title = c.title + ' · James AI';
+    document.querySelectorAll('[data-t]').forEach(function (el) {
+      var k = el.getAttribute('data-t'), v = c[k];
+      if (k === 'live') v = f(v, fmtDate(D.scannedAt));
+      if (k === 'foot') v = f(v, fmtDate(D.pricesCheckedAt));
+      el.textContent = v;
+    });
+    document.getElementById('lang').textContent = lang === 'zh' ? 'EN' : '中文';
+    var total = APPS.reduce(function (s, a) { return s + (a.uses || 0); }, 0);
+    var free = APPS.filter(function (a) { return a.model === 'free' || a.model === 'open-source' || a.model === 'freemium'; }).length;
+    document.getElementById('stats').innerHTML =
+      '<span><b>' + APPS.length + '</b>' + c.apps + '</span>' +
+      '<span><b>' + total.toLocaleString() + '</b>' + c.launches + '</span>' +
+      '<span><b>' + free + '</b>' + c.free + '</span>';
+
+    chips(document.getElementById('f-cat'), c.catLab, 'cat',
+      [['all', c.all, APPS.length]].concat(Object.keys(c.cats).map(function (k) { return [k, c.cats[k], countBy('cat', k)]; })));
+    chips(document.getElementById('f-freq'), c.freqLab, 'freq',
+      [['all', c.all, null]].concat(Object.keys(c.freq).map(function (k) { return [k, c.freq[k], countBy('freq', k)]; })));
+    chips(document.getElementById('f-price'), c.priceLab, 'price',
+      [['all', c.all, null], ['free', c.model.free, countBy('price', 'free')], ['freemium', c.model.freemium, countBy('price', 'freemium')],
+       ['one-time', c.model['one-time'], countBy('price', 'one-time')], ['subscription', c.model.subscription, countBy('price', 'subscription')]]);
+    var sel = document.getElementById('sort');
+    sel.innerHTML = Object.keys(c.sorts).map(function (k) {
+      return '<option value="' + k + '"' + (state.sort === k ? ' selected' : '') + '>' + c.sorts[k] + '</option>';
+    }).join('');
+  }
+
+  function paintGrid() {
+    var c = C();
+    var list = APPS.filter(function (a) {
+      return (state.cat === 'all' || a.cat === state.cat)
+        && (state.freq === 'all' || a.tier === state.freq)
+        && (state.price === 'all' || priceModel(a) === state.price);
+    });
+    list.sort(function (a, b) {
+      if (state.sort === 'name') return txt(a.name).localeCompare(txt(b.name));
+      if (state.sort === 'recent') return (b.last ? +new Date(b.last) : 0) - (a.last ? +new Date(a.last) : 0);
+      if (state.sort === 'price') return (a.sortPrice || 0) - (b.sortPrice || 0) || (b.uses || 0) - (a.uses || 0);
+      return (b.uses || 0) - (a.uses || 0);
+    });
+    document.getElementById('count').textContent = f(c.count, list.length);
+    var grid = document.getElementById('grid');
+    if (!list.length) { grid.innerHTML = '<p class="empty">' + c.empty + '</p>'; return; }
+    grid.innerHTML = list.map(function (a) {
+      var pct = a.uses ? Math.max(4, Math.round(Math.log10(a.uses + 1) / MAXLOG * 100)) : 0;
+      var useLine = a.uses
+        ? f(c.opened, a.uses.toLocaleString()) + ' · ' + f(c.last, fmtDate(a.last))
+        : c.never;
+      return '<article class="card">'
+        + (a.cat === 'mine' ? '<span class="mine">' + c.mine + '</span>' : '')
+        + '<div class="top"><img src="icons/' + a.icon + '.png" alt="" width="52" height="52" loading="lazy">'
+        + '<div><div class="meta"><span>' + esc(c.cats[a.cat]) + '</span><span>·</span>'
+        + '<span class="' + (a.tier === 'daily' ? 'hot' : '') + '">' + esc(c.freq[a.tier]) + '</span></div>'
+        + '<div class="name">' + esc(txt(a.name)) + '</div></div></div>'
+        + '<p class="desc">' + esc(txt(a.desc)) + '</p>'
+        + '<div class="use"><span class="track"><span class="fill" style="width:' + pct + '%"></span></span><span>' + useLine + '</span></div>'
+        + '<div class="foot"><div class="price">' + esc(txt(a.price)) + '<small>' + (a.model === 'free' ? '' : esc(c.model[a.model])) + (a.verified || a.model === 'free' || a.model === 'open-source' ? '' : ' · ' + c.unverified) + '</small></div>'
+        + '<span class="go">' + c.site + ' ↗</span></div>'
+        + '<a class="cover" href="' + esc(a.url) + '" target="_blank" rel="noopener" aria-label="' + esc(txt(a.name)) + ' — ' + c.site + '"></a>'
+        + '</article>';
+    }).join('');
+  }
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('.chip');
+    if (b) { state[b.dataset.k] = b.dataset.v; paintChrome(); paintGrid(); }
+  });
+  document.getElementById('sort').addEventListener('change', function (e) { state.sort = e.target.value; paintGrid(); });
+  document.getElementById('lang').addEventListener('click', function () {
+    lang = lang === 'zh' ? 'en' : 'zh';
+    try { localStorage.setItem('press.lang', lang === 'zh' ? 'zh-Hans' : 'en'); } catch (e) {}
+    paintChrome(); paintGrid();
+  });
+  document.getElementById('mode').addEventListener('click', function () {
+    var night = document.documentElement.getAttribute('data-press') !== 'night';
+    document.documentElement.setAttribute('data-press', night ? 'night' : 'day');
+    try { localStorage.setItem('jamesai.press', night ? 'night' : 'day'); } catch (e) {}
+  });
+
+  paintChrome(); paintGrid();
+})();
+</script>
+</body>
+</html>

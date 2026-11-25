@@ -1,0 +1,689 @@
+[
+ {
+  "name": "ChatGPT",
+  "url": "https://openai.com/codex/",
+  "model": "freemium",
+  "price": "$20/mo Plus",
+  "priceNote": "Codex included with ChatGPT plans; Pro $200/mo",
+  "zh": "OpenAI 的 ChatGPT 与 Codex 桌面端",
+  "en": "OpenAI's desktop app for ChatGPT and Codex agents",
+  "verified": false,
+  "display": {
+   "zh": "ChatGPT / Codex",
+   "en": "ChatGPT / Codex"
+  },
+  "sortPrice": 20.0,
+  "priceZh": "$20/月 Plus"
+ },
+ {
+  "name": "Claude",
+  "url": "https://claude.ai/download",
+  "model": "freemium",
+  "price": "$20/mo Pro",
+  "priceNote": "$17/mo billed yearly; Max from $100/mo",
+  "zh": "Anthropic 的 Claude 桌面端",
+  "en": "Anthropic's Claude assistant for desktop",
+  "verified": false,
+  "sortPrice": 20.0,
+  "priceZh": "$20/月 Pro"
+ },
+ {
+  "name": "Doubao",
+  "url": "https://www.doubao.com/",
+  "model": "free",
+  "price": "Free",
+  "zh": "字节跳动的 AI 助手",
+  "en": "ByteDance's AI assistant for chat, writing and search",
+  "verified": false,
+  "display": {
+   "zh": "豆包",
+   "en": "Doubao"
+  },
+  "sortPrice": 0,
+  "priceZh": "免费"
+ },
+ {
+  "name": "Cherry Studio",
+  "url": "https://www.cherry-ai.com/",
+  "model": "open-source",
+  "price": "Free",
+  "priceNote": "Bring your own model API keys",
+  "zh": "多模型 AI 对话客户端",
+  "en": "Desktop client for chatting with many LLM providers",
+  "verified": false,
+  "sortPrice": 0,
+  "priceZh": "免费"
+ },
+ {
+  "name": "T3 Code",
+  "url": "https://t3.codes/",
+  "model": "open-source",
+  "price": "Free",
+  "priceNote": "Uses your existing Claude Code / Codex subscriptions",
+  "zh": "多个编程智能体的统一桌面前端",
+  "en": "Desktop front end for your coding agents",
+  "verified": true,
+  "sortPrice": 0,
+  "priceZh": "免费"
+ },
+ {
+  "name": "WorkBuddy",
+  "url": "https://www.tencentcloud.com/products/workbuddy",
+  "model": "freemium",
+  "price": "~$9.95/mo Pro",
+  "priceNote": "Third-party figure; China edition priced in ¥ with credit packs; pricing changed several times in 2026",
+  "zh": "腾讯的办公 AI 智能体",
+  "en": "Tencent's desktop AI agent for office work",
+  "verified": false,
+  "sortPrice": 9.95,
+  "priceZh": "约 $9.95/月 Pro"
+ },
+ {
+  "name": "Typeless",
+  "url": "https://www.typeless.com/",
+  "model": "freemium",
+  "price": "$12/mo Pro (yearly)",
+  "priceNote": "$30/mo billed monthly; free tier has a weekly word cap",
+  "zh": "AI 语音输入，说话即成文",
+  "en": "AI voice dictation that turns speech into clean text",
+  "verified": true,
+  "sortPrice": 12.0,
+  "priceZh": "$12/月 Pro（按年付）"
+ },
+ {
+  "name": "ChatCut",
+  "url": "https://chatcut.io/",
+  "model": "freemium",
+  "price": "$25/mo",
+  "priceNote": "Credit-based; free plan with 20 one-time credits",
+  "zh": "用对话剪视频的 AI 剪辑器",
+  "en": "AI video editor you drive by chatting",
+  "verified": true,
+  "sortPrice": 25.0,
+  "priceZh": "$25/月"
+ },
+ {
+  "name": "CodexBar",
+  "url": "https://github.com/steipete/CodexBar",
+  "model": "open-source",
+  "price": "Free",
+  "zh": "菜单栏查看 AI 编程用量",
+  "en": "Menu bar meter for Codex/Claude Code usage limits",
+  "verified": true,
+  "sortPrice": 0,
+  "priceZh": "免费"
+ },
+ {
+  "name": "Grok",
+  "url": "https://grok.com/",
+  "model": "freemium",
+  "price": "$30/mo SuperGrok",
+  "zh": "xAI 的 Grok 助手桌面端",
+  "en": "xAI's Grok assistant on the desktop",
+  "verified": false,
+  "sortPrice": 30.0,
+  "priceZh": "$30/月 SuperGrok"
+ },
+ {
+  "name": "Ghostty",
+  "url": "https://ghostty.org/",
+  "model": "open-source",
+  "price": "Free",
+  "zh": "快速原生的终端",
+  "en": "Fast, native, GPU-accelerated terminal",
+  "verified": false,
+  "sortPrice": 0,
+  "priceZh": "免费"
+ },
+ {
+  "name": "Xcode",
+  "url": "https://developer.apple.com/xcode/",
+  "model": "free",
+  "price": "Free",
+  "zh": "苹果官方开发工具",
+  "en": "Apple's IDE for building Apple-platform apps",
+  "verified": false,
+  "sortPrice": 0,
+  "priceZh": "免费"
+ },
+ {
+  "name": "Termius",
+  "url": "https://termius.com/",
+  "model": "freemium",
+  "price": "$10/mo Pro (yearly)",
+  "zh": "跨设备 SSH 客户端",
+  "en": "SSH client with hosts synced across devices",
+  "verified": false,
+  "sortPrice": 10.0,
+  "priceZh": "$10/月 Pro（按年付）"
+ },
+ {
+  "name": "Visual Studio Code",
+  "url": "https://code.visualstudio.com/",
+  "model": "free",
+  "price": "Free",
+  "zh": "微软的代码编辑器",
+  "en": "Microsoft's extensible code editor",
+  "verified": false,
+  "sortPrice": 0,
+  "priceZh": "免费"
+ },
+ {
+  "name": "GitHub Desktop",
+  "url": "https://desktop.github.com/",
+  "model": "open-source",
+  "price": "Free",
+  "zh": "图形化 Git 客户端",
+  "en": "Visual Git client for GitHub repos",
+  "verified": false,
+  "sortPrice": 0,
+  "priceZh": "免费"
+ },
+ {
+  "name": "DBeaver",
+  "url": "https://dbeaver.io/",
+  "model": "open-source",
+  "price": "Free",
+  "priceNote": "Community edition; paid Pro editions exist",
+  "zh": "通用数据库管理工具",
+  "en": "Universal database client and SQL editor",
+  "verified": false,
+  "sortPrice": 0,
+  "priceZh": "免费"
+ },
+ {
+  "name": "Postgres.app",
+  "url": "https://postgresapp.com/",
+  "model": "open-source",
+  "price": "Free",
+  "zh": "一键运行本地 PostgreSQL",
+  "en": "Run PostgreSQL locally with one click",
+  "verified": false,
+  "sortPrice": 0,
+  "priceZh": "免费"
+ },
+ {
+  "name": "Apifox",
+  "url": "https://apifox.com/",
+  "model": "freemium",
+  "price": "Free",
+  "priceNote": "Free for individuals; paid team plans",
+  "zh": "API 设计调试测试一体工具",
+  "en": "API design, debugging, mocking and testing in one",
+  "verified": false,
+  "sortPrice": 0,
+  "priceZh": "免费"
+ },
+ {
+  "name": "Tailscale",
+  "url": "https://tailscale.com/",
+  "model": "freemium",
+  "price": "Free (Personal)",
+  "zh": "零配置组建私有网络",
+  "en": "Zero-config private network across your devices",
+  "verified": false,
+  "sortPrice": 0,
+  "priceZh": "个人免费"
+ },
+ {
+  "name": "Kaku",
+  "url": "https://github.com/tw93/Kaku",
+  "model": "open-source",
+  "price": "Free",
+  "zh": "为 AI 编程准备的终端",
+  "en": "Out-of-the-box macOS terminal built for AI coding",
+  "verified": true,
+  "sortPrice": 0,
+  "priceZh": "免费"
+ },
+ {
+  "name": "Dia",
+  "url": "https://www.diabrowser.com/",
+  "model": "freemium",
+  "price": "$20/mo Pro",
+  "priceNote": "Price from Aug 2025 launch coverage",
+  "zh": "内置 AI 的浏览器",
+  "en": "AI-first web browser from The Browser Company",
+  "verified": false,
+  "sortPrice": 20.0,
+  "priceZh": "$20/月 Pro"
+ },
+ {
+  "name": "Google Chrome",
+  "url": "https://www.google.com/chrome/",
+  "model": "free",
+  "price": "Free",
+  "zh": "谷歌浏览器",
+  "en": "Google's web browser",
+  "verified": false,
+  "sortPrice": 0,
+  "priceZh": "免费"
+ },
+ {
+  "name": "WeChat",
+  "url": "https://mac.weixin.qq.com/",
+  "model": "free",
+  "price": "Free",
+  "zh": "微信电脑版",
+  "en": "WeChat messaging on the Mac",
+  "verified": false,
+  "display": {
+   "zh": "微信",
+   "en": "WeChat"
+  },
+  "sortPrice": 0,
+  "priceZh": "免费"
+ },
+ {
+  "name": "Telegram",
+  "url": "https://telegram.org/",
+  "model": "freemium",
+  "price": "Free",
+  "priceNote": "Premium ~$4.99/mo",
+  "zh": "云端同步的即时通讯",
+  "en": "Fast, cloud-synced messaging",
+  "verified": false,
+  "sortPrice": 0,
+  "priceZh": "免费"
+ },
+ {
+  "name": "WhatsApp",
+  "url": "https://www.whatsapp.com/download",
+  "model": "free",
+  "price": "Free",
+  "zh": "WhatsApp 电脑版",
+  "en": "WhatsApp messaging on the Mac",
+  "verified": false,
+  "sortPrice": 0,
+  "priceZh": "免费"
+ },
+ {
+  "name": "Discord",
+  "url": "https://discord.com/",
+  "model": "freemium",
+  "price": "Free",
+  "priceNote": "Nitro $9.99/mo",
+  "zh": "社区语音与文字聊天",
+  "en": "Community voice, video and text chat",
+  "verified": false,
+  "sortPrice": 0,
+  "priceZh": "免费"
+ },
+ {
+  "name": "Lark",
+  "url": "https://www.feishu.cn/",
+  "model": "freemium",
+  "price": "Free",
+  "priceNote": "Paid business tiers",
+  "zh": "协同办公：消息文档会议",
+  "en": "All-in-one workspace: chat, docs, meetings",
+  "verified": false,
+  "display": {
+   "zh": "飞书 Lark",
+   "en": "Lark"
+  },
+  "sortPrice": 0,
+  "priceZh": "免费"
+ },
+ {
+  "name": "VooV Meeting",
+  "url": "https://meeting.tencent.com/",
+  "model": "freemium",
+  "price": "Free",
+  "zh": "腾讯的视频会议",
+  "en": "Tencent's video meetings app",
+  "verified": false,
+  "display": {
+   "zh": "腾讯会议 VooV",
+   "en": "VooV Meeting"
+  },
+  "sortPrice": 0,
+  "priceZh": "免费"
+ },
+ {
+  "name": "Zoom",
+  "url": "https://zoom.us/",
+  "model": "freemium",
+  "price": "~$15.99/mo Pro",
+  "priceNote": "Free tier with 40-min meetings",
+  "zh": "视频会议",
+  "en": "Video meetings and webinars",
+  "verified": false,
+  "sortPrice": 15.99,
+  "priceZh": "约 $15.99/月 Pro"
+ },
+ {
+  "name": "Slack",
+  "url": "https://slack.com/",
+  "model": "freemium",
+  "price": "$8.75/mo Pro",
+  "priceNote": "~$7.25/mo billed yearly",
+  "zh": "团队沟通工具",
+  "en": "Team messaging in channels",
+  "verified": false,
+  "sortPrice": 8.75,
+  "priceZh": "$8.75/月 Pro"
+ },
+ {
+  "name": "Obsidian",
+  "url": "https://obsidian.md/",
+  "model": "freemium",
+  "price": "Free",
+  "priceNote": "Sync $4/mo, Publish $8/mo (yearly)",
+  "zh": "本地 Markdown 笔记库",
+  "en": "Local-first Markdown notes and knowledge base",
+  "verified": false,
+  "sortPrice": 0,
+  "priceZh": "免费"
+ },
+ {
+  "name": "Enpass",
+  "url": "https://www.enpass.io/",
+  "model": "subscription",
+  "price": "~$1.99/mo (yearly)",
+  "priceNote": "Lifetime option also sold",
+  "zh": "本地存储的密码管理器",
+  "en": "Password manager that keeps vaults on your devices",
+  "verified": false,
+  "sortPrice": 1.99,
+  "priceZh": "约 $1.99/月（按年付）"
+ },
+ {
+  "name": "Youdao",
+  "url": "https://fanyi.youdao.com/",
+  "model": "freemium",
+  "price": "Free",
+  "priceNote": "VIP membership in ¥",
+  "zh": "网易有道词典与翻译",
+  "en": "NetEase Youdao dictionary and translator",
+  "verified": false,
+  "display": {
+   "zh": "网易有道翻译",
+   "en": "Youdao Translate"
+  },
+  "sortPrice": 0,
+  "priceZh": "免费"
+ },
+ {
+  "name": "Input Source Pro",
+  "url": "https://inputsource.pro/",
+  "model": "open-source",
+  "price": "Free",
+  "zh": "按应用自动切换输入法",
+  "en": "Auto-switch input sources per app or website",
+  "verified": true,
+  "sortPrice": 0,
+  "priceZh": "免费"
+ },
+ {
+  "name": "Keka",
+  "url": "https://www.keka.io/",
+  "model": "open-source",
+  "price": "Free",
+  "priceNote": "$4.99 on Mac App Store to support dev",
+  "zh": "压缩与解压工具",
+  "en": "File archiver for zip, 7z, rar and more",
+  "verified": false,
+  "sortPrice": 0,
+  "priceZh": "免费"
+ },
+ {
+  "name": "Amphetamine",
+  "url": "https://apps.apple.com/app/amphetamine/id937984704",
+  "model": "free",
+  "price": "Free",
+  "zh": "防止 Mac 休眠",
+  "en": "Keeps your Mac awake on your terms",
+  "verified": false,
+  "sortPrice": 0,
+  "priceZh": "免费"
+ },
+ {
+  "name": "CleanShot X",
+  "url": "https://cleanshot.com/",
+  "model": "one-time",
+  "price": "$29 one-time",
+  "priceNote": "Includes 1 year of updates; Cloud Pro subscription extra",
+  "zh": "截图录屏标注工具",
+  "en": "Screenshots, screen recording and annotation",
+  "verified": false,
+  "sortPrice": 2.42,
+  "priceZh": "$29 买断"
+ },
+ {
+  "name": "Movist",
+  "url": "https://movistprime.com/",
+  "model": "one-time",
+  "price": "~$7.99 one-time",
+  "priceNote": "Mac App Store",
+  "zh": "全能视频播放器",
+  "en": "Powerful video player for any format",
+  "verified": false,
+  "display": {
+   "zh": "Movist Pro",
+   "en": "Movist Pro"
+  },
+  "sortPrice": 0.67,
+  "priceZh": "约 $7.99 买断"
+ },
+ {
+  "name": "JianYing",
+  "url": "https://www.capcut.cn/",
+  "model": "freemium",
+  "price": "Free",
+  "priceNote": "VIP membership priced in ¥",
+  "zh": "剪映电脑版视频剪辑",
+  "en": "ByteDance's desktop video editor (CapCut CN)",
+  "verified": false,
+  "display": {
+   "zh": "剪映专业版",
+   "en": "JianYing Pro (CapCut CN)"
+  },
+  "sortPrice": 0,
+  "priceZh": "免费"
+ },
+ {
+  "name": "Canva",
+  "url": "https://www.canva.com/",
+  "model": "freemium",
+  "price": "$15/mo Pro",
+  "priceNote": "~$120/yr billed yearly",
+  "zh": "在线设计与模板",
+  "en": "Design anything from templates",
+  "verified": false,
+  "sortPrice": 15.0,
+  "priceZh": "$15/月 Pro"
+ },
+ {
+  "name": "Zipic",
+  "url": "https://zipic.app/",
+  "model": "freemium",
+  "price": "~$19.99 one-time",
+  "priceNote": "Free tier 25 images/day; official price page not reached, figures range $15-$29.99",
+  "zh": "图片批量压缩",
+  "en": "Batch image compression for the Mac",
+  "verified": false,
+  "sortPrice": 19.99,
+  "priceZh": "约 $19.99 买断"
+ },
+ {
+  "name": "Baidu Netdisk",
+  "url": "https://pan.baidu.com/",
+  "model": "freemium",
+  "price": "Free",
+  "priceNote": "SVIP ~¥30/mo (CNY)",
+  "zh": "百度云存储网盘",
+  "en": "Baidu cloud storage",
+  "verified": false,
+  "display": {
+   "zh": "百度网盘",
+   "en": "Baidu Netdisk"
+  },
+  "sortPrice": 0,
+  "priceZh": "免费"
+ },
+ {
+  "name": "Weiyun",
+  "url": "https://www.weiyun.com/",
+  "model": "freemium",
+  "price": "Free",
+  "priceNote": "Membership priced in ¥",
+  "zh": "腾讯云存储网盘",
+  "en": "Tencent cloud storage",
+  "verified": false,
+  "display": {
+   "zh": "腾讯微云",
+   "en": "Weiyun"
+  },
+  "sortPrice": 0,
+  "priceZh": "免费"
+ },
+ {
+  "name": "Dimble",
+  "url": "https://dimble.fif7y.com/",
+  "model": "open-source",
+  "price": "Free",
+  "priceNote": "GPL-3.0",
+  "zh": "安静整洁的菜单栏管理",
+  "en": "Hides and keeps your menu bar icons in order",
+  "verified": true,
+  "sortPrice": 0,
+  "priceZh": "免费"
+ },
+ {
+  "name": "Yosei",
+  "url": "https://yosei.app/",
+  "model": "free",
+  "price": "Free (beta)",
+  "priceNote": "Public beta via TestFlight",
+  "zh": "在 iPhone/iPad 远程用 Mac",
+  "en": "Use your Mac from an iPhone or iPad, anywhere",
+  "verified": false,
+  "sortPrice": 0,
+  "priceZh": "免费（公测）"
+ },
+ {
+  "name": "Blip",
+  "url": "https://blip.net/",
+  "model": "freemium",
+  "price": "$25/mo",
+  "priceNote": "Free Community tier with best-effort speed",
+  "zh": "任意大小文件直传",
+  "en": "Send files of any size straight to other devices",
+  "verified": true,
+  "sortPrice": 25.0,
+  "priceZh": "$25/月"
+ },
+ {
+  "name": "Openscreen",
+  "url": "https://github.com/siddharthvaddem/openscreen",
+  "model": "open-source",
+  "price": "Free",
+  "zh": "开源的演示录屏工具",
+  "en": "Free open-source Screen Studio alternative",
+  "verified": true,
+  "sortPrice": 0,
+  "priceZh": "免费"
+ },
+ {
+  "name": "Recordly",
+  "url": "https://github.com/webadderallorg/Recordly",
+  "model": "open-source",
+  "price": "Free",
+  "zh": "自动缩放的开源录屏",
+  "en": "Open-source recorder with auto-zoom and captions",
+  "verified": true,
+  "sortPrice": 0,
+  "priceZh": "免费"
+ },
+ {
+  "name": "Search",
+  "url": "https://officecommun.com/search",
+  "model": "open-source",
+  "price": "Free",
+  "priceNote": "Native WebKit browser by Paris studio Office Commun",
+  "zh": "轻量原生 Mac 浏览器",
+  "en": "Tiny, fast native WebKit browser",
+  "verified": true,
+  "sortPrice": 0,
+  "priceZh": "免费"
+ },
+ {
+  "name": "vivo",
+  "url": "https://pc.vivo.com.cn/",
+  "model": "free",
+  "price": "Free",
+  "zh": "vivo 手机与电脑互联",
+  "en": "Connects vivo phones with your computer",
+  "verified": false,
+  "display": {
+   "zh": "vivo 办公套件",
+   "en": "vivo PC Suite"
+  },
+  "sortPrice": 0,
+  "priceZh": "免费"
+ },
+ {
+  "name": "UURemote",
+  "url": "https://uuyc.163.com/",
+  "model": "freemium",
+  "price": "Free",
+  "priceNote": "Membership in ¥",
+  "zh": "低延迟远程控制电脑",
+  "en": "Low-latency remote desktop from NetEase",
+  "verified": false,
+  "display": {
+   "zh": "网易 UU 远程",
+   "en": "UU Remote"
+  },
+  "sortPrice": 0,
+  "priceZh": "免费"
+ },
+ {
+  "name": "Microsoft 365",
+  "url": "https://www.microsoft.com/microsoft-365",
+  "model": "subscription",
+  "price": "$9.99/mo Personal",
+  "priceNote": "$99.99/yr",
+  "zh": "Word、Excel、PPT 全家桶",
+  "en": "Word, Excel and PowerPoint",
+  "verified": false,
+  "sortPrice": 9.99,
+  "priceZh": "$9.99/月 Personal"
+ },
+ {
+  "name": "Zotero",
+  "url": "https://www.zotero.org/",
+  "model": "open-source",
+  "price": "Free",
+  "priceNote": "Extra storage paid",
+  "zh": "文献管理与引用",
+  "en": "Collect, organize and cite research",
+  "verified": false,
+  "sortPrice": 0,
+  "priceZh": "免费"
+ },
+ {
+  "name": "Blender",
+  "url": "https://www.blender.org/",
+  "model": "open-source",
+  "price": "Free",
+  "zh": "开源 3D 创作套件",
+  "en": "Open-source 3D creation suite",
+  "verified": false,
+  "sortPrice": 0,
+  "priceZh": "免费"
+ },
+ {
+  "name": "Antigravity",
+  "url": "https://antigravity.google/",
+  "model": "freemium",
+  "price": "Free",
+  "priceNote": "More quota via Google AI Pro ~$20/mo",
+  "zh": "谷歌的智能体 IDE",
+  "en": "Google's agent-first coding IDE",
+  "verified": true,
+  "sortPrice": 0,
+  "priceZh": "免费"
+ }
+]
