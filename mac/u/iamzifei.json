@@ -1,0 +1,406 @@
+{
+ "v": 1,
+ "handle": "iamzifei",
+ "name": "James",
+ "x": "JamesAI",
+ "bio": {
+  "zh-Hans": "一个人做软件，在悉尼。这是我 Mac 上真正在用的东西。",
+  "zh-Hant": "一個人做軟體，在雪梨。這是我 Mac 上真正在用的東西。",
+  "en": "I build software on my own in Sydney. These are the apps I actually use."
+ },
+ "scannedAt": "2026-11-25T13:46:48+00:00",
+ "skillsDays": 30,
+ "apps": [
+  {
+   "id": "com.openai.codex",
+   "name": "ChatGPT",
+   "uses": 813,
+   "last": "2026-11-23T09:32:02+00:00"
+  },
+  {
+   "id": "com.anthropic.claudefordesktop",
+   "name": "Claude",
+   "uses": 1,
+   "last": "2026-11-24T23:59:51+00:00"
+  },
+  {
+   "id": "com.bot.pc.doubao",
+   "name": "Doubao",
+   "uses": 4,
+   "last": "2026-11-16T04:38:59+00:00"
+  },
+  {
+   "id": "com.kangfenmao.CherryStudio",
+   "name": "Cherry Studio",
+   "uses": null,
+   "last": null
+  },
+  {
+   "id": "com.t3tools.t3code",
+   "name": "T3 Code (Beta)",
+   "uses": 2,
+   "last": "2026-11-25T12:39:54+00:00"
+  },
+  {
+   "id": "com.tencent.workbuddy.mac",
+   "name": "WorkBuddy",
+   "uses": 9,
+   "last": "2026-11-16T04:39:08+00:00"
+  },
+  {
+   "id": "io.chatcut.desktop",
+   "name": "ChatCut",
+   "uses": 57,
+   "last": "2026-11-24T06:08:44+00:00"
+  },
+  {
+   "id": "com.steipete.codexbar",
+   "name": "CodexBar",
+   "uses": 7,
+   "last": "2026-11-21T09:38:19+00:00"
+  },
+  {
+   "id": "com.anysphere.sand",
+   "name": "Grok Bot",
+   "uses": 7,
+   "last": "2026-11-19T07:57:50+00:00"
+  },
+  {
+   "id": "com.mitchellh.ghostty",
+   "name": "Ghostty",
+   "uses": 10490,
+   "last": "2026-11-25T13:46:33+00:00"
+  },
+  {
+   "id": "com.apple.dt.Xcode",
+   "name": "Xcode",
+   "uses": 2,
+   "last": "2026-11-18T08:01:13+00:00"
+  },
+  {
+   "id": "com.termius-dmg.mac",
+   "name": "Termius",
+   "uses": 36,
+   "last": "2026-11-01T09:51:13+00:00"
+  },
+  {
+   "id": "com.microsoft.VSCode",
+   "name": "Code",
+   "uses": null,
+   "last": null
+  },
+  {
+   "id": "com.github.GitHubClient",
+   "name": "GitHub Desktop",
+   "uses": null,
+   "last": null
+  },
+  {
+   "id": "org.jkiss.dbeaver.core.product",
+   "name": "DBeaver Community",
+   "uses": null,
+   "last": null
+  },
+  {
+   "id": "com.postgresapp.Postgres2",
+   "name": "Postgres",
+   "uses": null,
+   "last": null
+  },
+  {
+   "id": "cn.apifox.app",
+   "name": "Apifox",
+   "uses": null,
+   "last": null
+  },
+  {
+   "id": "io.tailscale.ipn.macsys",
+   "name": "Tailscale",
+   "uses": 13,
+   "last": "2026-11-16T07:33:40+00:00"
+  },
+  {
+   "id": "company.thebrowser.dia",
+   "name": "Dia",
+   "uses": 7010,
+   "last": "2026-11-21T03:50:46+00:00"
+  },
+  {
+   "id": "com.officecommun.search",
+   "name": "Search",
+   "uses": 770,
+   "last": "2026-11-25T13:46:27+00:00"
+  },
+  {
+   "id": "com.google.Chrome",
+   "name": "Google Chrome",
+   "uses": 1612,
+   "last": "2026-11-25T11:16:28+00:00"
+  },
+  {
+   "id": "com.tencent.xinWeChat",
+   "name": "WeChat",
+   "uses": 11227,
+   "last": "2026-11-25T13:46:23+00:00"
+  },
+  {
+   "id": "ru.keepcoder.Telegram",
+   "name": "Telegram",
+   "uses": 499,
+   "last": "2026-11-25T08:23:07+00:00"
+  },
+  {
+   "id": "net.whatsapp.WhatsApp",
+   "name": "‎WhatsApp",
+   "uses": 36,
+   "last": "2026-11-25T04:56:36+00:00"
+  },
+  {
+   "id": "com.hnc.Discord",
+   "name": "Discord",
+   "uses": 20,
+   "last": "2026-11-25T04:34:40+00:00"
+  },
+  {
+   "id": "com.electron.lark",
+   "name": "Lark",
+   "uses": 33,
+   "last": "2026-11-20T01:23:15+00:00"
+  },
+  {
+   "id": "com.tencent.tencentmeeting",
+   "name": "VooV Meeting",
+   "uses": 276,
+   "last": "2026-11-23T10:57:02+00:00"
+  },
+  {
+   "id": "us.zoom.xos",
+   "name": "zoom.us",
+   "uses": 46,
+   "last": "2026-11-19T14:01:35+00:00"
+  },
+  {
+   "id": "com.tinyspeck.slackmacgap",
+   "name": "Slack",
+   "uses": null,
+   "last": null
+  },
+  {
+   "id": "md.obsidian",
+   "name": "Obsidian",
+   "uses": 96,
+   "last": "2026-11-22T10:00:20+00:00"
+  },
+  {
+   "id": "in.sinew.Enpass-Desktop",
+   "name": "Enpass",
+   "uses": 343,
+   "last": "2026-11-25T04:50:06+00:00"
+  },
+  {
+   "id": "com.youdao.YoudaoDict",
+   "name": "网易有道翻译",
+   "uses": 11,
+   "last": "2026-11-01T11:44:36+00:00"
+  },
+  {
+   "id": "com.runjuu.Input-Source-Pro",
+   "name": "Input Source Pro",
+   "uses": 5,
+   "last": "2026-11-15T23:54:40+00:00"
+  },
+  {
+   "id": "com.aone.keka",
+   "name": "Keka",
+   "uses": 23,
+   "last": "2026-11-20T08:34:49+00:00"
+  },
+  {
+   "id": "com.if.Amphetamine",
+   "name": "Amphetamine",
+   "uses": 6,
+   "last": "2026-11-24T05:14:49+00:00"
+  },
+  {
+   "id": "pl.maketheweb.cleanshotx",
+   "name": "CleanShot X",
+   "uses": 2,
+   "last": "2026-11-25T04:57:30+00:00"
+  },
+  {
+   "id": "app.fif7y.Pelmet",
+   "name": "Dimble",
+   "uses": 3,
+   "last": "2026-11-18T04:39:18+00:00"
+  },
+  {
+   "id": "app.yosei.mac",
+   "name": "Yosei",
+   "uses": 1,
+   "last": "2026-11-20T23:48:02+00:00"
+  },
+  {
+   "id": "org.zotero.zotero",
+   "name": "Zotero",
+   "uses": null,
+   "last": null
+  },
+  {
+   "id": "com.microsoft.Word",
+   "name": "Microsoft Word",
+   "uses": null,
+   "last": null
+  },
+  {
+   "id": "com.movist.Movist",
+   "name": "Movist",
+   "uses": 119,
+   "last": "2026-11-25T11:28:48+00:00"
+  },
+  {
+   "id": "com.lemon.lvpro",
+   "name": "VideoFusion-macOS",
+   "uses": 64,
+   "last": "2026-11-04T13:04:48+00:00"
+  },
+  {
+   "id": "com.canva.CanvaDesktop",
+   "name": "Canva",
+   "uses": null,
+   "last": null
+  },
+  {
+   "id": "studio.5km.zipic",
+   "name": "Zipic",
+   "uses": null,
+   "last": null
+  },
+  {
+   "id": "org.blenderfoundation.blender",
+   "name": "Blender",
+   "uses": null,
+   "last": null
+  },
+  {
+   "id": "com.baidu.BaiduNetdisk-mac",
+   "name": "BaiduNetdisk_mac",
+   "uses": 6,
+   "last": "2026-11-20T10:20:28+00:00"
+  },
+  {
+   "id": "com.tencent.mac.weiyun",
+   "name": "Weiyun",
+   "uses": 6,
+   "last": "2026-10-06T13:40:37+00:00"
+  },
+  {
+   "id": "net.blip.macos",
+   "name": "Blip",
+   "uses": null,
+   "last": null
+  },
+  {
+   "id": "com.netease.uuremote",
+   "name": "UURemote",
+   "uses": 11,
+   "last": "2026-11-21T12:25:05+00:00"
+  },
+  {
+   "id": "com.vivo.pcsuite",
+   "name": "pcsuite",
+   "uses": 24,
+   "last": "2026-11-10T06:11:08+00:00"
+  },
+  {
+   "id": "com.james.ClipStack",
+   "name": "ClipStack",
+   "uses": 6,
+   "last": "2026-11-18T03:55:05+00:00"
+  },
+  {
+   "id": "com.iamzifei.audioswitch",
+   "name": "AudioSwitch",
+   "uses": 28,
+   "last": "2026-11-25T10:09:50+00:00"
+  },
+  {
+   "id": "dev.jamesai.tapper",
+   "name": "Tapper",
+   "uses": 53,
+   "last": "2026-11-18T02:34:47+00:00"
+  },
+  {
+   "id": "dev.jamesai.veil",
+   "name": "Veil",
+   "uses": 30,
+   "last": "2026-11-18T02:44:17+00:00"
+  },
+  {
+   "id": "com.candela.app",
+   "name": "Candela",
+   "uses": 2,
+   "last": "2026-11-18T02:44:27+00:00"
+  },
+  {
+   "id": "com.orris.inkstone",
+   "name": "Inkstone",
+   "uses": 2,
+   "last": "2026-11-20T15:52:10+00:00"
+  }
+ ],
+ "skills": [
+  {
+   "name": "humanizer-zh",
+   "uses": 17,
+   "url": "https://github.com/iamzifei/humanizer-zh"
+  },
+  {
+   "name": "seo-geo",
+   "uses": 16
+  },
+  {
+   "name": "james-web-ship",
+   "uses": 12
+  },
+  {
+   "name": "plan-anchor",
+   "uses": 10
+  },
+  {
+   "name": "openseo:seo-audit",
+   "uses": 10
+  },
+  {
+   "name": "aikey-cut",
+   "uses": 9
+  },
+  {
+   "name": "letsfinddomain-skill",
+   "uses": 8
+  },
+  {
+   "name": "aikey-cover",
+   "uses": 8
+  },
+  {
+   "name": "chatcut-talking-head-guide",
+   "uses": 6
+  },
+  {
+   "name": "aikey-title",
+   "uses": 6
+  },
+  {
+   "name": "impeccable:impeccable",
+   "uses": 6
+  },
+  {
+   "name": "lark-mail",
+   "uses": 4
+  },
+  {
+   "name": "article-pipeline",
+   "uses": 4
+  }
+ ]
+}

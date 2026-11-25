@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mac 软件 · James AI</title>
+<meta name="description" content="一个人的 Mac 上真正在用的软件：打开次数来自 macOS Spotlight 的实测记录，附官网与价格。">
+<meta property="og:type" content="profile">
+<meta property="og:site_name" content="James AI">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="../icons/ghostty.png">
+<script>
+/* Theme before first paint: auto / day / night, key shared with the homepage. */
+window.__applyTheme = function (v) {
+  var d = v === 'night';
+  if (v === 'system') { try { d = matchMedia('(prefers-color-scheme: dark)').matches; } catch (e) {} }
+  document.documentElement.setAttribute('data-press', d ? 'night' : 'day');
+};
+(function () { var v = 'system'; try { v = localStorage.getItem('jamesai.press') || 'system'; } catch (e) {} window.__applyTheme(v); })();
+</script>
+<link rel="stylesheet" href="../mac.css?v=2">
+</head>
+<body>
+<div class="wrap">
+  <div class="bar">
+    <nav><a href="/">jamesai.dev</a><a href="../" id="hub-link"></a></nav>
+    <div id="bar-tools"></div>
+  </div>
+  <header class="hero" id="hero"></header>
+</div>
+
+<div class="filters" id="filters" hidden>
+  <div class="wrap">
+    <div class="row" id="f-cat"></div>
+    <div class="row" id="f-freq"></div>
+    <div class="row" id="f-price"></div>
+    <div class="sortrow"><span id="count"></span><label><span id="sort-lab"></span><select id="sort"></select></label></div>
+  </div>
+</div>
+
+<main class="wrap">
+  <div class="grid" id="grid"></div>
+  <section id="skills-sec" hidden>
+    <h2 class="sec" id="skills-title"></h2>
+    <p class="sec" id="skills-sub"></p>
+    <ul class="skills" id="skills"></ul>
+  </section>
+  <section class="notes" id="notes" hidden>
+    <div class="note"><h2 id="how-title"></h2><p id="how"></p>
+      <pre>mdls -name kMDItemUseCount -name kMDItemLastUsedDate /Applications/*.app</pre></div>
+    <div class="note"><h2 id="join-title"></h2><p id="join-sub"></p>
+      <div class="cmd"><code id="cmd">curl -fsSL https://jamesai.dev/mac/scan.py | python3</code><button type="button" id="copy"></button></div></div>
+  </section>
+</main>
+
+<div class="wrap"><footer><span id="foot"></span><span><a href="/">jamesai.dev</a></span></footer></div>
+
+<script src="../common.js?v=2"></script>
+<script>
+/* ---------------------------------------------------------------------------
+   One person's page. Reads ?h=<github handle>, then loads:
+     ../catalog.json   shared app catalog (name, icon, link, price, blurb)
+     ./<handle>.json   that person's scanned apps + skills
+   Apps not yet in the catalog still render, with a letter tile and no price.
+   --------------------------------------------------------------------------- */
+(function () {
+  var K = window.MacKit;
+  var handle = (new URLSearchParams(location.search).get('h') || '').replace(/[^A-Za-z0-9-]/g, '');
+  var state = { cat: 'all', freq: 'all', price: 'all', sort: 'use' };
+  var P = null, CAT = null, APPS = [], MAXLOG = 1, DAY = 864e5;
+
+  /* Frequency tier, in one place: 200+ launches = every day; otherwise by
+     how recently it was last opened relative to the scan date. */
+  function tier(a) {
+    if (a.uses == null || !a.last) return 'idle';
+    if (a.uses >= 200) return 'daily';
+    var age = (new Date(P.scannedAt) - new Date(a.last)) / DAY;
+    return age <= 7 ? 'week' : age <= 30 ? 'month' : 'idle';
+  }
+  function priceKey(a) { return a.model === 'open-source' ? 'free' : a.model; }
+  function icon(a, cls) {
+    return a.icon ? '<img class="' + cls + '" src="../icons/' + a.icon + '.png" alt="" loading="lazy">'
+      : '<span class="' + cls + ' tile">' + K.esc((K.t(a.name) || '?').trim().charAt(0).toUpperCase()) + '</span>';
+  }
+
+  function chips(el, label, key, opts) {
+    el.innerHTML = '<span class="lab">' + label + '</span>' + opts.map(function (o) {
+      return '<button class="chip" type="button" data-k="' + key + '" data-v="' + o[0] + '" aria-pressed="' + (state[key] === o[0]) + '">'
+        + K.esc(o[1]) + (o[2] != null ? '<small>' + o[2] + '</small>' : '') + '</button>';
+    }).join('');
+  }
+  function countBy(key, v) {
+    return APPS.filter(function (a) { return key === 'cat' ? a.cat === v : key === 'freq' ? a.tier === v : priceKey(a) === v; }).length;
+  }
+
+  function paintHero() {
+    var s = K.S(), name = K.t(P.name) || P.handle;
+    document.title = K.f(s.profileTitle, name) + ' · James AI';
+    var total = APPS.reduce(function (n, a) { return n + (a.uses || 0); }, 0);
+    var free = APPS.filter(function (a) { return a.model && a.model !== 'subscription' && a.model !== 'one-time'; }).length;
+    document.getElementById('hero').innerHTML =
+      '<span class="live"><i></i>' + K.esc(K.f(s.scanned, K.date(P.scannedAt))) + '</span>'
+      + '<h1>' + K.esc(K.f(s.profileTitle, name)) + '</h1>'
+      + '<p class="sub">' + K.esc(K.t(P.bio) || K.f(s.profileSub, name)) + '</p>'
+      + '<div class="who"><img src="https://github.com/' + K.esc(P.handle) + '.png?size=112" alt="" width="56" height="56">'
+      + '<div><div class="name">' + K.esc(name) + '</div><div class="h">@' + K.esc(P.handle)
+      + (P.x ? ' · <a href="https://x.com/' + K.esc(P.x) + '" rel="noopener">x.com/' + K.esc(P.x) + '</a>' : '') + '</div></div></div>'
+      + '<div class="stats"><span><b>' + APPS.length + '</b>' + s.apps + '</span><span><b>' + K.num(total) + '</b>' + s.launches + '</span>'
+      + '<span><b>' + free + '</b>' + s.freeToUse + '</span></div>';
+  }
+
+  function paintFilters() {
+    var s = K.S();
+    var cats = Object.keys(s.cats).filter(function (k) { return countBy('cat', k); });
+    chips(document.getElementById('f-cat'), s.catLab, 'cat', [['all', s.all, APPS.length]].concat(cats.map(function (k) { return [k, s.cats[k], countBy('cat', k)]; })));
+    chips(document.getElementById('f-freq'), s.freqLab, 'freq', [['all', s.all, null]].concat(Object.keys(s.freq).filter(function (k) { return countBy('freq', k); }).map(function (k) { return [k, s.freq[k], countBy('freq', k)]; })));
+    chips(document.getElementById('f-price'), s.priceLab, 'price', [['all', s.all, null]].concat(['free', 'freemium', 'one-time', 'subscription'].filter(function (k) { return countBy('price', k); }).map(function (k) { return [k, s.priceFilter[k], countBy('price', k)]; })));
+    document.getElementById('sort-lab').textContent = s.sort;
+    document.getElementById('sort').innerHTML = Object.keys(s.sorts).map(function (k) {
+      return '<option value="' + k + '"' + (state.sort === k ? ' selected' : '') + '>' + s.sorts[k] + '</option>';
+    }).join('');
+  }
+
+  function paintGrid() {
+    var s = K.S();
+    var list = APPS.filter(function (a) {
+      return (state.cat === 'all' || a.cat === state.cat) && (state.freq === 'all' || a.tier === state.freq)
+        && (state.price === 'all' || priceKey(a) === state.price);
+    }).sort(function (a, b) {
+      if (state.sort === 'name') return K.t(a.name).localeCompare(K.t(b.name));
+      if (state.sort === 'recent') return (b.last ? +new Date(b.last) : 0) - (a.last ? +new Date(a.last) : 0);
+      if (state.sort === 'price') return (a.sortPrice == null ? 1e9 : a.sortPrice) - (b.sortPrice == null ? 1e9 : b.sortPrice) || (b.uses || 0) - (a.uses || 0);
+      return (b.uses || 0) - (a.uses || 0);
+    });
+    document.getElementById('count').textContent = K.f(s.count, list.length);
+    var grid = document.getElementById('grid');
+    if (!list.length) { grid.innerHTML = '<p class="empty">' + s.empty + '</p>'; return; }
+    grid.innerHTML = list.map(function (a) {
+      var pct = a.uses ? Math.max(4, Math.round(Math.log10(a.uses + 1) / MAXLOG * 100)) : 0;
+      var useLine = a.uses ? K.f(s.opened, K.num(a.uses)) + ' · ' + K.f(s.last, K.shortDate(a.last)) : s.never;
+      var link = a.ref || a.url;
+      var priceSmall = a.model ? ((a.model === 'free' ? '' : s.model[a.model]) + (a.verified || a.model === 'free' || a.model === 'open-source' ? '' : ' · ' + s.unverified)) : '';
+      return '<article class="card">'
+        + (a.cat === 'mine' ? '<span class="badge">' + s.cats.mine + '</span>' : '')
+        + '<div class="top">' + icon(a, 'ico')
+        + '<div><div class="meta"><span>' + K.esc(s.cats[a.cat] || s.cats.other) + '</span><span>·</span>'
+        + '<span class="' + (a.tier === 'daily' ? 'hot' : '') + '">' + K.esc(s.freq[a.tier]) + '</span></div>'
+        + '<div class="name">' + K.esc(K.t(a.name)) + '</div></div></div>'
+        + (a.note ? '<p class="note-q">' + K.esc(a.note) + '</p>' : '')
+        + '<p class="desc">' + K.esc(K.t(a.desc)) + '</p>'
+        + '<div class="use"><span class="track"><span class="fill" style="width:' + pct + '%"></span></span><span>' + useLine + '</span></div>'
+        + '<div class="foot"><div class="price">' + K.esc(a.price ? K.t(a.price) : s.unknownPrice) + (priceSmall ? '<small>' + K.esc(priceSmall) + '</small>' : '') + '</div>'
+        + (link ? '<span class="go">' + s.site + ' ↗</span>' : '') + '</div>'
+        + (link ? '<a class="cover" href="' + K.esc(link) + '" target="_blank" rel="' + (a.ref ? 'sponsored ' : '') + 'noopener" aria-label="' + K.esc(K.t(a.name)) + '"></a>' : '')
+        + '</article>';
+    }).join('');
+  }
+
+  function paintSkills() {
+    var s = K.S(), sk = (P.skills || []).slice().sort(function (a, b) { return (b.uses || 0) - (a.uses || 0); });
+    document.getElementById('skills-sec').hidden = !sk.length;
+    if (!sk.length) return;
+    document.getElementById('skills-title').textContent = s.skillsTitle;
+    document.getElementById('skills-sub').textContent = K.f(s.skillsSub, P.skillsDays || 30);
+    var max = Math.log10(Math.max.apply(null, sk.map(function (x) { return x.uses || 1; })) + 1);
+    document.getElementById('skills').innerHTML = sk.map(function (x) {
+      var pct = Math.max(4, Math.round(Math.log10((x.uses || 0) + 1) / max * 100));
+      return '<li><div class="nm">' + (x.url ? '<a href="' + K.esc(x.url) + '" rel="noopener" target="_blank">' + K.esc(x.name) + '</a>' : K.esc(x.name)) + '</div>'
+        + (x.note ? '<p class="note-q">' + K.esc(x.note) + '</p>' : '')
+        + '<div class="use"><span class="track"><span class="fill" style="width:' + pct + '%"></span></span><span>' + K.f(s.skillsUses, K.num(x.uses)) + '</span></div></li>';
+    }).join('');
+  }
+
+  function paintAll() {
+    var s = K.S();
+    document.getElementById('hub-link').textContent = s.hubLink;
+    if (!P) {
+      document.getElementById('hero').innerHTML = '<h1>' + s.notFound + '</h1><p class="sub">' + s.notFoundSub + '</p><p style="margin-top:18px"><a class="go" href="../">' + s.back + '</a></p>';
+      return;
+    }
+    paintHero(); paintFilters(); paintGrid(); paintSkills();
+    document.getElementById('how-title').textContent = s.howTitle;
+    document.getElementById('how').textContent = s.how;
+    document.getElementById('join-title').textContent = s.joinTitle;
+    document.getElementById('join-sub').textContent = s.joinSub;
+    document.getElementById('copy').textContent = s.copy;
+    var anyRef = APPS.some(function (a) { return a.ref; });
+    document.getElementById('foot').textContent = (anyRef ? s.affiliate + ' ' : '') + K.f(s.foot, K.date(CAT.checkedAt));
+  }
+
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('.chip');
+    if (b) { state[b.dataset.k] = b.dataset.v; paintFilters(); paintGrid(); }
+  });
+  document.getElementById('sort').addEventListener('change', function (e) { state.sort = e.target.value; paintGrid(); });
+  document.getElementById('copy').addEventListener('click', function () {
+    var btn = this;
+    try { navigator.clipboard.writeText(document.getElementById('cmd').textContent); } catch (e) {}
+    btn.textContent = K.S().copied; setTimeout(function () { btn.textContent = K.S().copy; }, 1500);
+  });
+
+  var load = handle
+    ? Promise.all([fetch('../catalog.json').then(function (r) { return r.json(); }),
+                   fetch('./' + handle + '.json').then(function (r) { if (!r.ok) throw 0; return r.json(); })])
+    : Promise.reject(0);
+  load.then(function (res) {
+    CAT = res[0]; P = res[1];
+    /* Merge each scanned app with its catalog entry (catalog wins on facts,
+       the person's file wins on uses/last/note). */
+    APPS = (P.apps || []).map(function (a) {
+      var c = K.own(CAT.apps, a.id) || {};
+      return {
+        id: a.id, name: c.name || a.name, icon: c.icon, cat: c.cat || a.cat || 'other',
+        url: c.url, ref: c.ref, model: c.model, price: c.price, sortPrice: c.sortPrice, desc: c.desc, verified: c.verified,
+        uses: a.uses, last: a.last, note: a.note
+      };
+    });
+    MAXLOG = Math.log10(Math.max.apply(null, APPS.map(function (a) { return a.uses || 1; })) + 1);
+    APPS.forEach(function (a) { a.tier = tier(a); });
+    document.getElementById('filters').hidden = false;
+    document.getElementById('notes').hidden = false;
+    var canon = document.createElement('link'); canon.rel = 'canonical'; canon.href = 'https://jamesai.dev/mac/u/?h=' + P.handle;
+    document.head.appendChild(canon);
+  }).catch(function () { P = null; }).then(function () { K.chrome(paintAll); });
+})();
+</script>
+</body>
+</html>

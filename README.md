@@ -61,6 +61,17 @@ python3 scripts/make-cards.py
 它把任意比例的截图放到 1600×1000 的渐变背景上居中，加一层投影，
 这样竖版面板和横版窗口并排时高度一致、观感统一。
 
+## /mac：大家真正在用的 Mac 软件
+
+[jamesai.dev/mac](https://jamesai.dev/mac/) 是一个推荐站：每个人一页，推荐的分量来自
+macOS Spotlight 记下的真实打开次数（以诚实为准，不做第三方验证）。
+
+- 任何人：`curl -fsSL https://jamesai.dev/mac/scan.py | python3` → 本机勾选 → 用 GitHub 提 PR 加 `mac/u/<GitHub 用户名>.json`
+- PR 由 `.github/workflows/mac-profiles.yml` 校验（只能改自己名字的文件），人工合并；合并后自动重建 `mac/index.json`
+- 共享资料（官网、价格、简介、图标）：`mac/prices.json` + `scripts/build-mac-apps.py` → `mac/catalog.json`；联盟链接写在 `prices.json` 的 `ref` 字段
+- 我自己那页：`python3 scripts/build-mac-apps.py && python3 scripts/build-mac-index.py`
+- 测试：`python3 -m unittest discover -s tests`
+
 ## 本地预览
 
 ```bash

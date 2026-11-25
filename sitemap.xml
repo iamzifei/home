@@ -66,7 +66,16 @@
   </url>
   <url>
     <loc>https://jamesai.dev/mac/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://jamesai.dev/mac/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://jamesai.dev/mac/?lang=zh-Hans"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://jamesai.dev/mac/?lang=zh-Hant"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://jamesai.dev/mac/"/>
     <lastmod>2026-11-26</lastmod>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://jamesai.dev/mac/u/?h=iamzifei</loc>
+    <lastmod>2026-11-26</lastmod>
+    <priority>0.6</priority>
   </url>
 </urlset>
