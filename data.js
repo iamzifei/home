@@ -31,7 +31,7 @@ const CATEGORIES = [
         /* Homebrew cask in iamzifei/tap; product.html shows `brew install --cask <brew>`. */
         brew: "iamzifei/tap/clipstack",
         name: "ClipStack",
-        stars: 5,
+        stars: 4,
         shot: "assets/shot-clipstack.webp",
         /* There are .mp4 and .webm siblings of `shot`, and its .webp is
            frame 0 of them — see tools/app-motion.py. */
@@ -95,7 +95,7 @@ const CATEGORIES = [
         /* Homebrew cask in iamzifei/tap; product.html shows `brew install --cask <brew>`. */
         brew: "iamzifei/tap/audioswitch",
         name: "AudioSwitch",
-        stars: 2,
+        stars: 4,
         shot: "assets/shot-audioswitch.webp",
         /* There are .mp4 and .webm siblings of `shot`, and its .webp is
            frame 0 of them — see tools/app-motion.py. */
@@ -194,7 +194,7 @@ const CATEGORIES = [
         /* Homebrew cask in iamzifei/tap; product.html shows `brew install --cask <brew>`. */
         brew: "iamzifei/tap/inkstone",
         name: "Inkstone",
-        stars: 4,
+        stars: 11,
         shot: "assets/shot-inkstone.webp",
         /* There are .mp4 and .webm siblings of `shot`, and its .webp is
            frame 0 of them — see tools/app-motion.py. */
@@ -236,7 +236,7 @@ const CATEGORIES = [
       {
         repo: "show-me-the-money",
         name: { zh: "Show Me The Money · 来财", "zh-Hant": "Show Me The Money · 來財", en: "Show Me The Money · 来财" },
-        stars: 849,
+        stars: 1151,
         tagline: { zh: "从想法到收入的自动化商业套件", "zh-Hant": "從想法到收入的自動化商業套件", en: "Idea to revenue, on autopilot" },
         desc: {
           zh: "一套 Claude Code 技能，从选品、定价、落地页、投放到客服和复盘，把一门小生意端到端跑起来。", "zh-Hant": "一套 Claude Code 技能，從選品、定價、落地頁、投放到客服和復盤，把一門小生意端到端跑起來。",
@@ -246,7 +246,7 @@ const CATEGORIES = [
       {
         repo: "bookmark-is-learned",
         name: { zh: "收藏到就是学到", "zh-Hant": "收藏到就是學到", en: "收藏到就是学到" },
-        stars: 365,
+        stars: 366,
         tagline: { zh: "解决光收藏不看", "zh-Hant": "解決光收藏不看", en: "Fixes the read-it-later graveyard" },
         desc: {
           zh: "收藏的当下就把它学了或者扔了。不给「以后再看」留位置——因为以后不会来。", "zh-Hant": "收藏的當下就把它學了或者扔了。不給「以後再看」留位置——因為以後不會來。",
@@ -256,7 +256,7 @@ const CATEGORIES = [
       {
         repo: "aikey",
         name: { zh: "AI KEY · AI 钥匙", "zh-Hant": "AI KEY · AI 鑰匙", en: "AI KEY" },
-        stars: 1,
+        stars: 4,
         cta: {
           label: { zh: "装上它 · 六种装法", "zh-Hant": "裝上它 · 六種裝法", en: "Install it · six ways in" },
           href: "https://github.com/iamzifei/aikey#怎么装完全没接触过-ai-也能跟着做",
@@ -300,7 +300,7 @@ const CATEGORIES = [
       {
         repo: "wechat-article-publisher-skill",
         name: { zh: "公众号发布", "zh-Hant": "公眾號發佈", en: "WeChat Publisher" },
-        stars: 156,
+        stars: 159,
         tagline: { zh: "Markdown 直发微信公众号草稿", "zh-Hant": "Markdown 直發微信公眾號草稿", en: "Markdown straight to a WeChat draft" },
         desc: {
           zh: "把 Markdown 或 HTML 文章通过官方 API 发到公众号草稿箱，图片自动上传。", "zh-Hant": "把 Markdown 或 HTML 文章透過官方 API 發到公眾號草稿箱，圖片自動上傳。",
@@ -310,7 +310,7 @@ const CATEGORIES = [
       {
         repo: "wechat-article-formatter-skill",
         name: { zh: "公众号排版", "zh-Hant": "公眾號排版", en: "WeChat Formatter" },
-        stars: 76,
+        stars: 79,
         tagline: { zh: "微信公众号文章排版", "zh-Hant": "微信公眾號文章排版", en: "Typesetting for WeChat articles" },
         desc: {
           zh: "把 Markdown 渲染成公众号能用的样式，支持自定义主题。", "zh-Hant": "把 Markdown 渲染成公眾號能用的樣式，支援自訂主題。",
@@ -320,7 +320,7 @@ const CATEGORIES = [
       {
         repo: "linkedin-article-publisher-skill",
         name: { zh: "LinkedIn 发布", "zh-Hant": "LinkedIn 發佈", en: "LinkedIn Publisher" },
-        stars: 20,
+        stars: 24,
         tagline: { zh: "发布 LinkedIn 长文", "zh-Hant": "發佈 LinkedIn 長文", en: "Publish LinkedIn articles" },
         desc: {
           zh: "把 Markdown 文章发成 LinkedIn Article，保留格式。", "zh-Hant": "把 Markdown 文章發成 LinkedIn Article，保留格式。",
@@ -330,7 +330,7 @@ const CATEGORIES = [
       {
         repo: "red-publisher-skill",
         name: { zh: "小红书发布", "zh-Hant": "小紅書發佈", en: "Xiaohongshu Publisher" },
-        stars: 11,
+        stars: 12,
         tagline: { zh: "发布到小红书", "zh-Hant": "發佈到小紅書", en: "Publish to Xiaohongshu" },
         desc: {
           zh: "把内容发到小红书，图文一起处理。", "zh-Hant": "把內容發到小紅書，圖文一起處理。",
@@ -340,7 +340,7 @@ const CATEGORIES = [
       {
         repo: "xiaohongshu-images-skill",
         name: { zh: "小红书配图", "zh-Hant": "小紅書配圖", en: "Xiaohongshu Images" },
-        stars: 6,
+        stars: 8,
         tagline: { zh: "按内容生成 3:4 图片", "zh-Hant": "按內容生成 3:4 圖片", en: "3:4 images generated from your content" },
         desc: {
           zh: "把内容拆成一组 3:4 的小红书图片，排版直接可用。", "zh-Hant": "把內容拆成一組 3:4 的小紅書圖片，排版直接可用。",
@@ -373,7 +373,7 @@ const CATEGORIES = [
       {
         repo: "james-design",
         name: "james-design",
-        stars: 37,
+        stars: 40,
         tagline: { zh: "高保真 UI 设计技能", "zh-Hant": "高保真 UI 設計技能", en: "Hi-fi UI design skill" },
         desc: {
           zh: "让 Claude Code 产出高保真 HTML 设计稿、原型、幻灯片和动效，而不是灰底线框。", "zh-Hant": "讓 Claude Code 產出高保真 HTML 設計稿、原型、幻燈片和動效，而不是灰底線框。",
@@ -383,7 +383,7 @@ const CATEGORIES = [
       {
         repo: "gtd-coach-plugin",
         name: "GTD Coach",
-        stars: 36,
+        stars: 39,
         tagline: { zh: "把待办拆成能动手的计划", "zh-Hant": "把待辦拆成能動手的計劃", en: "Turns a todo list into a plan you can act on" },
         desc: {
           zh: "按你的目标把每天的待办拆成带细节的行动计划，而不是又一份清单。", "zh-Hant": "按你的目標把每天的待辦拆成帶細節的行動計劃，而不是又一份清單。",

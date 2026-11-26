@@ -288,7 +288,7 @@
   </section>
 </main>
 
-<script src="data.js?v=10"></script>
+<script src="data.js?v=11"></script>
 <script src="i18n.js?v=6"></script>
 <script>
 /* One product, from the shared catalogue. */
@@ -440,9 +440,15 @@
 
     /* Source and Site name a place, so they link to it. They were plain text,
        which reads fine right up until somebody tries to click "inkslab.app". */
+    /* A known count of zero is a number, not missing data: "0 ★", not a dash.
+       The dash is kept for entries that have no repository to count. */
+    function starText(it) {
+      if (it.stars) return it.stars + ' ★';
+      return (it.repo && typeof it.stars === 'number') ? '0 ★' : '—';
+    }
     function spec() {
       var rows = [[L('kind'), kind, null],
-                  [L('stars'), it.stars ? it.stars + ' ★' : '—', null],
+                  [L('stars'), starText(it), null],
                   [L('src'), 'iamzifei/' + it.repo, 'https://github.com/iamzifei/' + it.repo]];
       if (it.site) rows.push([L('web'), siteHost(it.site), it.site]);
       return '<dl class="spec">' + rows.map(function (r) {
@@ -561,6 +567,21 @@
       + sibLink(sibling(1), L('next'), 'right') + '</nav>');
 
     host.innerHTML = out.join('');
+
+    /* Live star count, like the homepage: the number in data.js stands if the
+       request fails or the reader is offline. */
+    if (it.repo) {
+      fetch('https://api.github.com/repos/iamzifei/' + encodeURIComponent(it.repo))
+        .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
+        .then(function (r) {
+          if (typeof r.stargazers_count !== 'number' || r.stargazers_count === it.stars) return;
+          it.stars = r.stargazers_count;
+          [].forEach.call(host.querySelectorAll('.spec div'), function (row) {
+            if (row.querySelector('dt').textContent === L('stars')) row.querySelector('dd').textContent = starText(it);
+          });
+        })
+        .catch(function () {});
+    }
 
     /* NOBODY GETS BLOWN UP.
 

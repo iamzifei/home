@@ -1231,7 +1231,7 @@ a { color: inherit; }
   </div>
 </footer>
 
-<script src="data.js?v=10"></script>
+<script src="data.js?v=11"></script>
 <script src="issues.js?v=6"></script>
 <script src="i18n.js?v=6"></script>
 <script>
@@ -1390,9 +1390,15 @@ a { color: inherit; }
      moment somebody tries to click "inkslab.app" — and they will, because it
      is a URL. Safe to wrap: nothing in a spec block has an anchor ancestor
      (checked in the DOM, not assumed). */
+  /* A known count of zero is a number, not missing data: "0 ★", not a dash.
+     The dash is kept for entries that have no repository to count. */
+  function starText(it) {
+    if (it.stars) return it.stars + ' ★';
+    return (it.repo && typeof it.stars === 'number') ? '0 ★' : '—';
+  }
   function spec(it, kind) {
     var rows = [[T('p.spec.kind'), kind, null],
-                [T('p.spec.stars'), it.stars ? it.stars + ' ★' : '—', null]];
+                [T('p.spec.stars'), starText(it), null]];
     if (it.repo) rows.push([T('p.spec.repo'), 'iamzifei/' + it.repo,
                             'https://github.com/iamzifei/' + it.repo]);
     if (it.site) rows.push([T('p.spec.site'), host(it.site), it.site]);
