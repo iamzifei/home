@@ -16,6 +16,9 @@
   var DICT = {
     'en': {
       "panel.alt": "The Veil settings panel at the right edge of the screen: ignore, power, mode, blur, tint, grain and App Groups",
+      "set.autohide2": "Auto-hide",
+      "v.autohideoff": "Off",
+      "v.nomod": "No modifier",
       "skip": "Skip to the live demo",
       "nav.label": "Sections",
       "nav.what": "What it is",
@@ -152,6 +155,9 @@
     },
     'zh-Hans': {
       "panel.alt": "屏幕右侧的 Veil 设置面板：忽略、电源、模式、模糊、着色、颗粒和应用分组",
+      "set.autohide2": "自动隐藏",
+      "v.autohideoff": "关",
+      "v.nomod": "无修饰键",
       "skip": "跳到在线演示",
       "nav.label": "页面导航",
       "nav.what": "这是什么",
@@ -288,6 +294,9 @@
     },
     'zh-Hant': {
       "panel.alt": "螢幕右側的 Veil 設定面板：忽略、電源、模式、模糊、著色、顆粒和 App 群組",
+      "set.autohide2": "自動隱藏",
+      "v.autohideoff": "關",
+      "v.nomod": "無修飾鍵",
       "skip": "跳到線上試玩",
       "nav.label": "頁面導覽",
       "nav.what": "這是什麼",

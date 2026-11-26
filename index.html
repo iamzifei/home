@@ -468,6 +468,8 @@ ul, ol { list-style: none; padding: 0; }
 img { max-width: 100%; display: block; }
 a { color: inherit; }
 :focus-visible { outline: 2px solid var(--sig); outline-offset: 3px; }
+/* Browser surfaces in the press palette: selections are a wash of the cobalt ink. */
+::selection { background: color-mix(in srgb, var(--ink) 18%, transparent); color: inherit; }
 
 .wrap { width: var(--page); margin-inline: auto; }
 
@@ -1229,7 +1231,7 @@ a { color: inherit; }
   </div>
 </footer>
 
-<script src="data.js?v=9"></script>
+<script src="data.js?v=10"></script>
 <script src="issues.js?v=6"></script>
 <script src="i18n.js?v=6"></script>
 <script>

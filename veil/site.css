@@ -317,7 +317,8 @@ input[type="range"]::-moz-range-thumb { width: 18px; height: 18px; border-radius
 .tune-say { position: sticky; top: calc(50vh - 120px); }
 .tune-cards { display: flex; flex-direction: column; gap: var(--sp-head); }
 .cp { transition: filter .6s var(--ease), opacity .6s var(--ease), transform .6s var(--ease); }
-.js .cp:not(.in) { filter: blur(6px); opacity: .35; transform: scale(.985); }
+/* Cards outside the middle band are veiled, like the app itself — but lightly enough to stay readable. */
+.js .cp:not(.in) { filter: blur(2px); opacity: .62; transform: scale(.99); }
 .cp-shot img { display: block; width: 100%; height: auto; border-radius: 12px; margin: 4px 0 16px; }
 .cp-card { background: var(--card); color: var(--card-ink); border-radius: var(--r-lg); padding: 18px 22px 8px; box-shadow: var(--shadow-card); }
 .ic { width: 18px; height: 18px; flex: none; color: var(--card-ink); }

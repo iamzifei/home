@@ -92,6 +92,15 @@
         ],
         "createdAt": "2026-11-26T23:32:20.189Z",
         "reason": "Claude: desk-frame is the full-bleed fake macOS screen of the live demo"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "product.html"
+        ],
+        "createdAt": "2026-11-26T23:45:50.202Z",
+        "reason": "Claude: product pages use jamesai.dev's documented paper token #F5F1E8 (same as index.html / mac pages)"
       }
     ]
   }
