@@ -304,6 +304,7 @@
   --ink3: #616C8E;    /* the lightest that still clears 4.5:1 on the paper */
   --rule: #C6CBD9;
   --rule2:#DCDFE7;
+  --mark: #7D87A3;    /* the section numerals: the palest cobalt that clears 3:1 for large text (3.18:1) */
 
   /* the terracotta plate: signal only */
   --sig:  #C65F38;
@@ -368,6 +369,7 @@
   --ink3: #8B93A8;
   --rule: #333849;
   --rule2:#262B39;
+  --mark: #646B80;    /* section numerals on night paper: 3.41:1 */
   --sig:  #E0784B;
   --sig-t:#E89468;
 }
@@ -459,6 +461,9 @@ body {
   font-synthesis-style: none;
 }
 h1, h2, h3, h4, p, dl, dd, figure, ul, ol { margin: 0; }
+/* No single word stranded on the last line of a paragraph. */
+p, dd { text-wrap: pretty; }
+h1, h2, h3 { text-wrap: balance; }
 ul, ol { list-style: none; padding: 0; }
 img { max-width: 100%; display: block; }
 a { color: inherit; }
@@ -850,7 +855,7 @@ a { color: inherit; }
 .sec-no {
   font-family: var(--serif); font-size: clamp(2.2rem, 6vw, 3.6rem);
   line-height: 0.8; font-weight: 600; letter-spacing: -0.03em;
-  color: var(--rule);
+  color: var(--mark);
 }
 .sec-t { font-size: clamp(1.3rem, 3vw, 1.9rem); font-weight: 600;
          letter-spacing: -0.015em; }
@@ -865,7 +870,7 @@ a { color: inherit; }
 /* The opener used to be the tail of the lead section and took its padding.
    It is its own section now. */
 .opener { padding-block: 0 clamp(1.5rem, 4vw, 2.6rem); }
-.lead-body { font-size: 1.0625rem; line-height: 1.9; }
+.lead-body { font-size: 1.0625rem; line-height: 1.9; max-width: 29em; }   /* ~75 Latin characters a line */
 /* One column now. It used to run two across the full measure; in the band it
    has a little over half of it, and two columns of ~26 characters is a
    newspaper classified, not a standfirst. */
@@ -987,7 +992,7 @@ a { color: inherit; }
 @media (min-width: 68rem) { .idx { grid-template-columns: repeat(3, 1fr); } }
 .idx-item { padding-block: 0.9rem; border-top: 1px solid var(--rule2);
             break-inside: avoid; }
-.idx-item h4 { font-size: 1.0625rem; font-weight: 600; letter-spacing: -0.01em;
+.idx-item h3 { font-size: 1.0625rem; font-weight: 600; letter-spacing: -0.01em;
                display: flex; align-items: baseline; gap: 0.5rem; }
 .idx-item .star { font-family: var(--mono); font-size: 0.6875rem;
                   color: var(--ink3); }
@@ -1139,7 +1144,7 @@ a { color: inherit; }
    On a touch screen `:hover` sticks after the tap, and an ungated transition
    was animating a row into the accent and then leaving it there. */
 @media (hover: hover) and (pointer: fine) {
-  .toc a .t, .rows a .t, .idx-item h4, .spec dd a, .runner .back,
+  .toc a .t, .rows a .t, .idx-item h3, .spec dd a, .runner .back,
   .colophon a, .imprint a {
     transition: color var(--t-hover) var(--ease), border-color var(--t-hover) var(--ease);
   }
@@ -1565,9 +1570,9 @@ a { color: inherit; }
                  + esc(T('p.count', c.items.length)) + '</p>'
                  + '<div class="idx">' + c.items.map(function (it) {
                      return '<div class="idx-item"><a href="' + page(it) + '">'
-                          + '<h4>' + esc(t(it.name))
+                          + '<h3>' + esc(t(it.name))
                           + (it.stars ? '<span class="star">★ ' + it.stars + '</span>' : '')
-                          + '</h4>'
+                          + '</h3>'
                           + '<p class="tag">' + esc(t(it.tagline)) + '</p>'
                           + '<p>' + esc(t(it.desc)) + '</p></a></div>';
                    }).join('') + '</div>';

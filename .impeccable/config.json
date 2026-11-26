@@ -1,0 +1,98 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "mac/index.html"
+        ],
+        "createdAt": "2026-11-25T13:29:13.739Z",
+        "reason": "Claude: paper tone #F5F1E8 is jamesai.dev's established token from site.css, reused so /mac matches the rest of the site"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "mac/mac.css"
+        ],
+        "createdAt": "2026-11-25T13:38:23.119Z",
+        "reason": "Claude: paper tone #F5F1E8 is jamesai.dev's established token from site.css, reused so /mac matches the rest of the site"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "mac/u/index.html"
+        ],
+        "createdAt": "2026-11-25T13:47:30.604Z",
+        "reason": "Claude: page uses jamesai.dev's established paper token (#F5F1E8 via mac/mac.css, same as site.css)"
+      },
+      {
+        "rule": "italic-serif-display",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-11-26T23:30:22.853Z",
+        "reason": "Claude: deliberate editorial 'one-person press' edition; the stylesheet header documents the serif choice (brief is literally newspapers; edition A uses a grotesk)"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-11-26T23:30:22.877Z",
+        "reason": "Claude: substrate #F5F1E8 is the resolved paper token documented in the stylesheet header (two-ink press palette)"
+      },
+      {
+        "rule": "codex-grid-background",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-11-26T23:30:22.897Z",
+        "reason": "Claude: documented ruled-paper grid, contrast measured and kept off the reading band"
+      },
+      {
+        "rule": "ai-color-palette",
+        "value": "*",
+        "files": [
+          "veil/index.html"
+        ],
+        "createdAt": "2026-11-26T23:30:22.917Z",
+        "reason": "Claude: fake macOS wallpaper orbs and syntax colours inside the live demo desk (fixture, mirrors the Veil repo ignore)"
+      },
+      {
+        "rule": "radial-halo",
+        "value": "*",
+        "files": [
+          "veil/index.html"
+        ],
+        "createdAt": "2026-11-26T23:30:22.937Z",
+        "reason": "Claude: fake macOS wallpaper orbs and syntax colours inside the live demo desk (fixture, mirrors the Veil repo ignore)"
+      },
+      {
+        "rule": "text-occlusion",
+        "value": "*",
+        "files": [
+          "veil/index.html"
+        ],
+        "createdAt": "2026-11-26T23:31:44.415Z",
+        "reason": "Claude: overlapping windows on the fake desktop are the point of the live demo (phone layout stacks them)"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "veil/index.html"
+        ],
+        "createdAt": "2026-11-26T23:32:20.189Z",
+        "reason": "Claude: desk-frame is the full-bleed fake macOS screen of the live demo"
+      }
+    ]
+  }
+}

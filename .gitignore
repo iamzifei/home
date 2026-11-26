@@ -9,3 +9,4 @@ assets/src/shots/
 assets/src/desk.png
 __pycache__/
 .playwright-mcp/
+.impeccable/hook.cache.json
