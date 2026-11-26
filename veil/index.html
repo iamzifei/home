@@ -50,8 +50,8 @@
       "applicationSubCategory": "Productivity",
       "operatingSystem": "macOS 14.0 or later",
       "processorRequirements": "Apple silicon or Intel (universal binary)",
-      "softwareVersion": "1.1.0",
-      "fileSize": "2.6 MB",
+      "softwareVersion": "1.2.0",
+      "fileSize": "3.1 MB",
       "downloadUrl": "https://github.com/iamzifei/veil/releases/latest/download/Veil.dmg",
       "installUrl": "https://github.com/iamzifei/veil/releases/latest/download/Veil.dmg",
       "releaseNotes": "https://github.com/iamzifei/veil/releases",
@@ -60,7 +60,8 @@
       "inLanguage": ["en", "zh-Hans", "zh-Hant"],
       "featureList": [
         "Keeps the frontmost window sharp and blurs everything behind it",
-        "Ambient and Deep modes, adjustable blur, tint, film grain and monochrome",
+        "Deep (even blur) and Ambient (clear at the top, blur builds towards the middle) modes; adjustable blur, tint, film grain and monochrome",
+        "Control Center-style settings panel at the right edge of the screen",
         "App Groups keep two apps sharp together; ignore list for apps",
         "Per-screen or global behaviour on multiple displays",
         "Shake to toggle, hold Shift and shake to peek, keyboard shortcuts",
@@ -120,7 +121,7 @@
       <a class="hide-sm" href="#how" data-i18n="nav.how">How to use</a>
       <a class="hide-sm" href="#faq" data-i18n="nav.faq">FAQ</a>
       <a class="hide-sm" href="https://github.com/iamzifei/veil" rel="noopener">GitHub</a>
-      <a class="hide-xs" href="https://github.com/iamzifei/veil/releases" rel="noopener"><span data-i18n="nav.new">What's new</span> <span class="chip">1.1.0</span></a>
+      <a class="hide-xs" href="https://github.com/iamzifei/veil/releases" rel="noopener"><span data-i18n="nav.new">What's new</span> <span class="chip">1.2.0</span></a>
     </nav>
     <div class="lang" role="group" aria-label="Language">
       <button type="button" data-lang="en" lang="en" aria-pressed="true">EN</button>
@@ -240,7 +241,7 @@
     </div>
   </div>
 
-  <!-- Controls for the live desk: the same settings as the app's Look section. -->
+  <!-- Controls for the live desk: the same settings as the app's Settings panel section. -->
   <div class="tiles" aria-label="Veil controls" data-i18n-attr="aria-label:panel.label">
     <div class="tile t-on">
       <img src="assets/icon.png" width="22" height="22" alt="">
@@ -256,29 +257,28 @@
     </div>
 
     <div class="tile t-blur row">
-      <label for="ctlBlur"><span data-i18n="p.blur">Blur</span> <output id="outBlur">32</output></label>
-      <input type="range" id="ctlBlur" min="0" max="60" step="1" value="32">
+      <label for="ctlBlur"><span data-i18n="p.blur">Blur</span> <output id="outBlur">100%</output></label>
+      <input type="range" id="ctlBlur" min="0" max="100" step="1" value="100">
     </div>
 
     <div class="tile t-tint row">
-      <label id="tintLabel"><span data-i18n="p.tint">Tint</span> <output id="outTint">Graphite</output></label>
+      <label id="tintLabel"><span data-i18n="p.tint">Tint</span> <output id="outTint">As System</output></label>
       <div class="swatches" id="ctlTint" role="group" aria-labelledby="tintLabel"></div>
-      <input type="range" id="ctlTintAmt" min="0" max="100" value="20" aria-label="Tint strength" data-i18n-attr="aria-label:tint.strength">
+      <input type="range" id="ctlTintAmt" min="0" max="100" value="0" aria-label="Tint strength" data-i18n-attr="aria-label:tint.strength">
     </div>
 
     <div class="tile t-grain row">
-      <label for="ctlGrain"><span data-i18n="p.grain">Grain</span> <output id="outGrain">15%</output></label>
-      <input type="range" id="ctlGrain" min="0" max="100" value="15">
+      <label for="ctlGrain"><span data-i18n="p.grain">Grain</span> <output id="outGrain">50%</output></label>
+      <input type="range" id="ctlGrain" min="0" max="100" value="50">
       <label for="ctlMono" class="second"><span data-i18n="p.mono">Monochrome</span> <output id="outMono">0%</output></label>
       <input type="range" id="ctlMono" min="0" max="100" value="0">
     </div>
 
     <div class="tile t-trans row">
-      <label id="transLabel" data-i18n="p.trans">Transition</label>
+      <label id="transLabel" data-i18n="p.trans">Reveal</label>
       <div class="seg" id="ctlTrans" role="group" aria-labelledby="transLabel">
         <button type="button" data-v="fade" aria-pressed="true" data-i18n="v.fade">Fade</button>
-        <button type="button" data-v="cursor" aria-pressed="false" data-i18n="v.cursor">Cursor reveal</button>
-        <button type="button" data-v="none" aria-pressed="false" data-i18n="v.none">None</button>
+        <button type="button" data-v="cursor" aria-pressed="false" data-i18n="v.cursor">From cursor</button>
       </div>
       <button class="btn peek" id="ctlPeek" type="button" data-i18n="p.peek">Hold to peek</button>
     </div>
@@ -289,9 +289,9 @@
 <section class="block wrap rise" id="what" aria-labelledby="what-h">
   <h2 id="what-h" class="say" data-i18n-html="what.claim">What Veil is. <span class="lo">A small Mac app that blurs every window except the one you are using.</span></h2>
   <div class="cols">
-    <div class="col"><h3 data-i18n="what.1h">Sharp where you work</h3><p data-i18n="what.1p">The window in front stays crisp. Everything behind it, other windows and the desktop, is softly blurred and dimmed.</p></div>
+    <div class="col"><h3 data-i18n="what.1h">Sharp where you work</h3><p data-i18n="what.1p">The window in front stays crisp. Everything behind it, other windows and the desktop, is softly blurred.</p></div>
     <div class="col"><h3 data-i18n="what.2h">It follows your clicks</h3><p data-i18n="what.2p">Click another window and the sharp spot moves with you. There are no window rules to set up.</p></div>
-    <div class="col"><h3 data-i18n="what.3h">It lives in the menu bar</h3><p data-i18n="what.3p">No Dock icon, no main window. One click on the menu-bar icon turns it on or off.</p></div>
+    <div class="col"><h3 data-i18n="what.3h">It lives in the menu bar</h3><p data-i18n="what.3p">No Dock icon, no main window. Click the menu-bar icon and the settings panel appears at the right edge of the screen.</p></div>
   </div>
 </section>
 
@@ -315,10 +315,10 @@
     </video>
   </figure>
   <div class="looks">
-    <figure><img src="assets/look-ambient.jpg" width="1600" height="1000" loading="lazy" alt="Ambient: a light blur with a slight dim" data-i18n-attr="alt:look1.alt"><figcaption><b data-i18n="v.ambient">Ambient</b><span data-i18n="look1.c">Light blur, slight dim. For all day.</span></figcaption></figure>
-    <figure><img src="assets/look-deep.jpg" width="1600" height="1000" loading="lazy" alt="Deep: a stronger blur and a darker room" data-i18n-attr="alt:look2.alt"><figcaption><b data-i18n="v.deep">Deep</b><span data-i18n="look2.c">Harder blur, darker room.</span></figcaption></figure>
+    <figure><img src="assets/look-ambient.jpg" width="1600" height="1000" loading="lazy" alt="Ambient: the top of the screen stays clear, the blur builds towards the middle" data-i18n-attr="alt:look1.alt"><figcaption><b data-i18n="v.ambient">Ambient</b><span data-i18n="look1.c">Clear at the top, blurred from the middle down.</span></figcaption></figure>
+    <figure><img src="assets/look-deep.jpg" width="1600" height="1000" loading="lazy" alt="Deep: everything behind the window evenly blurred" data-i18n-attr="alt:look2.alt"><figcaption><b data-i18n="v.deep">Deep</b><span data-i18n="look2.c">The whole background, evenly blurred.</span></figcaption></figure>
     <figure><img src="assets/look-tint.jpg" width="1600" height="1000" loading="lazy" alt="A blue tint with film grain" data-i18n-attr="alt:look3.alt"><figcaption><b data-i18n="look3.h">Tint &amp; grain</b><span data-i18n="look3.c">Any colour, plus film grain.</span></figcaption></figure>
-    <figure><img src="assets/look-mono.jpg" width="1600" height="1000" loading="lazy" alt="Blur-free monochrome: the background is drained of colour but not blurred" data-i18n-attr="alt:look4.alt"><figcaption><b data-i18n="look4.h">Blur-free</b><span data-i18n="look4.c">No blur, just dim and monochrome.</span></figcaption></figure>
+    <figure><img src="assets/look-mono.jpg" width="1600" height="1000" loading="lazy" alt="Monochrome: the blurred background drained of colour" data-i18n-attr="alt:look4.alt"><figcaption><b data-i18n="look4.h">Monochrome</b><span data-i18n="look4.c">Drain the colour from everything behind.</span></figcaption></figure>
   </div>
 </section>
 
@@ -328,9 +328,9 @@
   <ol class="howto">
     <li><h3 data-i18n="how.1h">Install</h3><p data-i18n-html="how.1p">Download <b>Veil.dmg</b>, open it and drag Veil into your Applications folder, or run <code>brew install --cask iamzifei/tap/veil</code> in Terminal. Needs macOS 14 Sonoma or later, on Apple Silicon or Intel. The app is signed and notarized by Apple, so it opens normally.</p></li>
     <li><h3 data-i18n="how.2h">First run</h3><p data-i18n="how.2p">Open Veil. A short welcome guide appears once, and Veil is already on. It needs no permissions. The only exception is the optional auto-hide of the menu bar and Dock, which asks for Automation access the first time you turn it on.</p></li>
-    <li><h3 data-i18n="how.3h">Turn it on and off</h3><p data-i18n="how.3p">Click the Veil icon in the menu bar (a dashed circle means it is off). You can also shake the mouse, or press ⌃⌥⌘F. Right-click or Control-click the icon for the menu: Ambient or Deep mode, ignore the current app, peek, Settings, the welcome guide and updates.</p></li>
+    <li><h3 data-i18n="how.3h">Turn it on and off</h3><p data-i18n="how.3p">Click the Veil icon in the menu bar to open the settings panel; its power button turns Veil on or off. You can also shake the mouse, or press ⌃⌥⌘F. The icon shows the state: a glowing dot for Deep, a soft dot for Ambient, a ring when the front app is ignored, a faint dot when Veil is off. Right-click or Control-click it for the menu.</p></li>
     <li><h3 data-i18n="how.4h">Work as usual</h3><p data-i18n="how.4p">Click any window to bring it into focus; Veil follows. To look behind the veil for a moment, hold ⇧ and shake the mouse, or choose Peek from the menu. The veil also steps aside while you drag a file.</p></li>
-    <li><h3 data-i18n="how.5h">Adjust it in Settings</h3><p data-i18n="how.5p">Open Settings from the menu or with ⌃⌥⌘C. Pick a mode and set blur, tint, grain and monochrome; blur at 0 gives a blur-free look. Use App Groups to keep two apps sharp together, add apps to the ignore list, choose how several displays behave, and change any shortcut or gesture.</p></li>
+    <li><h3 data-i18n="how.5h">Adjust it in Settings</h3><p data-i18n="how.5p">The panel (menu-bar icon or ⌃⌥⌘C) keeps the essentials up top: ignore the current app, power, mode, and the blur, tint and grain sliders. More settings opens the rest: App Groups, app-wide focus, several displays, auto-hide, Stage Manager, gestures, shortcuts, monochrome, transition length and reveal effect, the ignore list and scripting commands.</p></li>
   </ol>
   <h3 class="sub-h" data-i18n="how.sc">Keyboard shortcuts</h3>
   <dl class="sc">
@@ -351,16 +351,11 @@
     <div class="tune-cards">
 
       <article class="cp">
-        <div class="cp-card">
-          <h3 class="cp-h"><svg class="ic" aria-hidden="true"><use href="#i-look"/></svg><span data-i18n="set.look">Look</span></h3>
-          <div class="cp-row"><span data-i18n="set.mode">Mode</span><span class="mini-seg"><i class="on" data-i18n="v.ambient">Ambient</i><i data-i18n="v.deep">Deep</i></span></div>
-          <div class="cp-row"><span data-i18n="p.blur">Blur</span><span class="mini-slider" style="--v:.37"><i></i></span><em>22</em></div>
-          <div class="cp-row"><span data-i18n="p.tint">Tint</span><span class="dots" aria-hidden="true"><i class="sys"></i><i style="--c:#8e8e93" class="on"></i><i style="--c:#0a84ff"></i><i style="--c:#bf5af2"></i><i style="--c:#ff375f"></i><i style="--c:#ff453a"></i><i style="--c:#ff9f0a"></i><i style="--c:#ffd60a"></i><i style="--c:#30d158"></i></span></div>
-          <div class="cp-row"><span data-i18n="p.grain">Grain</span><span class="mini-slider" style="--v:0"><i></i></span><em>0%</em></div>
-          <div class="cp-row"><span data-i18n="p.mono">Monochrome</span><span class="mini-slider" style="--v:0"><i></i></span><em>0%</em></div>
-          <div class="cp-row"><span data-i18n="p.trans">Transition</span><span class="pick" data-i18n="v.fade">Fade</span></div>
+        <div class="cp-card cp-shot">
+          <h3 class="cp-h"><svg class="ic" aria-hidden="true"><use href="#i-look"/></svg><span data-i18n="set.look">Settings panel</span></h3>
+          <img src="assets/look-panel.jpg" width="1200" height="750" loading="lazy" alt="The Veil settings panel at the right edge of the screen: ignore, power, mode, blur, tint, grain and App Groups" data-i18n-attr="alt:panel.alt">
         </div>
-        <p class="cp-cap" data-i18n="card1.p">Ambient is a light blur with a slight dim, good for all-day use. Deep blurs harder and darkens more. Set the blur to zero for a blur-free mode: just dim, tint, grain or monochrome.</p>
+        <p class="cp-cap" data-i18n="card1.p">Deep blurs everything behind your window evenly. Ambient keeps the top of the screen clear and lets the blur build towards the middle. Reveal sets how long the veil takes to fade, from 0 to 1.5 s; the reveal effect is a fade or a soft circle that grows from the pointer.</p>
       </article>
 
       <article class="cp">
@@ -381,7 +376,7 @@
           <div class="cp-row"><span data-i18n="set.autohide">Auto-hide Menu Bar &amp; Dock</span><span class="tog" aria-hidden="true"></span></div>
           <div class="cp-row"><span data-i18n="set.stage">Blur Stage Manager</span><span class="tog" aria-hidden="true"></span></div>
         </div>
-        <p class="cp-cap" data-i18n="card5.p">Per screen keeps the frontmost window on each display sharp. Global keeps one window sharp and veils every other screen. Hide the menu bar and Dock while Veil is on, and blur the Stage Manager strip too if you like.</p>
+        <p class="cp-cap" data-i18n="card5.p">Per screen keeps the frontmost window on each display sharp. Global keeps one window sharp and veils every other screen. Hide the menu bar, the Dock or both while Veil is on, and blur the Stage Manager strip too if you like.</p>
       </article>
 
       <article class="cp">
@@ -401,10 +396,12 @@
           <h3 class="cp-h"><svg class="ic" aria-hidden="true"><use href="#i-link"/></svg><span data-i18n="set.url">URL scheme</span></h3>
 <pre class="codeblock" tabindex="0"><code><span class="c"># Shell, AppleScript, Shortcuts, Raycast…</span>
 open "veil://toggle"
-open "veil://mode/deep"
-open "veil://set?blur=30&amp;tint=blue&amp;grain=0.4"</code></pre>
+open "veil://mode/ambient"
+open "veil://blur/60"
+open "veil://tint/color/blue"
+open "veil://tint/opacity/30"</code></pre>
         </div>
-        <p class="cp-cap" data-i18n-html="auto.sub">Veil registers a <code>veil://</code> scheme, so anything that can open a URL can drive it: <code>toggle</code>, <code>on</code>, <code>off</code>, <code>peek</code>, <code>mode/deep</code>, or <code>set?…</code> to change any setting in one call.</p>
+        <p class="cp-cap" data-i18n-html="auto.sub">Veil registers a <code>veil://</code> scheme, so anything that can open a URL can drive it: <code>toggle</code>, <code>on</code>, <code>off</code>, <code>mode/ambient</code>, <code>blur/60</code>, <code>tint/color/blue</code>, <code>grayscale/toggle</code>, <code>ignore/toggle</code> and more. The panel lists every command; click one to copy it.</p>
       </article>
 
     </div>

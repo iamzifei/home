@@ -3,7 +3,7 @@
  *
  * How the effect works:
  *   - Every fake window has its own z-index. Focusing a window gives it the highest one.
- *   - A single "veil" element (backdrop-filter blur + dim + tint + grain) is placed at
+ *   - A single "veil" element (backdrop-filter blur + tint + grain) is placed at
  *     z-index = (focused window z) - 1, so it sits directly beneath the focused window and
  *     above the wallpaper and every other window. Result: only the focused window is sharp.
  *   - If backdrop-filter is unsupported, CSS falls back to blurring the non-focused layers
@@ -33,17 +33,37 @@
   })();
 
   /* ── State ── */
-  var PRESETS = { ambient: { blur: 16, dim: 0.12 }, deep: { blur: 32, dim: 0.4 } };
+  // Same order and colours as the app's tint row (light-appearance system colours).
   var SWATCHES = [
-    ['Graphite', '#3a3a3f'], ['Blue', '#0a84ff'], ['Purple', '#bf5af2'], ['Pink', '#ff6fa0'],
-    ['Red', '#ff453a'], ['Orange', '#ff9f0a'], ['Yellow', '#ffd60a'], ['Green', '#30d158'],
-    ['As System', '#0a7aff', 'system']
+    ['As System', '#007aff', 'system'], ['Blue', '#007aff'], ['Purple', '#af52de'], ['Pink', '#ff2d55'],
+    ['Red', '#ff3b30'], ['Orange', '#ff9500'], ['Yellow', '#ffcc00'], ['Green', '#34c759'],
+    ['Graphite', '#8e8e93'], ['Black', '#0d0d0d']
   ];
+  var DUR = 750;   // the app's default transition length (ms)
   var state = {
-    on: true, mode: 'deep', blur: 32, dim: 0.4,
-    tint: '#3a3a3f', tintName: 'Graphite', tintAmt: 0.2,
-    grain: 0.15, mono: 0, transition: 'fade', peek: false
+    on: true, mode: 'deep', blur: 100,
+    tint: '#007aff', tintName: 'As System', tintAmt: 0,
+    grain: 0.5, mono: 0, transition: 'fade', peek: false
   };
+
+  /* Static film grain, same model as the app: each pixel black or white, laid over the
+   * blur with a random opacity in [0, 0.1 × grain]. Regenerated when the slider moves. */
+  var grainEl = stage.querySelector('.veil-grain');
+  var grainSeed = (function () { var a = new Float32Array(128 * 128 * 2); for (var i = 0; i < a.length; i++) a[i] = Math.random(); return a; })();
+  var grainFor = -1;
+  function paintGrain() {
+    if (!grainEl || grainFor === state.grain) return;
+    grainFor = state.grain;
+    var cv = document.createElement('canvas'); cv.width = cv.height = 128;
+    var ctx = cv.getContext('2d'), img = ctx.createImageData(128, 128), d = img.data;
+    for (var i = 0; i < 128 * 128; i++) {
+      var v = grainSeed[i * 2] < 0.5 ? 0 : 255;
+      d[i * 4] = d[i * 4 + 1] = d[i * 4 + 2] = v;
+      d[i * 4 + 3] = Math.round(grainSeed[i * 2 + 1] * 0.1 * state.grain * 255);
+    }
+    ctx.putImageData(img, 0, 0);
+    grainEl.style.backgroundImage = 'url(' + cv.toDataURL() + ')';
+  }
 
   /* ── Scaling: the stage is a fixed-size canvas scaled to the frame width.
    *  Wide frames use a 1000x640 landscape desk. Phone-width frames switch to a
@@ -88,12 +108,13 @@
   /* ── Rendering state into CSS variables ── */
   function render() {
     var s = stage.style;
-    s.setProperty('--blur', state.blur + 'px');
-    s.setProperty('--dim', state.dim);
+    // σ = 0.5 pt per percent on a ~2560 pt-wide screen; this 1000 px desk is ~0.4 of that.
+    s.setProperty('--blur', (state.blur * 0.2).toFixed(1) + 'px');
     s.setProperty('--mono', state.mono);
     s.setProperty('--tint', state.tint);
-    s.setProperty('--tint-a', state.tintAmt);
-    s.setProperty('--grain-a', (state.grain * 0.5).toFixed(3));
+    s.setProperty('--tint-a', (0.75 * state.tintAmt).toFixed(3));
+    paintGrain();
+    stage.dataset.mode = state.mode;
     stage.dataset.veil = state.on ? 'on' : 'off';
     stage.dataset.peek = state.peek ? '1' : '0';
     stage.dataset.trans = (reduceMotion ? 'none' : state.transition);
@@ -105,31 +126,46 @@
   var focused = null;
   var mbApp = document.getElementById('mbApp');
 
-  function playTransition(origin) {
-    if (!state.on || reduceMotion || state.transition === 'none' || !veil.animate) return;
-    veil.getAnimations().forEach(function (a) { a.cancel(); });
-    if (state.transition === 'cursor') {
-      var o = origin || { x: STAGE_W / 2, y: STAGE_H / 2 };
-      var R = Math.ceil(Math.hypot(Math.max(o.x, STAGE_W - o.x), Math.max(o.y, STAGE_H - o.y)));
-      veil.animate(
-        [{ clipPath: 'circle(0px at ' + o.x + 'px ' + o.y + 'px)' },
-         { clipPath: 'circle(' + R + 'px at ' + o.x + 'px ' + o.y + 'px)' }],
-        { duration: 650, easing: 'cubic-bezier(.2,.7,.2,1)' });
-    } else {
-      veil.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 320, easing: 'ease-out' });
-    }
+  // Show / hide. Fade is handled by CSS (ease-out in, linear out); From cursor grows or
+  // shrinks a soft disc (solid to 35 % of its radius) around the pointer.
+  function playTransition(origin, showing) {
+    if (reduceMotion || state.transition !== 'cursor' || !veil.animate) return;
+    if (cursorAnim) cursorAnim.cancel();
+    var o = origin || { x: STAGE_W / 2, y: STAGE_H / 2 };
+    var R = Math.ceil(1.2 * Math.hypot(STAGE_W, STAGE_H));
+    veil.style.setProperty('--cx', o.x + 'px'); veil.style.setProperty('--cy', o.y + 'px');
+    var grow = showing !== false;
+    if (!grow) veil.style.opacity = '1';
+    var anim = veil.animate([{ '--r': (grow ? 0 : R) + 'px' }, { '--r': (grow ? R : 0) + 'px' }],
+      { duration: grow ? DUR * 0.5 : DUR * 0.34, easing: grow ? 'cubic-bezier(0,0,.58,1)' : 'cubic-bezier(.25,.46,.45,.94)' });
+    anim.onfinish = function () { veil.style.opacity = ''; };
+    cursorAnim = anim;
+  }
+  var cursorAnim = null;
+
+  // The window that just lost focus blurs in over 0.75 s (ease-out) instead of snapping.
+  function blurOut(win) {
+    if (!win || !state.on || reduceMotion || !win.animate || !supportsBdf) return;
+    var px = (state.blur * 0.2).toFixed(1) + 'px';
+    win.style.zIndex = zTop - 1;                        // still above the veil for now
+    if (win._blurAnim) win._blurAnim.cancel();
+    var a = win._blurAnim = win.animate([{ filter: 'blur(0px) grayscale(0)' }, { filter: 'blur(' + px + ') grayscale(' + state.mono + ')' }],
+      { duration: DUR, easing: 'cubic-bezier(.25,.46,.45,.94)' });
+    a.onfinish = function () { if (win !== focused) win.style.zIndex = zTop - 3; };
   }
 
   function focusWin(win, origin) {
     if (win === focused) return;
-    zTop += 2;
+    zTop += 4;
     win.style.zIndex = zTop;
-    veil.style.zIndex = zTop - 1;               // directly beneath the focused window
-    if (focused) focused.classList.remove('is-focus');
+    veil.style.zIndex = zTop - 2;               // directly beneath the focused window
+    var prev = focused;
+    if (win._blurAnim) { win._blurAnim.cancel(); win._blurAnim = null; }   // re-focused mid blur-out: sharp now
+    if (prev) prev.classList.remove('is-focus');
     win.classList.add('is-focus');
     focused = win;
     if (mbApp) mbApp.textContent = win.dataset.app;
-    playTransition(origin);
+    blurOut(prev);                              // the new window is sharp at once
   }
 
   // Initial stacking order: code editor on top and focused.
@@ -224,23 +260,20 @@
   sw.addEventListener('click', function () {
     state.on = !state.on;
     sw.setAttribute('aria-checked', String(state.on));
+    var r = sw.getBoundingClientRect(), st = stage.getBoundingClientRect();
+    playTransition({ x: Math.min(STAGE_W, (r.left - st.left) / scale), y: STAGE_H }, state.on);
     render();
-    if (state.on) playTransition(null);
   });
 
   var blur = $('ctlBlur');
   function showBlur() {
     var off = (window.VeilI18n && window.VeilI18n.t('p.off')) || 'Off';
-    $('outBlur').textContent = state.blur === 0 ? off : state.blur;
+    $('outBlur').textContent = state.blur === 0 ? off : state.blur + '%';
   }
   document.addEventListener('veil:lang', showBlur);   // re-label "Off" when the language changes
   blur.addEventListener('input', function () { state.blur = +blur.value; showBlur(); render(); });
 
-  segBind($('ctlMode'), 'mode', function () {
-    var p = PRESETS[state.mode];
-    state.blur = p.blur; state.dim = p.dim;
-    blur.value = p.blur; showBlur();
-  });
+  segBind($('ctlMode'), 'mode');
   segBind($('ctlTrans'), 'transition');
 
   // Tint swatches + custom colour
@@ -248,7 +281,7 @@
   function pickTint(name, color, btn) {
     state.tint = color; state.tintName = name; $('outTint').textContent = name;
     tintBox.querySelectorAll('.sw').forEach(function (x) { x.setAttribute('aria-pressed', x === btn ? 'true' : 'false'); });
-    if (state.tintAmt === 0) { state.tintAmt = 0.3; $('ctlTintAmt').value = 30; }
+    if (state.tintAmt === 0) { state.tintAmt = 0.3; $('ctlTintAmt').value = 30; }   // like the app's swatches
     render();
   }
   SWATCHES.forEach(function (s, i) {

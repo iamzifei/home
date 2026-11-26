@@ -143,7 +143,7 @@ a { text-underline-offset: .2em; }
   background: #0a1426; touch-action: manipulation; user-select: none; -webkit-user-select: none;
 }
 .stage { position: absolute; left: 0; top: 0; width: 1000px; height: 640px; transform-origin: 0 0; overflow: hidden; isolation: isolate;
-  --blur: 32px; --dim: .4; --mono: 0; --tint: #3a3a3f; --tint-a: .2; --grain-a: .075; }
+  --blur: 20px; --mono: 0; --tint: #007aff; --tint-a: 0; }
 
 /* wallpaper */
 .wall { position: absolute; inset: 0; z-index: 0;
@@ -154,7 +154,7 @@ a { text-underline-offset: .2em; }
 .o3 { width: 460px; height: 460px; left: 280px; bottom: -220px; background: radial-gradient(circle at 50% 50%, #e879f9, #7e22ce 60%, transparent 70%); opacity: .7; }
 .o4 { width: 260px; height: 260px; left: 640px; top: -60px; background: radial-gradient(circle, #fde68a, #d97706 60%, transparent 70%); opacity: .75; }
 
-.menubar { position: absolute; left: 0; right: 0; top: 0; height: 26px; z-index: 1; display: flex; align-items: center; gap: 18px;
+.menubar { position: absolute; left: 0; right: 0; top: 0; height: 26px; z-index: 9000;   /* above the veil, like the real menu bar */ display: flex; align-items: center; gap: 18px;
   padding: 0 14px; font: 500 12.5px/1 var(--sans); color: #fff; background: rgba(20,24,34,.45);
   -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); }
 .menubar b { font-weight: 700; }
@@ -228,27 +228,36 @@ a { text-underline-offset: .2em; }
 .events i { position: absolute; left: 5px; top: 6px; bottom: 6px; width: 3px; border-radius: 2px; background: var(--c); }
 .events b { display: block; color: #6a6a72; font-weight: 600; font-size: 11px; }
 
-/* the veil: sits directly beneath the focused window (z-index set from JS) */
+/* the veil: sits directly beneath the focused window (z-index set from JS).
+   Numbers mirror the app (measured on the reference): no dimming; tint alpha = 0.75 × slider;
+   Ambient = a mask that is clear at the top edge and solid from half height down;
+   show = 0.75 s ease-out, hide = 0.75 s linear, Deep ⇄ Ambient = 0.75 s ease-in-out. */
+@property --amb-top { syntax: '<number>'; inherits: true; initial-value: 1; }
+@property --r { syntax: '<length>'; inherits: true; initial-value: 4000px; }
 .veil { position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: 1;
-  background: rgba(0,0,0,var(--dim));
+  --amb-top: 1; --cx: 50%; --cy: 50%;
   -webkit-backdrop-filter: blur(var(--blur)) grayscale(var(--mono)); backdrop-filter: blur(var(--blur)) grayscale(var(--mono));
-  transition: opacity .35s ease; }
-.stage[data-trans="none"] .veil { transition: none; }
-.stage[data-veil="off"] .veil { opacity: 0; }
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,var(--amb-top)) 0%, #000 50%),
+    radial-gradient(circle at var(--cx) var(--cy), #000 calc(var(--r) * .35), transparent var(--r));
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,var(--amb-top)) 0%, #000 50%),
+    radial-gradient(circle at var(--cx) var(--cy), #000 calc(var(--r) * .35), transparent var(--r));
+  -webkit-mask-composite: source-in; mask-composite: intersect;
+  transition: opacity .75s cubic-bezier(.25,.46,.45,.94), --amb-top .75s cubic-bezier(.42,0,.58,1); }
+.stage[data-mode="ambient"] .veil { --amb-top: 0; }
+.stage[data-veil="off"] .veil { opacity: 0; transition: opacity .75s linear, --amb-top .75s cubic-bezier(.42,0,.58,1); }
+.stage[data-trans="cursor"] .veil, .stage[data-trans="none"] .veil { transition: --amb-top .75s cubic-bezier(.42,0,.58,1); }
 .stage[data-peek="1"] .veil { opacity: 0; transition: opacity .18s ease; }
 .veil-tint, .veil-grain { position: absolute; inset: 0; display: block; }
 .veil-tint { background: var(--tint); opacity: var(--tint-a); }
-.veil-grain { opacity: var(--grain-a); mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 1.6 -.3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 180px 180px; }
+.veil-grain { background-size: 128px 128px; image-rendering: pixelated; }
 .stage[data-peek="1"] .veil-grain, .stage[data-veil="off"] .veil-grain { visibility: hidden; }
 
 /* fallback when backdrop-filter is missing: blur the non-focused layers directly */
 .stage.no-bdf .veil { display: none; }
 .stage.no-bdf[data-veil="on"]:not([data-peek="1"]) .wall,
-.stage.no-bdf[data-veil="on"]:not([data-peek="1"]) .menubar,
+
 .stage.no-bdf[data-veil="on"]:not([data-peek="1"]) .win:not(.is-focus) {
-  filter: blur(var(--blur)) grayscale(var(--mono)) brightness(calc(1 - var(--dim))); }
+  filter: blur(var(--blur)) grayscale(var(--mono)); }
 
 .peek-pill { position: absolute; z-index: 9999; left: 50%; bottom: 16px; transform: translateX(-50%) translateY(8px); opacity: 0;
   padding: 6px 14px; border-radius: 999px; background: rgba(20,22,28,.78); color: #fff; font: 500 12px/1 var(--sans);
@@ -308,6 +317,7 @@ input[type="range"]::-moz-range-thumb { width: 18px; height: 18px; border-radius
 .tune-cards { display: flex; flex-direction: column; gap: var(--sp-head); }
 .cp { transition: filter .6s var(--ease), opacity .6s var(--ease), transform .6s var(--ease); }
 .js .cp:not(.in) { filter: blur(6px); opacity: .35; transform: scale(.985); }
+.cp-shot img { display: block; width: 100%; height: auto; border-radius: 12px; margin: 4px 0 16px; }
 .cp-card { background: var(--card); color: var(--card-ink); border-radius: var(--r-lg); padding: 18px 22px 8px; box-shadow: var(--shadow-card); }
 .ic { width: 18px; height: 18px; flex: none; color: var(--card-ink); }
 .cp-h { display: flex; align-items: center; gap: 9px; font-size: 18px; font-weight: 600; margin-bottom: 4px; }
