@@ -15,6 +15,10 @@ The site is available in Simplified Chinese, Traditional Chinese and English. Ea
 - [Tapper](https://jamesai.dev/tapper/): Turns your mouse pointer into a cartoon glove on a long stick (Chinese name 敲黑板), so viewers can follow your cursor in demos, screen shares and recordings. Clicks poke; three hands; Presentation mode; tapper:// URL scheme. macOS 14+, universal (Apple silicon and Intel), v1.1.0. Install: `brew install --cask iamzifei/tap/tapper`. Source: https://github.com/iamzifei/tapper
 - [Inkstone](https://inkslab.app/): Free Markdown notes that stay plain files in a folder you choose, with wikilinks, backlinks, a graph, a JSON Canvas board and daily notes; syncs through iCloud or a GitHub repository. macOS 26+, universal. Install: `brew install --cask iamzifei/tap/inkstone`. Source: https://github.com/iamzifei/inkstone
 
+## iPhone apps
+
+- [Starfold](https://jamesai.dev/starfold/): The solar system as it is right now, for iPhone and iPhone Duo. Earth turns in real time with real day and night and your location on it; every planet in 4K from NASA JPL positions; Moon phase, sunrise/sunset and planets above your horizon; a calm soundtrack generated live on the device; layouts for each iPhone Duo posture (closed, fully open, half open like a laptop, standing like a book as a desk clock). English, Simplified and Traditional Chinese, Japanese. Free, no account, no tracking. iOS 27.1+. Coming to the App Store.
+
 ## Claude Code skills
 
 - [AI KEY](https://jamesai.dev/product.html?p=aikey): 25 Claude Code skills behind one command (/key) for running a content account and reading a small business's numbers. Install: `npx skills add iamzifei/aikey`. Source: https://github.com/iamzifei/aikey

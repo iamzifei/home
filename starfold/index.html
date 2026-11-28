@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Starfold — The Solar System, Right Now | iPhone &amp; iPhone Duo</title>
+<meta name="description" content="Starfold shows the real solar system as it is right now: Earth turning with your city on it, every planet in 4K, a calm live soundtrack. Made for iPhone Duo — it changes shape with every fold.">
+<meta name="keywords" content="Starfold, solar system app, planets app, iPhone Duo app, astronomy app, live Earth, night sky, desk clock">
+<meta name="author" content="James">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#030406">
+<link rel="icon" type="image/png" href="assets/icon.png">
+<link rel="apple-touch-icon" href="assets/icon.png">
+<link rel="canonical" href="https://jamesai.dev/starfold/">
+<link rel="alternate" hreflang="en" href="https://jamesai.dev/starfold/?lang=en">
+<link rel="alternate" hreflang="zh-Hans" href="https://jamesai.dev/starfold/?lang=zh-Hans">
+<link rel="alternate" hreflang="zh-Hant" href="https://jamesai.dev/starfold/?lang=zh-Hant">
+<link rel="alternate" hreflang="ja" href="https://jamesai.dev/starfold/?lang=ja">
+<link rel="alternate" hreflang="x-default" href="https://jamesai.dev/starfold/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Starfold">
+<meta property="og:title" content="Starfold — The Solar System, Right Now">
+<meta property="og:description" content="The real sky, live. Every planet in 4K. A calm soundtrack. On iPhone Duo it changes shape with every fold.">
+<meta property="og:url" content="https://jamesai.dev/starfold/">
+<meta property="og:image" content="https://jamesai.dev/starfold/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:creator" content="@JamesAI">
+<meta name="twitter:image" content="https://jamesai.dev/starfold/assets/og.jpg">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "MobileApplication",
+  "name": "Starfold",
+  "description": "A living window onto the solar system as it is right now: real-time Earth with day, night and your location, every planet in 4K, a live generative soundtrack, and layouts for every iPhone Duo posture.",
+  "url": "https://jamesai.dev/starfold/",
+  "image": "https://jamesai.dev/starfold/assets/og.jpg",
+  "applicationCategory": "EducationalApplication",
+  "operatingSystem": "iOS 27.1 or later",
+  "inLanguage": ["en", "zh-Hans", "zh-Hant", "ja"],
+  "isAccessibleForFree": true,
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "author": { "@type": "Person", "name": "James", "url": "https://jamesai.dev/", "sameAs": ["https://x.com/JamesAI"] }
+}
+</script>
+<style>
+:root{
+  --bg:#030406; --ink:#f3f1ec; --dim:rgba(243,241,236,.62); --faint:rgba(243,241,236,.56);
+  --line:rgba(243,241,236,.12); --gold:#f2d39a; --blue:#7fb2ff;
+  --serif:"New York",ui-serif,"Songti SC","Noto Serif SC","Hiragino Mincho ProN",Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans","Helvetica Neue",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;text-autospace:normal}
+body{font:400 17px/1.6 var(--sans);background:var(--bg);overflow-x:hidden}
+:lang(zh-Hans) body,:lang(zh-Hant) body,:lang(ja) body{line-height:1.78}
+a{color:inherit}
+img,video{display:block;max-width:100%}
+/* Starfield behind everything: two layers of tiny dots, drifting very slowly */
+.sky{position:fixed;inset:0;z-index:-1;background:
+  radial-gradient(1px 1px at 12% 18%,#fff9,transparent 60%),radial-gradient(1px 1px at 72% 34%,#fff8,transparent 60%),
+  radial-gradient(1.4px 1.4px at 38% 72%,#fffb,transparent 60%),radial-gradient(1px 1px at 88% 81%,#cfe0ff99,transparent 60%),
+  radial-gradient(1px 1px at 56% 9%,#fff7,transparent 60%),radial-gradient(1.2px 1.2px at 22% 52%,#ffe9c799,transparent 60%),
+  var(--bg);
+  background-size:420px 420px,520px 520px,610px 610px,470px 470px,380px 380px,560px 560px,100% 100%}
+.wrap{width:min(1180px,100% - 32px);margin-inline:auto}
+nav{position:fixed;inset:0 0 auto;z-index:10;display:flex;justify-content:space-between;align-items:center;
+  padding:14px max(16px,calc((100vw - 1180px)/2));background:linear-gradient(#030406e6,#03040600)}
+.brand{display:flex;gap:10px;align-items:center;font:400 13px var(--sans);letter-spacing:.42em;text-transform:uppercase;text-decoration:none}
+.brand img{width:28px;height:28px;border-radius:7px}
+.langs{display:flex;gap:4px}
+.langs button{background:none;border:0;color:var(--faint);font:500 12px var(--sans);padding:6px 8px;border-radius:999px;cursor:pointer}
+.langs button[aria-pressed=true]{color:var(--ink);background:rgba(255,255,255,.08)}
+.hero{min-height:min(100svh,980px);display:grid;place-items:center;text-align:center;padding:96px 0 48px}
+.hero h1{font:300 clamp(56px,11vw,148px)/.95 var(--serif);letter-spacing:-.02em}
+.hero .claim{margin-top:18px;font:300 clamp(20px,2.6vw,30px)/1.35 var(--serif);color:var(--dim)}
+.hero-media{margin:40px auto 0;width:min(1100px,100%);aspect-ratio:4/3;border-radius:28px;overflow:hidden;background:#000}
+.hero-media video,.hero-media img{width:100%;height:100%;object-fit:cover}
+.cta{margin-top:36px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;align-items:center}
+.store{display:inline-flex;align-items:center;gap:10px;padding:13px 22px;border-radius:999px;background:var(--ink);color:#000;
+  text-decoration:none;font:500 16px var(--sans)}
+.store svg{width:20px;height:20px}
+.store[aria-disabled=true]{background:rgba(255,255,255,.1);color:var(--dim);pointer-events:none}
+.fine{font-size:13px;color:var(--faint)}
+section{padding:clamp(72px,12vw,150px) 0}
+.kicker{font:500 12px var(--sans);letter-spacing:.32em;text-transform:uppercase;color:var(--gold)}
+h2{margin-top:14px;font:300 clamp(34px,5.4vw,64px)/1.08 var(--serif);letter-spacing:-.015em;max-width:16ch}
+:lang(zh-Hans) h2,:lang(zh-Hant) h2,:lang(ja) h2{letter-spacing:.02em;max-width:22ch}
+.lead{margin-top:14px;color:var(--dim);max-width:34em;font-size:18px}
+/* Postures: four Duo renders */
+.postures{margin-top:48px;display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
+.posture{border-radius:22px;overflow:hidden;background:#07080b;border:1px solid var(--line)}
+.posture .m{aspect-ratio:4/3;background:#000}
+.posture .m video,.posture .m img{width:100%;height:100%;object-fit:cover}
+.posture .t{padding:16px 20px 20px}
+.posture b{display:block;font:400 22px var(--serif)}
+.posture span{color:var(--dim);font-size:15px}
+/* Planets: phone screenshots in a strip */
+.planets{margin-top:48px;display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.planets figure{border-radius:26px;overflow:hidden;border:1px solid var(--line);background:#000}
+.planets img{aspect-ratio:1320/2868;object-fit:cover;width:100%}
+.planets figcaption{padding:12px 16px;font:400 18px var(--serif)}
+.trio{margin-top:56px;display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.trio div{border-top:1px solid var(--line);padding-top:18px}
+.trio b{font:400 22px var(--serif);display:block}
+.trio p{margin-top:6px;color:var(--dim);font-size:15px}
+.end{text-align:center}
+.end h2{margin-inline:auto}
+footer{padding:48px 0 64px;border-top:1px solid var(--line);color:var(--faint);font-size:13px}
+footer .row{display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between}
+footer a{color:var(--dim)}
+/* Content is visible by default; only when the script runs (html.js) do sections fade in on scroll. */
+.js .reveal{opacity:0;transform:translateY(18px);transition:opacity 1s ease,transform 1s ease}
+.js .reveal.in{opacity:1;transform:none}
+@media (max-width:820px){
+  .postures{grid-template-columns:1fr}
+  .planets{grid-template-columns:repeat(2,1fr)}
+  .trio{grid-template-columns:1fr}
+  .hero-media{border-radius:18px}
+}
+@media (prefers-reduced-motion:reduce){.js .reveal{opacity:1;transform:none;transition:none}}
+</style>
+</head>
+<body>
+<div class="sky" aria-hidden="true"></div>
+<nav>
+  <a class="brand" href="./"><img src="assets/icon.png" alt="" width="28" height="28"><span>Starfold</span></a>
+  <div class="langs" role="group" aria-label="Language">
+    <button data-lang="en">EN</button><button data-lang="zh-Hans">简</button><button data-lang="zh-Hant">繁</button><button data-lang="ja">日</button>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <h1>Starfold</h1>
+    <p class="claim" data-i18n="claim">The solar system, right now.</p>
+    <div class="cta">
+      <a class="store" id="store" href="#" aria-disabled="true">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.7c0-2.4 2-3.6 2.1-3.7-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-1.9-.9-3.2-.8-1.6 0-3.1 1-4 2.4-1.7 3-.4 7.4 1.2 9.8.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.1-.8 1.5 0 1.9.8 3.2.8 1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8 0 0-2.5-1-2.5-3.9zM14 5.5c.7-.8 1.1-1.9 1-3-1 0-2.1.7-2.8 1.5-.6.7-1.2 1.8-1 2.9 1.1.1 2.1-.6 2.8-1.4z"/></svg>
+        <span data-i18n="store">Coming soon to the App Store</span>
+      </a>
+    </div>
+    <p class="fine" data-i18n="fine" style="margin-top:12px">Free · iPhone and iPhone Duo · No account, no ads</p>
+    <div class="hero-media reveal">
+      <video autoplay muted loop playsinline preload="metadata" poster="assets/hero.webp"
+             aria-label="iPhone Duo half open on a desk like a small laptop, Earth turning on the upper screen">
+        <source src="assets/hero.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+</header>
+
+<section id="postures">
+  <div class="wrap">
+    <p class="kicker reveal" data-i18n="p.kicker">Made for iPhone Duo</p>
+    <h2 class="reveal" data-i18n="p.h2">Fold it, and the universe changes shape.</h2>
+    <div class="postures">
+      <article class="posture reveal"><div class="m"><video autoplay muted loop playsinline preload="metadata" poster="assets/posture-laptop.webp"><source src="assets/posture-laptop.mp4" type="video/mp4"></video></div>
+        <div class="t"><b data-i18n="p.laptop">Half open, like a laptop</b><span data-i18n="p.laptop.s">The planet above. A time-travel dial below.</span></div></article>
+      <article class="posture reveal"><div class="m"><video autoplay muted loop playsinline preload="metadata" poster="assets/posture-clock.webp"><source src="assets/posture-clock.mp4" type="video/mp4"></video></div>
+        <div class="t"><b data-i18n="p.clock">Standing like a book</b><span data-i18n="p.clock.s">A desk clock with the turning Earth.</span></div></article>
+      <article class="posture reveal"><div class="m"><video autoplay muted loop playsinline preload="metadata" poster="assets/posture-atlas.webp"><source src="assets/posture-atlas.mp4" type="video/mp4"></video></div>
+        <div class="t"><b data-i18n="p.atlas">Fully open</b><span data-i18n="p.atlas.s">One big, quiet window onto space.</span></div></article>
+      <article class="posture reveal"><div class="m"><video autoplay muted loop playsinline preload="metadata" poster="assets/posture-closed.webp"><source src="assets/posture-closed.mp4" type="video/mp4"></video></div>
+        <div class="t"><b data-i18n="p.closed">Closed</b><span data-i18n="p.closed.s">A planet in your pocket.</span></div></article>
+    </div>
+  </div>
+</section>
+
+<section id="planets">
+  <div class="wrap">
+    <p class="kicker reveal" data-i18n="w.kicker">Every world, up close</p>
+    <h2 class="reveal" data-i18n="w.h2">Spin them with a finger.</h2>
+    <div class="planets">
+      <figure class="reveal"><img src="assets/screen-earth.webp" alt="Earth close-up with real day and night" loading="lazy"><figcaption data-i18n="b.earth">Earth</figcaption></figure>
+      <figure class="reveal"><img src="assets/screen-saturn.webp" alt="Saturn and its rings" loading="lazy"><figcaption data-i18n="b.saturn">Saturn</figcaption></figure>
+      <figure class="reveal"><img src="assets/screen-moon.webp" alt="The Moon's craters" loading="lazy"><figcaption data-i18n="b.moon">Moon</figcaption></figure>
+      <figure class="reveal"><img src="assets/screen-mars.webp" alt="Mars with its thin atmosphere" loading="lazy"><figcaption data-i18n="b.mars">Mars</figcaption></figure>
+    </div>
+    <div class="trio">
+      <div class="reveal"><b data-i18n="t1">The real sky, live</b><p data-i18n="t1.s">Day, night and your city — exactly as they are now.</p></div>
+      <div class="reveal"><b data-i18n="t2">Hold to travel in time</b><p data-i18n="t2.s">Watch the planets race along their orbits.</p></div>
+      <div class="reveal"><b data-i18n="t3">Music made live</b><p data-i18n="t3.s">A calm soundtrack. Every planet sings its own note.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="end">
+  <div class="wrap">
+    <h2 class="reveal" data-i18n="e.h2">Look up. It's all there, right now.</h2>
+    <div class="cta"><a class="store" id="store2" href="#" aria-disabled="true"><span data-i18n="store">Coming soon to the App Store</span></a></div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap row">
+    <span>© 2026 Starfold · <a href="https://jamesai.dev/">James</a></span>
+    <span><a href="privacy.html" data-i18n="f.privacy">Privacy</a> · <a href="https://x.com/JamesAI" data-i18n="f.contact">Contact</a></span>
+    <span data-i18n="f.credit">Planet textures: Solar System Scope (CC BY 4.0) · Orbits: NASA JPL</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  document.documentElement.classList.add("js");
+  // App Store link: filled in once the app is live (empty = "coming soon").
+  var STORE_URL = "";
+  var D = {
+    "en": {"claim":"The solar system, right now.","store":"Download on the App Store","soon":"Coming soon to the App Store",
+      "fine":"Free · iPhone and iPhone Duo · No account, no ads","p.kicker":"Made for iPhone Duo","p.h2":"Fold it, and the universe changes shape.",
+      "p.laptop":"Half open, like a laptop","p.laptop.s":"The planet above. A time-travel dial below.","p.clock":"Standing like a book","p.clock.s":"A desk clock with the turning Earth.",
+      "p.atlas":"Fully open","p.atlas.s":"One big, quiet window onto space.","p.closed":"Closed","p.closed.s":"A planet in your pocket.",
+      "w.kicker":"Every world, up close","w.h2":"Spin them with a finger.","b.earth":"Earth","b.saturn":"Saturn","b.moon":"Moon","b.mars":"Mars",
+      "t1":"The real sky, live","t1.s":"Day, night and your city — exactly as they are now.","t2":"Hold to travel in time","t2.s":"Watch the planets race along their orbits.",
+      "t3":"Music made live","t3.s":"A calm soundtrack. Every planet sings its own note.","e.h2":"Look up. It's all there, right now.",
+      "f.privacy":"Privacy","f.contact":"Contact","f.credit":"Planet textures: Solar System Scope (CC BY 4.0) · Orbits: NASA JPL"},
+    "zh-Hans": {"claim":"此刻真实的太阳系。","store":"在 App Store 下载","soon":"即将登陆 App Store",
+      "fine":"免费 · iPhone 与 iPhone Duo · 无需账号，没有广告","p.kicker":"为 iPhone Duo 而生","p.h2":"折一折，宇宙就换一种形态。",
+      "p.laptop":"半开，像笔记本","p.laptop.s":"上面是星球，下面是时间旅行表盘。","p.clock":"像书一样立着","p.clock.s":"一台带着转动地球的座钟。",
+      "p.atlas":"完全展开","p.atlas.s":"一扇宽阔、安静的宇宙之窗。","p.closed":"合上","p.closed.s":"口袋里的一颗星球。",
+      "w.kicker":"每个世界，近在眼前","w.h2":"手指一转就动。","b.earth":"地球","b.saturn":"土星","b.moon":"月球","b.mars":"火星",
+      "t1":"实时的真实星空","t1.s":"昼夜和你所在的城市，都是此刻的样子。","t2":"长按，穿越时间","t2.s":"看行星沿着轨道奔跑。",
+      "t3":"实时生成的音乐","t3.s":"舒缓的配乐，每颗行星都有自己的音。","e.h2":"抬头看，它们此刻都在那里。",
+      "f.privacy":"隐私","f.contact":"联系","f.credit":"行星贴图：Solar System Scope（CC BY 4.0）· 轨道：NASA JPL"},
+    "zh-Hant": {"claim":"此刻真實的太陽系。","store":"在 App Store 下載","soon":"即將登陸 App Store",
+      "fine":"免費 · iPhone 與 iPhone Duo · 無需帳號，沒有廣告","p.kicker":"為 iPhone Duo 而生","p.h2":"折一折，宇宙就換一種形態。",
+      "p.laptop":"半開，像筆電","p.laptop.s":"上面是星球，下面是時間旅行錶盤。","p.clock":"像書一樣立著","p.clock.s":"一台帶著轉動地球的座鐘。",
+      "p.atlas":"完全展開","p.atlas.s":"一扇寬闊、安靜的宇宙之窗。","p.closed":"闔上","p.closed.s":"口袋裡的一顆星球。",
+      "w.kicker":"每個世界，近在眼前","w.h2":"手指一轉就動。","b.earth":"地球","b.saturn":"土星","b.moon":"月球","b.mars":"火星",
+      "t1":"即時的真實星空","t1.s":"晝夜和你所在的城市，都是此刻的樣子。","t2":"長按，穿越時間","t2.s":"看行星沿著軌道奔跑。",
+      "t3":"即時生成的音樂","t3.s":"舒緩的配樂，每顆行星都有自己的音。","e.h2":"抬頭看，它們此刻都在那裡。",
+      "f.privacy":"隱私","f.contact":"聯絡","f.credit":"行星貼圖：Solar System Scope（CC BY 4.0）· 軌道：NASA JPL"},
+    "ja": {"claim":"いま、この瞬間の太陽系。","store":"App Storeからダウンロード","soon":"まもなくApp Storeに登場",
+      "fine":"無料 · iPhone と iPhone Duo · アカウント不要・広告なし","p.kicker":"iPhone Duoのために","p.h2":"折るたびに、宇宙が姿を変える。",
+      "p.laptop":"ノートPCのように半開き","p.laptop.s":"上に惑星、下にタイムトラベルのダイヤル。","p.clock":"本のように立てて","p.clock.s":"回る地球を映す置き時計。",
+      "p.atlas":"全開","p.atlas.s":"大きく静かな、宇宙への窓。","p.closed":"閉じて","p.closed.s":"ポケットの中のひとつの惑星。",
+      "w.kicker":"すべての世界を間近に","w.h2":"指でくるりと回せる。","b.earth":"地球","b.saturn":"土星","b.moon":"月","b.mars":"火星",
+      "t1":"リアルタイムの本物の空","t1.s":"昼と夜、そしてあなたの街。いまの姿のままに。","t2":"長押しで時を旅する","t2.s":"惑星が軌道を駆けていく。",
+      "t3":"その場で生まれる音楽","t3.s":"穏やかなサウンドトラック。惑星ごとに違う音が鳴ります。","e.h2":"見上げれば、いまそこにある。",
+      "f.privacy":"プライバシー","f.contact":"お問い合わせ","f.credit":"惑星テクスチャ：Solar System Scope（CC BY 4.0）· 軌道：NASA JPL"}
+  };
+  function pick(){
+    var q = new URLSearchParams(location.search).get("lang");
+    if (q && D[q]) return q;
+    try { var s = localStorage.getItem("sf-lang"); if (s && D[s]) return s; } catch(e) {}
+    var langs = navigator.languages || [navigator.language || "en"];
+    for (var i = 0; i < langs.length; i++) {
+      var l = langs[i];
+      if (/^zh/i.test(l)) return /Hant|TW|HK|MO/i.test(l) ? "zh-Hant" : "zh-Hans";
+      if (/^ja/i.test(l)) return "ja";
+      if (/^en/i.test(l)) return "en";
+    }
+    return "en";
+  }
+  function apply(lang){
+    var d = D[lang]; document.documentElement.lang = lang;
+    document.querySelectorAll("[data-i18n]").forEach(function(el){
+      var k = el.getAttribute("data-i18n");
+      if (k === "store") k = STORE_URL ? "store" : "soon";
+      if (d[k]) el.textContent = d[k];
+    });
+    document.querySelectorAll(".langs button").forEach(function(b){ b.setAttribute("aria-pressed", b.dataset.lang === lang); });
+    try { localStorage.setItem("sf-lang", lang); } catch(e) {}
+  }
+  document.querySelectorAll(".langs button").forEach(function(b){ b.addEventListener("click", function(){ apply(b.dataset.lang); }); });
+  if (STORE_URL) ["store","store2"].forEach(function(id){ var a = document.getElementById(id); a.href = STORE_URL; a.removeAttribute("aria-disabled"); });
+  apply(pick());
+  // Gentle reveal on scroll.
+  var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }); }, {rootMargin:"0px 0px -8% 0px"});
+  document.querySelectorAll(".reveal").forEach(function(el){ io.observe(el); });
+})();
+</script>
+</body>
+</html>
